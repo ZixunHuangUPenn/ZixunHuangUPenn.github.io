@@ -195,6 +195,17 @@ section h2 {
     color: #1f2937;
 }
 
+.skills-section {
+    margin-bottom: 1.5rem;
+}
+
+.skills-section h4 {
+    margin-bottom: 0.8rem;
+    color: #374151;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .skill-tags {
     display: flex;
     flex-wrap: wrap;
@@ -214,6 +225,40 @@ section h2 {
 .timeline {
     max-width: 800px;
     margin: 0 auto;
+}
+
+/* Honors Grid */
+.honors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.honor-item {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-left: 4px solid #2563eb;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.honor-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.honor-item h3 {
+    color: #2563eb;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.honor-item p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0;
 }
 
 .timeline-item {
@@ -271,13 +316,27 @@ section h2 {
 
 .project-card h3 {
     color: #1f2937;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-size: 1.3rem;
+}
+
+.project-subtitle {
+    color: #2563eb;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.project-date {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-style: italic;
 }
 
 .project-card p {
     color: #4b5563;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     line-height: 1.6;
 }
 
