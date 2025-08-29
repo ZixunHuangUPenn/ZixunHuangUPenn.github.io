@@ -1,3 +1,6 @@
 # ZixunHuangUPenn.github.io
 
-Personal Webpage
+Welcome! This is my personal webpage.
+
+
+Details in index.html
