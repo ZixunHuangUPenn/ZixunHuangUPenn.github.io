@@ -224,6 +224,32 @@ section h2 {
     align-items: start;
 }
 
+.about-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-photo {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.profile-img {
+    width: 280px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
 .about-text p {
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
@@ -487,6 +513,20 @@ footer {
     .about-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+    
+    .about-left {
+        text-align: center;
+    }
+    
+    .profile-photo {
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .profile-img {
+        width: 250px;
+        height: 300px;
     }
 
     .hero-buttons {
