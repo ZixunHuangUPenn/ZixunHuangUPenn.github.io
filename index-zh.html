@@ -4,33 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>黄子迅 - 个人网站</title>
+    <title>黄子迅 | 软件工程与机器人</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea'/><stop offset='100%' style='stop-color:%23764ba2'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)' stroke='%23fff'/><text x='16' y='20' text-anchor='middle' font-family='Arial' font-size='12' font-weight='bold' fill='white'>ZH</text></svg>">
-
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <nav>
+        <nav aria-label="主导航">
             <div class="nav-container">
-                <div class="logo">
-                    <h2>黄子迅</h2>
-                </div>
+                <a class="logo" href="#hero" aria-label="黄子迅主页">
+                    <span>ZH</span>
+                    <strong>黄子迅</strong>
+                </a>
                 <ul class="nav-menu">
-                    <li><a href="#about">关于我</a></li>
-                    <li><a href="#education">教育背景</a></li>
-                    <li><a href="#experience">工作经历</a></li>
-                    <li><a href="#projects">项目经验</a></li>
-                    <li><a href="#honors">荣誉奖项</a></li>
-                    <li><a href="#contact">联系方式</a></li>
+                    <li><a href="#about">关于</a></li>
+                    <li><a href="#education">教育</a></li>
+                    <li><a href="#experience">经历</a></li>
+                    <li><a href="#projects">项目</a></li>
+                    <li><a href="#honors">荣誉</a></li>
+                    <li><a href="#contact">联系</a></li>
                     <li class="language-switcher">
                         <a href="index.html" class="lang-btn">EN</a>
                         <span class="lang-separator">|</span>
@@ -42,38 +38,37 @@
     </header>
 
     <main>
-        <section id="hero">
-            <div class="hero-content">
-                <h1>你好，我是黄子迅</h1>
-                <p class="hero-subtitle">宾夕法尼亚大学电气工程硕士（机器人方向）</p>
-                <p class="hero-description">专注于机器人技术、自主系统以及软件工程与智能机器的结合。</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">联系我</a>
-                    <a href="#projects" class="btn btn-secondary">查看作品</a>
+        <section id="hero" class="hero-section">
+            <div class="container hero-layout">
+                <div class="hero-copy">
+                    <p class="eyebrow">软件工程 · 机器人 · 数据工具</p>
+                    <h1>黄子迅</h1>
+                    <p class="hero-subtitle">宾夕法尼亚大学电气工程硕士在读，关注机器人系统、全栈工程和可落地的数据工具。</p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">查看项目</a>
+                        <a href="#contact" class="btn btn-secondary">联系我</a>
+                    </div>
+                </div>
+                <div class="hero-portrait" aria-label="黄子迅照片">
+                    <img src="profile-photo.jpg" alt="黄子迅个人照片">
                 </div>
             </div>
         </section>
 
         <section id="about">
             <div class="container">
-                <h2>关于我</h2>
+                <div class="section-heading">
+                    <p class="eyebrow">关于</p>
+                    <h2>为智能系统构建可靠的软件</h2>
+                </div>
                 <div class="about-content">
-                    <div class="about-left">
-                        <div class="profile-photo">
-                            <img src="profile-photo.jpg" alt="黄子迅个人照片" class="profile-img">
-                        </div>
-                        <div class="about-text">
-                            <p>欢迎来到我的个人网站！</p>
-                            <p>我目前在宾夕法尼亚大学攻读电气工程硕士学位，专业方向为机器人技术。我热衷于在软件工程和机器人系统之间架起桥梁。
-                            </p>
-                            <p>通过在特斯拉和其他科技公司的实习经历，我在全栈开发、系统编程和数据分析方面积累了丰富的实践经验。我特别关注人工智能和机器人技术如何解决汽车、制造业和服务业的实际挑战。
-                            </p>
-                        </div>
+                    <div class="about-text">
+                        <p>我目前在宾夕法尼亚大学攻读电气工程硕士学位，专业方向为机器人。在此之前，我于同济大学完成软件工程工学学士学位，并曾在加州大学伯克利分校交换学习计算机科学。</p>
+                        <p>近期项目覆盖企业管理系统、数据分析平台、计算机视觉定位与操作系统开发。我重视清晰的工程实践、可维护的界面，以及把模糊需求推进为可运行工具的能力。</p>
                     </div>
                     <div class="skills">
-                        <h3>技能与技术</h3>
                         <div class="skills-section">
-                            <h4>编程语言</h4>
+                            <h3>编程语言</h3>
                             <div class="skill-tags">
                                 <span class="tag">C</span>
                                 <span class="tag">C++</span>
@@ -86,32 +81,35 @@
                             </div>
                         </div>
                         <div class="skills-section">
-                            <h4>框架与技术</h4>
+                            <h3>框架</h3>
                             <div class="skill-tags">
-                                <span class="tag">Ruby on Rails</span>
                                 <span class="tag">React</span>
+                                <span class="tag">Vue</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Express</span>
+                                <span class="tag">Ruby on Rails</span>
                                 <span class="tag">RSpec</span>
                                 <span class="tag">Cucumber</span>
-                                <span class="tag">Node.js</span>
-                                <span class="tag">HTML/CSS</span>
                             </div>
                         </div>
                         <div class="skills-section">
-                            <h4>工具与平台</h4>
+                            <h3>工具</h3>
                             <div class="skill-tags">
-                                <span class="tag">Elastic Search</span>
-                                <span class="tag">AWS</span>
+                                <span class="tag">AWS OpenSearch</span>
+                                <span class="tag">Docker</span>
+                                <span class="tag">MySQL</span>
+                                <span class="tag">阿里云</span>
                                 <span class="tag">GitHub</span>
                                 <span class="tag">Heroku</span>
-                                <span class="tag">Git</span>
+                                <span class="tag">COLMAP</span>
                             </div>
                         </div>
                         <div class="skills-section">
-                            <h4>语言能力</h4>
+                            <h3>语言能力</h3>
                             <div class="skill-tags">
-                                <span class="tag">粤语（母语）</span>
-                                <span class="tag">普通话（母语）</span>
-                                <span class="tag">英语（流利）</span>
+                                <span class="tag">粤语</span>
+                                <span class="tag">普通话</span>
+                                <span class="tag">英语</span>
                             </div>
                         </div>
                     </div>
@@ -119,175 +117,271 @@
             </div>
         </section>
 
-        <section id="education">
+        <section id="education" class="section-muted">
             <div class="container">
-                <h2>教育背景</h2>
+                <div class="section-heading">
+                    <p class="eyebrow">教育</p>
+                    <h2>教育背景</h2>
+                </div>
                 <div class="timeline">
-                    <div class="timeline-item">
+                    <article class="timeline-item">
+                        <div class="timeline-meta">2025.09 - 2027.07</div>
                         <div class="timeline-content">
                             <h3>宾夕法尼亚大学</h3>
-                            <p class="timeline-subtitle">工程科学硕士 (MSE) - 电气工程</p>
-                            <p class="timeline-date">2025年8月 - 2027年5月（预期）</p>
-                            <p><strong>专业方向：</strong>机器人技术</p>
-                            <p>目前在电气工程专业进行深入学习，专注于机器人技术，包括先进控制系统、机器学习应用和自主系统设计。</p>
+                            <p class="timeline-subtitle">电气工程 工程硕士</p>
+                            <p>机器人方向，GPA: 4.00/4.00。</p>
                         </div>
-                    </div>
-                    <div class="timeline-item">
+                    </article>
+                    <article class="timeline-item">
+                        <div class="timeline-meta">2021.09 - 2025.07</div>
+                        <div class="timeline-content">
+                            <h3>同济大学</h3>
+                            <p class="timeline-subtitle">软件工程 工学学士</p>
+                            <p>GPA: 90.8/100。荣誉包括本科生奖学金、交换生奖学金。</p>
+                        </div>
+                    </article>
+                    <article class="timeline-item">
+                        <div class="timeline-meta">2023.01 - 2023.12</div>
                         <div class="timeline-content">
                             <h3>加州大学伯克利分校</h3>
                             <p class="timeline-subtitle">计算机科学交换生</p>
-                            <p class="timeline-date">2023年1月 - 2023年12月</p>
-                            <p><strong>GPA：</strong>3.94/4.00</p>
-                            <p><strong>荣誉：</strong>软件工程和数据结构课程获得A+</p>
-                            <p><strong>核心课程：</strong>操作系统与系统编程、高效算法与难解问题、人工智能导论等</p>
+                            <p>GPA: 3.94/4.00。软件工程与数据结构课程获得 A+。</p>
                         </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>同济大学</h3>
-                            <p class="timeline-subtitle">学士学位 - 计算机科学与技术，软件工程（高年级）</p>
-                            <p class="timeline-date">2021年9月 - 至今</p>
-                            <p><strong>GPA：</strong>90.8/100</p>
-                            <p><strong>荣誉：</strong>本科生奖学金，交换生奖学金</p>
-                            <p><strong>核心课程：</strong>高级编程语言、数据库原理与应用、计算机网络等</p>
-                        </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
 
         <section id="experience">
             <div class="container">
-                <h2>工作经历</h2>
+                <div class="section-heading">
+                    <p class="eyebrow">经历</p>
+                    <h2>工作经历</h2>
+                </div>
                 <div class="timeline">
-                    <div class="timeline-item">
+                    <article class="timeline-item">
+                        <div class="timeline-meta">2024.03 - 2024.08</div>
                         <div class="timeline-content">
                             <h3>软件工程实习生</h3>
-                            <p class="timeline-subtitle">特斯拉（上海超级工厂，研发中心）- 亚太服务工程团队</p>
-                            <p class="timeline-date">2024年3月 - 2024年8月</p>
-                            <p><strong>平台开发：</strong>开发和维护特斯拉中国区服务车辆管理平台（Elena），使用TypeScript和React，包括新功能实现、菜单修订和代码调试。
-                            </p>
-                            <p><strong>数据分析：</strong>使用Python进行车辆警报数据分析，创建统计图表以满足政府要求。</p>
-                            <p><strong>团队协作：</strong>协助北美服务工程团队重构内部网站前端代码，以满足法规合规要求。</p>
-                            <p><strong>字幕项目：</strong>重构数据分析流程，设计并实现团队工程师访问和定位自定义数据可视化的一站式平台，使用AWS OpenSearch服务。</p>
-                            <p><strong>流程改进：</strong>该项目简化了团队的数据分析工作流程，提高了数据搜索效率，减少了对Python脚本和前端任务的依赖。</p>
+                            <p class="timeline-subtitle">特斯拉上海超级工厂研发中心 - 亚太服务工程团队</p>
+                            <ul class="compact-list">
+                                <li>使用 React 与 TypeScript 开发和维护中国区车辆管理平台，完成新功能、菜单调整与调试，支持工程团队和合规需求。</li>
+                                <li>使用 Python 构建车辆警报数据分析工具，处理大规模数据集并输出仪表盘与统计图表。</li>
+                                <li>设计基于 AWS OpenSearch 的一站式数据可视化平台，减少团队对临时 Python 脚本和前端任务的依赖。</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="timeline-item">
+                    </article>
+                    <article class="timeline-item">
+                        <div class="timeline-meta">2023.07 - 2023.08</div>
                         <div class="timeline-content">
                             <h3>软件工程实习生</h3>
-                            <p class="timeline-subtitle">恒生技术股份有限公司 - 夏令营</p>
-                            <p class="timeline-date">2023年7月 - 2023年8月</p>
-                            <p><strong>前端开发：</strong>使用公司前端框架（vue2.0）和微服务开发恒生OS基金销售系统。</p>
-                            <p><strong>用户界面设计：</strong>设计网络管理系统界面布局，包括相关文档。</p>
-                            <p><strong>代码优化：</strong>在导师指导下修订代码结构，重构CSS样式范围并规范函数参数。</p>
-                            <p><strong>系统测试：</strong>对系统进行单元测试和集成测试，使用Jest文档创建测试用例。</p>
+                            <p class="timeline-subtitle">恒生电子股份有限公司 - 暑期项目</p>
+                            <ul class="compact-list">
+                                <li>使用 Vue 2.0 与微服务架构参与基金销售系统开发。</li>
+                                <li>设计用户管理系统界面布局，并整理相关文档。</li>
+                                <li>在导师指导下重构 CSS 作用域与函数参数，并编写单元测试和集成测试用例。</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>实习生</h3>
-                            <p class="timeline-subtitle">广州4K花园网络科技有限公司</p>
-                            <p class="timeline-date">2022年1月 - 2022年2月</p>
-                            <p><strong>视频测试：</strong>测试3D裸眼大屏视频，检查丢帧和渲染问题。</p>
-                            <p><strong>团队管理：</strong>协助团队经理处理行政事务，如会议记录和任务协调。</p>
-                            <p><strong>客户合作：</strong>与中国移动和广州市政府等客户合作，视频在北京路等主要商业区播放。</p>
-                        </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section id="projects">
+        <section id="projects" class="section-muted">
             <div class="container">
-                <h2>项目经验</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>ActionMap</h3>
-                        <p class="project-subtitle">组长，全栈开发者</p>
-                        <p class="project-date">2023年10月 - 2023年12月</p>
-                        <p>基于Ruby on Rails的MVC架构实现了一个Web应用，允许用户通过Google API在可视化地图模式上访问候选人的基本信息及其相关新闻。</p>
-                        <p><strong>团队领导：</strong>带领四人团队，执行敏捷开发，组织每个周期的设计和评审，并参与结对编程完成项目的关键功能和测试。</p>
-                        <p><strong>TDD/测试驱动开发：</strong>使用RSpec构建单元测试，使用Cucumber和Capybara进行集成测试，模拟用户交互并测量测试可扩展性，按照敏捷流程要求。
-                        </p>
-                        <p><strong>软件开发：</strong>实现从软件工程课程(CS169)学到的概念和技术，利用工厂、观察者和策略集成DRY原则等模式。</p>
-                        <p><strong>项目管理：</strong>通过GitHub Project管理项目问题，并分阶段将应用部署到Heroku。</p>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                <div class="section-heading">
+                    <p class="eyebrow">项目</p>
+                    <h2>项目经历</h2>
+                </div>
+                <div class="project-list">
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">2025.12 - 2026.03 · 开发者</div>
+                            <h3>HR Management System</h3>
+                            <p>企业级人力资源管理系统，覆盖入职自动化、权限控制、加密存储与云端部署。</p>
+                            <div class="project-tags">
+                                <span>React 19</span>
+                                <span>TypeScript</span>
+                                <span>Node.js</span>
+                                <span>MySQL</span>
+                                <span>Docker</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <h3>PintOS</h3>
-                        <p class="project-subtitle">组长，C语言开发者</p>
-                        <p class="project-date">2023年1月 - 2023年5月</p>
-                        <p>使用C语言为x86架构开发了一个支持多线程、加载和文件系统的操作系统。</p>
-                        <p><strong>团队领导：</strong>带领整个团队协作进行项目设计头脑风暴、实现、编写测试用例和调试。</p>
-                        <p><strong>功能实现：</strong>基于现有框架代码开发内核线程、优先级线程调度、基于现有框架代码的缓存驱逐。</p>
-                        <p><strong>问题解决：</strong>处理复杂情况，如优先级线程调度导致的竞态条件、文件系统中缓存列表的同步问题。</p>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-hr">详情</button>
+                    </article>
+
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">2025.10 - 2025.12 · 开发者</div>
+                            <h3>Image2GPS</h3>
+                            <p>基于单张校园图像预测 GPS 坐标的视觉定位模型。</p>
+                            <div class="project-tags">
+                                <span>PyTorch</span>
+                                <span>视觉模型</span>
+                                <span>DINOv2</span>
+                                <span>COLMAP</span>
+                            </div>
                         </div>
-                    </div>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-image2gps">详情</button>
+                    </article>
+
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">2023.10 - 2023.12 · 组长，全栈开发者</div>
+                            <h3>ActionMap</h3>
+                            <p>基于 Ruby on Rails 的地图式 Web 应用，用于按主题浏览候选人信息与相关新闻。</p>
+                            <div class="project-tags">
+                                <span>Ruby on Rails</span>
+                                <span>RSpec</span>
+                                <span>Cucumber</span>
+                                <span>Heroku</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-actionmap">详情</button>
+                    </article>
+
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">2023.01 - 2023.05 · 组长，C 语言开发者</div>
+                            <h3>PintOS</h3>
+                            <p>面向 x86 架构的教学操作系统项目，覆盖线程、加载、系统调用和文件系统相关实现。</p>
+                            <div class="project-tags">
+                                <span>C</span>
+                                <span>操作系统</span>
+                                <span>线程调度</span>
+                                <span>文件系统</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-pintos">详情</button>
+                    </article>
                 </div>
             </div>
         </section>
 
         <section id="honors">
             <div class="container">
-                <h2>荣誉奖项</h2>
-                <div class="honors-grid">
-                    <div class="honor-item">
-                        <h3>2022-2023</h3>
-                        <p>同济大学国际及港澳台交换奖学金（三等）</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021-2022</h3>
-                        <p>同济大学本科生社会活动奖学金</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021-2022</h3>
-                        <p>同济大学本科生二等奖学金</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021-2022</h3>
-                        <p>同济大学优秀学生干部</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021</h3>
-                        <p>全国大学生棍网球联赛男子组冠军</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021</h3>
-                        <p>济勤学术新媒体策划部"济小勤"优秀工作者</p>
+                <div class="section-heading">
+                    <p class="eyebrow">荣誉</p>
+                    <h2>荣誉奖项</h2>
+                </div>
+                <div class="honors-list">
+                    <p><strong>2022-2023</strong> 同济大学国际及港澳台交换奖学金（三等）</p>
+                    <p><strong>2021-2022</strong> 同济大学本科生社会活动奖学金</p>
+                    <p><strong>2021-2022</strong> 同济大学本科生二等奖学金</p>
+                    <p><strong>2021-2022</strong> 同济大学优秀学生干部</p>
+                    <p><strong>2021</strong> 全国大学生棍网球联赛男子组冠军</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section-muted">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">联系</p>
+                    <h2>联系方式</h2>
+                </div>
+                <div class="contact-content">
+                    <p>欢迎就软件工程、机器人与数据工具相关机会联系我。</p>
+                    <div class="contact-links">
+                        <a href="mailto:huang98@seas.upenn.edu" class="contact-link">邮箱</a>
+                        <a href="https://www.linkedin.com/in/zixun-huang-Tony/" class="contact-link">LinkedIn</a>
+                        <a href="https://github.com/ZixunHuangUPenn" class="contact-link">GitHub</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact">
-            <div class="container">
-                <h2>联系方式</h2>
-                <div class="contact-content">
-                    <p>我始终对新的机会和合作充满兴趣，欢迎随时联系我！</p>
-                    <div class="contact-links">
-                        <a href="mailto:huang98@seas.upenn.edu" class="contact-link">
-                            <span>邮箱</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/zixun-huang-Tony/" class="contact-link">
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://github.com/ZixunHuangUPenn" class="contact-link">
-                            <span>GitHub</span>
-                        </a>
+        <dialog class="project-dialog" id="project-hr" aria-labelledby="project-hr-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭项目详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/hr-management-system-cover.jpg" alt="HR Management System 项目截图" loading="lazy">
+                        <div class="media-placeholder" hidden>项目图片</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">2025.12 - 2026.03 · 开发者</p>
+                        <h3 id="project-hr-title">HR Management System</h3>
+                        <ul class="detail-list">
+                            <li>使用 React 19、TypeScript、Node.js、Express、MySQL、Docker Compose、阿里云与 OSS 构建 3 万行以上企业级人力资源系统。</li>
+                            <li>实现员工入职自动化、三级 RBAC 权限控制、AES-256 加密数据存储与状态追踪。</li>
+                            <li>设计从注册、表单令牌生成、邮件通知、数据合并到 HR 审核的多阶段流程，替代手工处理。</li>
+                            <li>维护覆盖 13 个阶段的需求文档，管理 95 次结构化提交，并与企业 HR 持续沟通业务需求。</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
+        </dialog>
+
+        <dialog class="project-dialog" id="project-image2gps" aria-labelledby="project-image2gps-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭项目详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/image2gps-cover.jpg" alt="Image2GPS 项目可视化" loading="lazy">
+                        <div class="media-placeholder" hidden>项目图片</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">2025.10 - 2025.12 · 开发者</p>
+                        <h3 id="project-image2gps-title">Image2GPS</h3>
+                        <ul class="detail-list">
+                            <li>使用宾大校园区域图片数据集微调视觉模型，根据单张图片预测经纬度坐标。</li>
+                            <li>对比 ResNet、ViT、DINOv2 与 Swin Transformer 等模型家族在验证集上的表现。</li>
+                            <li>通过 rotation、flipping、ColorJitter 等 torchvision 数据增强方法缓解过拟合。</li>
+                            <li>结合 COLMAP 三维重建作为几何结构监督，在 20 多个小组中排名第 2，测试平均误差 RMSE 为 27.68 米。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="project-dialog" id="project-actionmap" aria-labelledby="project-actionmap-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭项目详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/actionmap-cover.jpg" alt="ActionMap 项目截图" loading="lazy">
+                        <div class="media-placeholder" hidden>项目图片</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">2023.10 - 2023.12 · 组长，全栈开发者</p>
+                        <h3 id="project-actionmap-title">ActionMap</h3>
+                        <ul class="detail-list">
+                            <li>基于 Ruby on Rails MVC 架构实现地图式 Web 应用，通过 Google Maps API 按主题展示候选人信息与相关新闻。</li>
+                            <li>带领四人团队进行敏捷开发、周期设计评审、结对编程、功能交付与测试。</li>
+                            <li>使用 RSpec 构建单元测试，使用 Cucumber 与 Capybara 编写集成测试以模拟用户流程并提升可读性。</li>
+                            <li>通过 GitHub Project 管理任务，并分阶段部署至 Heroku。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="project-dialog" id="project-pintos" aria-labelledby="project-pintos-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭项目详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/pintos-cover.jpg" alt="PintOS 项目截图" loading="lazy">
+                        <div class="media-placeholder" hidden>项目图片</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">2023.01 - 2023.05 · 组长，C 语言开发者</p>
+                        <h3 id="project-pintos-title">PintOS</h3>
+                        <ul class="detail-list">
+                            <li>使用 C 语言开发面向 x86 架构的操作系统功能，包括内核系统调用、优先级线程调度与缓存驱逐。</li>
+                            <li>负责团队设计、实现计划、测试用例编写、调试与项目评审准备。</li>
+                            <li>处理优先级线程调度中的竞态与死锁风险，以及文件系统缓存列表同步问题。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 黄子迅。保留所有权利。</p>
+            <p>&copy; 2026 黄子迅。保留所有权利。</p>
         </div>
     </footer>
 

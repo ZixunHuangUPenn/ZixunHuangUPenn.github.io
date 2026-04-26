@@ -4,23 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zixun Huang - Personal Website</title>
-    
-    <!-- Favicon -->
+    <title>Zixun Huang | Software Engineering and Robotics</title>
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea'/><stop offset='100%' style='stop-color:%23764ba2'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)' stroke='%23fff'/><text x='16' y='20' text-anchor='middle' font-family='Arial' font-size='12' font-weight='bold' fill='white'>ZH</text></svg>">
-    
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <nav>
+        <nav aria-label="Primary navigation">
             <div class="nav-container">
-                <div class="logo">
-                    <h2>Zixun Huang</h2>
-                </div>
+                <a class="logo" href="#hero" aria-label="Zixun Huang home">
+                    <span>ZH</span>
+                    <strong>Zixun Huang</strong>
+                </a>
                 <ul class="nav-menu">
                     <li><a href="#about">About</a></li>
                     <li><a href="#education">Education</a></li>
@@ -39,37 +37,37 @@
     </header>
 
     <main>
-        <section id="hero">
-            <div class="hero-content">
-                <h1>Hello, I'm Zixun Huang</h1>
-                <p class="hero-subtitle">MSE Electrical Engineering (Robotics) at University of Pennsylvania</p>
-                <p class="hero-description">Passionate about robotics, autonomous systems, and bridging software
-                    engineering with intelligent machines.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                    <a href="#projects" class="btn btn-secondary">View My Work</a>
+        <section id="hero" class="hero-section">
+            <div class="container hero-layout">
+                <div class="hero-copy">
+                    <p class="eyebrow">Software Engineering · Robotics · Applied Data</p>
+                    <h1>Zixun Huang</h1>
+                    <p class="hero-subtitle">MSE Electrical Engineering student at the University of Pennsylvania, focused on robotics systems, full-stack engineering, and practical data tools.</p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary">Contact</a>
+                    </div>
+                </div>
+                <div class="hero-portrait" aria-label="Portrait of Zixun Huang">
+                    <img src="profile-photo.jpg" alt="Zixun Huang profile photo">
                 </div>
             </div>
         </section>
 
         <section id="about">
             <div class="container">
-                <h2>About Me</h2>
+                <div class="section-heading">
+                    <p class="eyebrow">About</p>
+                    <h2>Building reliable software for intelligent systems</h2>
+                </div>
                 <div class="about-content">
-                    <div class="about-left">
-                        <div class="profile-photo">
-                            <img src="profile-photo.jpg" alt="Zixun Huang Profile Photo" class="profile-img">
-                        </div>
-                        <div class="about-text">
-                            <p>Welcome to my personal website!</p>
-                            <p>I'm currently pursuing my Master of Science in Engineering (MSE) in Electrical Engineering with a Robotics concentration at the University of Pennsylvania. I'm passionate about bridging the gap between software engineering and robotics systems.</p>
-                            <p>I have hands-on experience in full-stack development, systems programming, and data analysis from my internships at Tesla and other tech companies. I'm particularly interested in how AI and robotics can solve real-world challenges in automotive, manufacturing, and service industries.</p>
-                        </div>
+                    <div class="about-text">
+                        <p>I am pursuing a Master of Science in Engineering in Electrical Engineering with a Robotics concentration at the University of Pennsylvania. Before Penn, I completed my Bachelor of Engineering in Software Engineering at Tongji University and studied Computer Science as an exchange student at UC Berkeley.</p>
+                        <p>My recent work spans enterprise software, data analysis platforms, computer vision, and systems programming. I care about clean engineering practice, maintainable interfaces, and turning ambiguous requirements into working tools.</p>
                     </div>
                     <div class="skills">
-                        <h3>Skills & Technologies</h3>
                         <div class="skills-section">
-                            <h4>Programming Languages</h4>
+                            <h3>Languages</h3>
                             <div class="skill-tags">
                                 <span class="tag">C</span>
                                 <span class="tag">C++</span>
@@ -82,32 +80,35 @@
                             </div>
                         </div>
                         <div class="skills-section">
-                            <h4>Frameworks & Technologies</h4>
+                            <h3>Frameworks</h3>
                             <div class="skill-tags">
-                                <span class="tag">Ruby on Rails</span>
                                 <span class="tag">React</span>
+                                <span class="tag">Vue</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Express</span>
+                                <span class="tag">Ruby on Rails</span>
                                 <span class="tag">RSpec</span>
                                 <span class="tag">Cucumber</span>
-                                <span class="tag">Node.js</span>
-                                <span class="tag">HTML/CSS</span>
                             </div>
                         </div>
                         <div class="skills-section">
-                            <h4>Tools & Platforms</h4>
+                            <h3>Tools</h3>
                             <div class="skill-tags">
-                                <span class="tag">Elastic Search</span>
-                                <span class="tag">AWS</span>
+                                <span class="tag">AWS OpenSearch</span>
+                                <span class="tag">Docker</span>
+                                <span class="tag">MySQL</span>
+                                <span class="tag">Ali Cloud</span>
                                 <span class="tag">GitHub</span>
                                 <span class="tag">Heroku</span>
-                                <span class="tag">Git</span>
+                                <span class="tag">COLMAP</span>
                             </div>
                         </div>
                         <div class="skills-section">
-                            <h4>Languages</h4>
+                            <h3>Languages Spoken</h3>
                             <div class="skill-tags">
-                                <span class="tag">Cantonese (Native)</span>
-                                <span class="tag">Mandarin (Native)</span>
-                                <span class="tag">English (Fluent)</span>
+                                <span class="tag">Cantonese</span>
+                                <span class="tag">Mandarin</span>
+                                <span class="tag">English</span>
                             </div>
                         </div>
                     </div>
@@ -115,211 +116,271 @@
             </div>
         </section>
 
-        <section id="education">
+        <section id="education" class="section-muted">
             <div class="container">
-                <h2>Education</h2>
+                <div class="section-heading">
+                    <p class="eyebrow">Education</p>
+                    <h2>Academic Background</h2>
+                </div>
                 <div class="timeline">
-                    <div class="timeline-item">
+                    <article class="timeline-item">
+                        <div class="timeline-meta">09/2025 - 07/2027</div>
                         <div class="timeline-content">
                             <h3>University of Pennsylvania</h3>
-                            <p class="timeline-subtitle">Master of Science in Engineering (MSE) - Electrical Engineering
-                            </p>
-                            <p class="timeline-date">August 2025 - May 2027 (Expected)</p>
-                            <p><strong>Concentration:</strong> Robotics</p>
-                            <p>Currently pursuing advanced studies in electrical engineering with a focus on robotics,
-                                including advanced control systems, machine learning applications, and autonomous
-                                systems design.</p>
+                            <p class="timeline-subtitle">Master of Science in Engineering, Electrical Engineering</p>
+                            <p>Robotics concentration. GPA: 4.00/4.00.</p>
                         </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>University of California, Berkeley</h3>
-                            <p class="timeline-subtitle">Computer Science Exchange Student</p>
-                            <p class="timeline-date">January 2023 - December 2023</p>
-                            <p><strong>GPA:</strong> 3.94/4.00</p>
-                            <p><strong>Honors:</strong> A+'s in Software Engineering and Data Structures</p>
-                            <p><strong>Core Courses:</strong> Operating Systems and System Programming, Efficient
-                                Algorithms and Intractable Problems, Introduction to Artificial Intelligence, etc.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
+                    </article>
+                    <article class="timeline-item">
+                        <div class="timeline-meta">09/2021 - 07/2025</div>
                         <div class="timeline-content">
                             <h3>Tongji University</h3>
-                            <p class="timeline-subtitle">Bachelor's Degree - Computer Science and Technology, Software
-                                Engineering (Senior)</p>
-                            <p class="timeline-date">September 2021 - Present</p>
-                            <p><strong>GPA:</strong> 90.8/100</p>
-                            <p><strong>Honors:</strong> Undergraduate Scholarship, Exchange Scholarship</p>
-                            <p><strong>Core Courses:</strong> Advanced Programming Language, Database Principles and
-                                Applications, Computer Networks, etc.</p>
+                            <p class="timeline-subtitle">Bachelor of Engineering, Software Engineering</p>
+                            <p>GPA: 90.8/100. Honors include Undergraduate Scholarship and Exchange Scholarship.</p>
                         </div>
-                    </div>
+                    </article>
+                    <article class="timeline-item">
+                        <div class="timeline-meta">01/2023 - 12/2023</div>
+                        <div class="timeline-content">
+                            <h3>University of California, Berkeley</h3>
+                            <p class="timeline-subtitle">Exchange Student, Computer Science</p>
+                            <p>GPA: 3.94/4.00. Received A+ grades in Software Engineering and Data Structures.</p>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
         <section id="experience">
             <div class="container">
-                <h2>Experience</h2>
+                <div class="section-heading">
+                    <p class="eyebrow">Experience</p>
+                    <h2>Professional Work</h2>
+                </div>
                 <div class="timeline">
-                    <div class="timeline-item">
+                    <article class="timeline-item">
+                        <div class="timeline-meta">03/2024 - 08/2024</div>
                         <div class="timeline-content">
                             <h3>Software Engineering Intern</h3>
-                            <p class="timeline-subtitle">Tesla (Shanghai Gigafactory, R&D Center) - APAC Service
-                                Engineering team</p>
-                            <p class="timeline-date">03/2024 - 08/2024</p>
-                            <p><strong>Platform Development:</strong> Developed and maintained Tesla's in-China Service
-                                Vehicle Management Platform (Elena), using TypeScript on React, including new feature
-                                implementations, menu revision and code debugging.</p>
-                            <p><strong>Data Analysis:</strong> Performed vehicle alert data analysis in Python and
-                                created statistical diagrams to meet government requirements.</p>
-                            <p><strong>Team Assistance:</strong> Assisted the North America Service Engineering team in
-                                refactoring front-end code of an internal website to meet regulatory compliance
-                                requirements.</p>
-                            <p><strong>Captions Project:</strong> Reconstructed the data analysis procedure, designed
-                                and implemented a one-stop platform for team engineers to access and locate custom data
-                                visualizations, using AWS OpenSearch service.</p>
-                            <p><strong>Process Improvement:</strong> This project simplified the data analysis workflow
-                                for the team, improved data search efficiency, reducing reliance on Python scripts and
-                                front-end tasks.</p>
+                            <p class="timeline-subtitle">Tesla, Shanghai Gigafactory R&D Center - APAC Service Engineering</p>
+                            <ul class="compact-list">
+                                <li>Developed and maintained Tesla's China Vehicle Management Platform with React and TypeScript, including feature delivery, menu revisions, and debugging for engineering and compliance needs.</li>
+                                <li>Built Python data analysis tooling for large-scale vehicle alert datasets, producing dashboards and statistical diagrams for faster diagnostics.</li>
+                                <li>Designed a one-stop data visualization platform backed by AWS OpenSearch, reducing reliance on ad hoc Python scripts and front-end requests.</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="timeline-item">
+                    </article>
+                    <article class="timeline-item">
+                        <div class="timeline-meta">07/2023 - 08/2023</div>
                         <div class="timeline-content">
                             <h3>Software Engineering Intern</h3>
                             <p class="timeline-subtitle">Hundsun Technologies Inc. - Summer Camp</p>
-                            <p class="timeline-date">07/2023 - 08/2023</p>
-                            <p><strong>Front-end Development:</strong> Developed HundsunOS Fund Sales System using
-                                company front-end framework (vue2.0) and micro-services.</p>
-                            <p><strong>User Interface Design:</strong> Designed layouts for web management system
-                                interface, including relevant documentation.</p>
-                            <p><strong>Code Optimization:</strong> Revised code structure under mentor guidance,
-                                refactored CSS style scope and regulated function parameters.</p>
-                            <p><strong>System Testing:</strong> Conducted both unit and integration testing on the
-                                system, creating test cases using Jest documentation.</p>
+                            <ul class="compact-list">
+                                <li>Developed a fund sales system with Vue 2.0 and micro-service architecture.</li>
+                                <li>Designed user management interface layouts and drafted related documentation.</li>
+                                <li>Refactored CSS scope and function parameters under mentor guidance, then wrote unit and integration test cases.</li>
+                            </ul>
                         </div>
-                    </div>
-                    <!-- <div class="timeline-item">
-                        <div class="timeline-content">
-                            <h3>Testing Intern</h3>
-                            <p class="timeline-subtitle">Guangzhou 4K Garden Co., Ltd.</p>
-                            <p class="timeline-date">01/2022 - 02/2022</p>
-                            <p><strong>Video Testing:</strong> Tested 3D no-glasses large-screen videos, checking frame
-                                drops and rendering issues.</p>
-                            <p><strong>Team Management:</strong> Assisted team manager with administrative duties such
-                                as meeting notes and task coordination.</p>
-                            <p><strong>Client Collaboration:</strong> Collaborated with clients including China Mobile
-                                and the Guangzhou government, with videos streamed in major commercial areas such as
-                                Beijing Road.</p>
-                        </div>
-                    </div> -->
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section id="projects">
+        <section id="projects" class="section-muted">
             <div class="container">
-                <h2>Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>ActionMap</h3>
-                        <p class="project-subtitle">Group Leader, Full-stack Developer</p>
-                        <p class="project-date">10/2023 - 12/2023</p>
-                        <p>Implemented a web app in MVC architecture based on Ruby on Rails which allows users to access
-                            the basic information of candidates and their related news in groups of different topics on
-                            a visual map modal through the API of Google.</p>
-                        <p><strong>Group Leadership:</strong> Led a team of four, performing agile development,
-                            organizing each cycle design and review, and engaging in pair programming to complete key
-                            features and testing for the project.</p>
-                        <p><strong>TDD/Test Driven Development:</strong> Constructed unit tests using RSpec and
-                            integration tests with Cucumber and Capybara, simulating user interactions and measuring
-                            test scalability, by Agile process requirement.</p>
-                        <p><strong>Software Development:</strong> Implemented concepts and techniques learned from
-                            Software Engineering course (CS169), utilizing patterns like factory, observer, and strategy
-                            integration DRY principle.</p>
-                        <p><strong>Project Management:</strong> Managed project issues via GitHub Project and deployed
-                            the app in stages to Heroku.</p>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                <div class="section-heading">
+                    <p class="eyebrow">Projects</p>
+                    <h2>Selected Projects</h2>
+                </div>
+                <div class="project-list">
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">12/2025 - 03/2026 · Developer</div>
+                            <h3>HR Management System</h3>
+                            <p>Enterprise HR platform with onboarding automation, RBAC, encrypted storage, and cloud deployment.</p>
+                            <div class="project-tags">
+                                <span>React 19</span>
+                                <span>TypeScript</span>
+                                <span>Node.js</span>
+                                <span>MySQL</span>
+                                <span>Docker</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <h3>PintOS</h3>
-                        <p class="project-subtitle">Group Leader, C language Developer</p>
-                        <p class="project-date">01/2023 - 05/2023</p>
-                        <p>Developed an operating system for the x86 architecture in C language which supports
-                            multithreading, loading and a file system.</p>
-                        <p><strong>Group Leadership:</strong> Led the whole group to collaborate on brainstorming
-                            project design, implementation, writing test cases and debugging.</p>
-                        <p><strong>Feature Implementation:</strong> Developed kernel thread, priority thread scheduling,
-                            cache eviction based on the existing framework code.</p>
-                        <p><strong>Problem Solving:</strong> Handled tough cases such as race conditions due to priority
-                            thread scheduling, synchronization of cache list in file system.</p>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-hr">Details</button>
+                    </article>
+
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">10/2025 - 12/2025 · Developer</div>
+                            <h3>Image2GPS</h3>
+                            <p>Visual localization model that predicts GPS coordinates from a single campus image.</p>
+                            <div class="project-tags">
+                                <span>PyTorch</span>
+                                <span>Vision Models</span>
+                                <span>DINOv2</span>
+                                <span>COLMAP</span>
+                            </div>
                         </div>
-                    </div>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-image2gps">Details</button>
+                    </article>
+
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">10/2023 - 12/2023 · Group Leader, Full-stack Developer</div>
+                            <h3>ActionMap</h3>
+                            <p>Ruby on Rails web app for exploring candidate information and related news through a map interface.</p>
+                            <div class="project-tags">
+                                <span>Ruby on Rails</span>
+                                <span>RSpec</span>
+                                <span>Cucumber</span>
+                                <span>Heroku</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-actionmap">Details</button>
+                    </article>
+
+                    <article class="project-entry">
+                        <div>
+                            <div class="project-meta">01/2023 - 05/2023 · Group Leader, C Developer</div>
+                            <h3>PintOS</h3>
+                            <p>x86 teaching operating system with threading, loading, syscalls, and file-system work.</p>
+                            <div class="project-tags">
+                                <span>C</span>
+                                <span>Operating Systems</span>
+                                <span>Scheduling</span>
+                                <span>File System</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" type="button" data-dialog-open="project-pintos">Details</button>
+                    </article>
                 </div>
             </div>
         </section>
 
         <section id="honors">
             <div class="container">
-                <h2>Honors & Awards</h2>
-                <div class="honors-grid">
-                    <div class="honor-item">
-                        <h3>2022-2023</h3>
-                        <p>Tongji University International and Hong Kong-Macao-Taiwan Exchange Scholarship (Third Class)
-                        </p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021-2022</h3>
-                        <p>Tongji University Undergraduate Social Activity Scholarship</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021-2022</h3>
-                        <p>Tongji University Undergraduate Second-Class Scholarship</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021-2022</h3>
-                        <p>Excellent Student Leader, Tongji University</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021</h3>
-                        <p>Men's Group Champion, National Lacrosse University Student League</p>
-                    </div>
-                    <div class="honor-item">
-                        <h3>2021</h3>
-                        <p>Outstanding Worker, Jiqin Academic New Media Planning Department "Jiqin Small Assistant"</p>
+                <div class="section-heading">
+                    <p class="eyebrow">Honors</p>
+                    <h2>Honors and Awards</h2>
+                </div>
+                <div class="honors-list">
+                    <p><strong>2022-2023</strong> Tongji University International and Hong Kong-Macao-Taiwan Exchange Scholarship, Third Class</p>
+                    <p><strong>2021-2022</strong> Tongji University Undergraduate Social Activity Scholarship</p>
+                    <p><strong>2021-2022</strong> Tongji University Undergraduate Second-Class Scholarship</p>
+                    <p><strong>2021-2022</strong> Excellent Student Leader, Tongji University</p>
+                    <p><strong>2021</strong> Men's Group Champion, National Lacrosse University Student League</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section-muted">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Contact</p>
+                    <h2>Get in Touch</h2>
+                </div>
+                <div class="contact-content">
+                    <p>I am open to software engineering, robotics, and applied data opportunities.</p>
+                    <div class="contact-links">
+                        <a href="mailto:huang98@seas.upenn.edu" class="contact-link">Email</a>
+                        <a href="https://www.linkedin.com/in/zixun-huang-Tony/" class="contact-link">LinkedIn</a>
+                        <a href="https://github.com/ZixunHuangUPenn" class="contact-link">GitHub</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact">
-            <div class="container">
-                <h2>Get In Touch</h2>
-                <div class="contact-content">
-                    <p>I'm always interested in new opportunities and connections. Feel free to reach out!</p>
-                    <div class="contact-links">
-                        <a href="mailto:huang98@seas.upenn.edu" class="contact-link">
-                            <span>Email</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/zixun-huang-Tony/" class="contact-link">
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://github.com/ZixunHuangUPenn" class="contact-link">
-                            <span>GitHub</span>
-                        </a>
+        <dialog class="project-dialog" id="project-hr" aria-labelledby="project-hr-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="Close project details">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/hr-management-system-cover.jpg" alt="HR Management System screenshot" loading="lazy">
+                        <div class="media-placeholder" hidden>Project image</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">12/2025 - 03/2026 · Developer</p>
+                        <h3 id="project-hr-title">HR Management System</h3>
+                        <ul class="detail-list">
+                            <li>Built a 30K+ LOC enterprise HR system with React 19, TypeScript, Node.js, Express, MySQL, Docker Compose, Ali Cloud, and OSS file storage.</li>
+                            <li>Implemented employee onboarding automation, three-tier RBAC, AES-256 encrypted data storage, and status tracking.</li>
+                            <li>Designed a multi-stage workflow from registration to form token generation, email notifications, data merge, and HR review.</li>
+                            <li>Maintained a living requirements document across 13 phases and managed 95 structured commits while communicating directly with HR staff.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
+        </dialog>
+
+        <dialog class="project-dialog" id="project-image2gps" aria-labelledby="project-image2gps-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="Close project details">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/image2gps-cover.jpg" alt="Image2GPS project visualization" loading="lazy">
+                        <div class="media-placeholder" hidden>Project image</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">10/2025 - 12/2025 · Developer</p>
+                        <h3 id="project-image2gps-title">Image2GPS</h3>
+                        <ul class="detail-list">
+                            <li>Fine-tuned visual models to predict latitude and longitude from a single image using a Penn campus image dataset.</li>
+                            <li>Compared ResNet, ViT, DINOv2, and Swin Transformer families on a validation set.</li>
+                            <li>Reduced overfitting with torchvision data augmentation including rotation, flipping, and ColorJitter.</li>
+                            <li>Integrated COLMAP 3D reconstruction as geometric supervision and ranked 2nd among 20+ groups with 27.68 m average testing RMSE.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="project-dialog" id="project-actionmap" aria-labelledby="project-actionmap-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="Close project details">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/actionmap-cover.jpg" alt="ActionMap web app screenshot" loading="lazy">
+                        <div class="media-placeholder" hidden>Project image</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">10/2023 - 12/2023 · Group Leader, Full-stack Developer</p>
+                        <h3 id="project-actionmap-title">ActionMap</h3>
+                        <ul class="detail-list">
+                            <li>Implemented an MVC Ruby on Rails app that lets users explore candidate information and related news by topic through Google Maps APIs.</li>
+                            <li>Led a four-person team through agile cycles, design reviews, pair programming, feature delivery, and testing.</li>
+                            <li>Built unit tests with RSpec and integration tests with Cucumber and Capybara to simulate user flows and improve readability.</li>
+                            <li>Managed project issues through GitHub Project and deployed staged releases to Heroku.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="project-dialog" id="project-pintos" aria-labelledby="project-pintos-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="Close project details">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="project-media">
+                        <img src="assets/projects/pintos-cover.jpg" alt="PintOS project screenshot" loading="lazy">
+                        <div class="media-placeholder" hidden>Project image</div>
+                    </figure>
+                    <div class="dialog-copy">
+                        <p class="project-meta">01/2023 - 05/2023 · Group Leader, C Developer</p>
+                        <h3 id="project-pintos-title">PintOS</h3>
+                        <ul class="detail-list">
+                            <li>Developed x86 operating-system features in C, including kernel syscalls, priority scheduling, and cache eviction.</li>
+                            <li>Led project design, implementation planning, test-case writing, debugging, and review preparation.</li>
+                            <li>Resolved race conditions and deadlock-prone cases in priority scheduling and synchronized cache-list behavior in the file system.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Zixun Huang. All rights reserved.</p>
+            <p>&copy; 2026 Zixun Huang. All rights reserved.</p>
         </div>
     </footer>
 
