@@ -42,11 +42,73 @@ document.addEventListener("DOMContentLoaded", () => {
     updateActiveNav();
     window.addEventListener("scroll", updateActiveNav, { passive: true });
 
+    const orbit = document.querySelector(".experience-carousel");
+    const orbitCards = orbit ? Array.from(orbit.querySelectorAll(".experience-card")) : [];
+    let activeOrbitIndex = 0;
+    let orbitTimer = null;
+
+    const updateOrbit = () => {
+        const total = orbitCards.length;
+        if (!total) {
+            return;
+        }
+
+        orbitCards.forEach((card, index) => {
+            const offset = (index - activeOrbitIndex + total) % total;
+            const isKeyboardReachable = offset === 0 || offset === 1 || offset === total - 1;
+            card.classList.remove("is-active", "is-prev", "is-next", "is-far-prev", "is-far-next", "is-hidden");
+            card.tabIndex = isKeyboardReachable ? 0 : -1;
+            card.setAttribute("aria-hidden", isKeyboardReachable ? "false" : "true");
+
+            if (offset === 0) {
+                card.classList.add("is-active");
+            } else if (offset === 1) {
+                card.classList.add("is-next");
+            } else if (offset === total - 1) {
+                card.classList.add("is-prev");
+            } else if (offset === 2) {
+                card.classList.add("is-far-next");
+            } else if (offset === total - 2) {
+                card.classList.add("is-far-prev");
+            } else {
+                card.classList.add("is-hidden");
+            }
+        });
+    };
+
+    const startOrbit = () => {
+        if (!orbitCards.length || orbitTimer) {
+            return;
+        }
+
+        orbitTimer = window.setInterval(() => {
+            activeOrbitIndex = (activeOrbitIndex + 1) % orbitCards.length;
+            updateOrbit();
+        }, 3800);
+    };
+
+    const pauseOrbit = () => {
+        window.clearInterval(orbitTimer);
+        orbitTimer = null;
+    };
+
+    if (orbitCards.length) {
+        updateOrbit();
+        startOrbit();
+
+        orbit.addEventListener("pointerenter", pauseOrbit);
+        orbit.addEventListener("pointerleave", startOrbit);
+        orbit.addEventListener("focusin", pauseOrbit);
+        orbit.addEventListener("focusout", startOrbit);
+    }
+
     const openDialog = (dialogId) => {
         const dialog = document.getElementById(dialogId);
         if (!dialog) {
             return;
         }
+
+        pauseOrbit();
 
         if (typeof dialog.showModal === "function") {
             dialog.showModal();
@@ -60,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeDialog = (dialog) => {
         dialog.close();
         document.body.classList.remove("dialog-open");
+        startOrbit();
     };
 
     document.querySelectorAll("[data-dialog-open]").forEach((trigger) => {
@@ -78,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        trigger.setAttribute("tabindex", "0");
         trigger.setAttribute("role", "button");
 
         trigger.addEventListener("keydown", (event) => {
@@ -109,10 +171,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dialog.addEventListener("cancel", () => {
             document.body.classList.remove("dialog-open");
+            startOrbit();
         });
 
         dialog.addEventListener("close", () => {
             document.body.classList.remove("dialog-open");
+            startOrbit();
         });
     });
 
