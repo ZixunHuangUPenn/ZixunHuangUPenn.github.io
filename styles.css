@@ -387,6 +387,72 @@ section {
     transform-style: preserve-3d;
 }
 
+.orbit-control {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+    display: inline-grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid rgba(255, 253, 248, 0.44);
+    border-radius: 999px;
+    background: rgba(255, 253, 248, 0.13);
+    box-shadow:
+        0 18px 46px rgba(19, 30, 22, 0.26),
+        inset 0 1px 0 rgba(255, 253, 248, 0.35);
+    color: #fffdf8;
+    cursor: pointer;
+    font: inherit;
+    font-size: 2rem;
+    line-height: 1;
+    backdrop-filter: blur(14px);
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+.orbit-control span {
+    transform: translateY(-2px);
+}
+
+.orbit-control:hover,
+.orbit-control:focus-visible {
+    border-color: rgba(255, 253, 248, 0.72);
+    background: rgba(255, 253, 248, 0.22);
+    box-shadow:
+        0 22px 56px rgba(19, 30, 22, 0.34),
+        0 0 28px rgba(219, 233, 210, 0.22),
+        inset 0 1px 0 rgba(255, 253, 248, 0.45);
+}
+
+.orbit-control:focus-visible {
+    outline: 2px solid rgba(219, 233, 210, 0.62);
+    outline-offset: 3px;
+}
+
+.orbit-control-prev {
+    left: clamp(4px, 2.4vw, 24px);
+    transform: translateY(-50%);
+}
+
+.orbit-control-next {
+    right: clamp(4px, 2.4vw, 24px);
+    transform: translateY(-50%);
+}
+
+.orbit-control-prev:hover,
+.orbit-control-prev:focus-visible {
+    transform: translateY(-50%) translateX(-2px);
+}
+
+.orbit-control-next:hover,
+.orbit-control-next:focus-visible {
+    transform: translateY(-50%) translateX(2px);
+}
+
 .experience-card {
     position: absolute;
     top: 50%;
@@ -843,6 +909,20 @@ footer {
         transform: translate(calc(-50% + 150px), -50%) translateZ(-110px) rotateY(-25deg) scale(0.72);
     }
 
+    .orbit-control {
+        width: 42px;
+        height: 42px;
+        font-size: 1.7rem;
+    }
+
+    .orbit-control-prev {
+        left: -2px;
+    }
+
+    .orbit-control-next {
+        right: -2px;
+    }
+
     .simple-list p {
         grid-template-columns: 1fr;
         gap: 4px;
@@ -891,5 +971,10 @@ footer {
     .experience-card.is-prev,
     .experience-card.is-next {
         opacity: 0.2;
+    }
+
+    .orbit-control {
+        width: 40px;
+        height: 40px;
     }
 }

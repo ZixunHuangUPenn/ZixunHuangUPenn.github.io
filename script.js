@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const orbit = document.querySelector(".experience-carousel");
     const orbitCards = orbit ? Array.from(orbit.querySelectorAll(".experience-card")) : [];
+    const orbitControls = Array.from(document.querySelectorAll("[data-orbit-control]"));
     let activeOrbitIndex = 0;
     let orbitTimer = null;
 
@@ -76,15 +77,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    const moveOrbit = (direction) => {
+        if (!orbitCards.length) {
+            return;
+        }
+
+        activeOrbitIndex = (activeOrbitIndex + direction + orbitCards.length) % orbitCards.length;
+        updateOrbit();
+    };
+
     const startOrbit = () => {
         if (!orbitCards.length || orbitTimer) {
             return;
         }
 
         orbitTimer = window.setInterval(() => {
-            activeOrbitIndex = (activeOrbitIndex + 1) % orbitCards.length;
-            updateOrbit();
-        }, 3800);
+            moveOrbit(1);
+        }, 1900);
     };
 
     const pauseOrbit = () => {
@@ -100,6 +109,15 @@ document.addEventListener("DOMContentLoaded", () => {
         orbit.addEventListener("pointerleave", startOrbit);
         orbit.addEventListener("focusin", pauseOrbit);
         orbit.addEventListener("focusout", startOrbit);
+
+        orbitControls.forEach((control) => {
+            control.addEventListener("click", () => {
+                const direction = control.dataset.orbitControl === "prev" ? -1 : 1;
+                pauseOrbit();
+                moveOrbit(direction);
+                startOrbit();
+            });
+        });
     }
 
     const openDialog = (dialogId) => {
