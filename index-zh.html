@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>黄子迅 | AI Agent 与软件工程</title>
+    <title>黄子迅 | AI Agent、机器人与软件工程</title>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css?v=agent-orbit-controls-20260427">
@@ -40,9 +40,9 @@
                 <div class="hero-copy">
                     <p class="eyebrow">欢迎</p>
                     <h1>Hi! 我是黄子迅</h1>
-                    <p class="hero-lead">我关注 AI Agent 开发、智能工作流，以及能落地到真实业务的软件系统</p>
+                    <p class="hero-lead">我关注 AI Agent、机器人系统，以及能把想法落地为真实体验的软件产品</p>
                     <p class="hero-description">
-                        我目前在宾夕法尼亚大学攻读电气工程硕士。近期重点放在 AI Agent 开发，包括工具调用、工作流自动化、上下文工程和全栈产品，把模糊需求转化为稳定、可维护、能减少人工工作的系统。</p>
+                        我目前在宾夕法尼亚大学攻读电气工程硕士。近期重点放在 AI Agent 开发，包括工具调用、工作流自动化、上下文工程与全栈产品，同时探索机器人与感知系统，让软件智能与物理世界连接起来。</p>
                     <div class="hero-actions">
                         <a class="btn btn-primary" href="#journey">查看经历</a>
                         <a class="btn btn-secondary" href="mailto:huang98@seas.upenn.edu">联系我</a>
@@ -51,7 +51,7 @@
                 <aside class="hero-card" aria-label="个人信息摘要">
                     <img class="profile-photo" src="profile-photo.jpg" alt="黄子迅个人照片">
                     <div class="profile-note">
-                        <strong>AI Agent · 软件工程</strong>
+                        <strong>AI Agent · 机器人 · 软件工程</strong>
                         <span>Philadelphia, PA</span>
                     </div>
                 </aside>
@@ -62,7 +62,7 @@
             <div class="container intro-grid">
                 <article>
                     <span class="intro-kicker">当前关注</span>
-                    <p>AI Agent、工作流自动化、上下文感知工具，以及可维护的全栈系统</p>
+                    <p>AI Agent、工作流自动化、机器人操作、感知，以及可维护的全栈系统</p>
                 </article>
                 <article>
                     <span class="intro-kicker">工程方式</span>
@@ -70,7 +70,7 @@
                 </article>
                 <article>
                     <span class="intro-kicker">技术栈</span>
-                    <p>React、TypeScript、Node.js、Python、C/C++、Ruby on Rails、Docker、MySQL、AWS OpenSearch、Claude Code、MCP</p>
+                    <p>Python、C++、React、TypeScript、Docker、AWS、PyTorch、AprilTag、逆运动学与 MCP</p>
                 </article>
             </div>
         </section>
@@ -79,13 +79,31 @@
             <div class="container">
                 <div class="section-heading">
                     <p class="eyebrow">实习与项目</p>
-                    <h2>动态展示的项目经历</h2>
-                    <p>围绕 AI 辅助工程、软件系统、数据工具和产品工作流整理的实习与项目经历</p>
+                    <h2>持续运转的智能系统</h2>
+                    <p>围绕 AI Agent、机器人、软件系统、广告测量、数据工具和产品工作流整理的实习与项目经历</p>
                 </div>
 
                 <div class="experience-orbit">
                     <div class="orbit-glow" aria-hidden="true"></div>
                     <div class="experience-carousel" aria-label="实习和项目卡片">
+                        <article class="experience-card" data-dialog-open="detail-bytedance">
+                            <div class="card-topline">
+                                <span>2026.06 - 2026.08</span>
+                                <span>实习</span>
+                            </div>
+                            <h3>字节跳动 · 软件工程实习生</h3>
+                            <p>参与 TikTok Pixel、身份信号优化、Agent 自动配置与符合 EEA 法规的广告透明度功能开发</p>
+                        </article>
+
+                        <article class="experience-card" data-dialog-open="detail-dual-arm">
+                            <div class="card-topline">
+                                <span>2026.03 - 2026.05</span>
+                                <span>机器人项目</span>
+                            </div>
+                            <h3>双臂配餐机器人</h3>
+                            <p>两台 Franka Panda 机械臂通过转盘协作，完成麦片与燕麦的添加、搅拌和出餐</p>
+                        </article>
+
                         <article class="experience-card" data-dialog-open="detail-hr">
                             <div class="card-topline">
                                 <span>2025.12 - 2026.03</span>
@@ -148,7 +166,7 @@
                         aria-label="下一张项目卡片">
                         <span aria-hidden="true">&rsaquo;</span>
                     </button>
-                    <div class="orbit-caption" aria-hidden="true">Agents · Systems · Data · Product</div>
+                    <div class="orbit-caption" aria-hidden="true">Agents · Robotics · Systems · Product</div>
                 </div>
             </div>
         </section>
@@ -199,7 +217,7 @@
                 <div>
                     <p class="eyebrow">联系</p>
                     <h2>欢迎交流</h2>
-                    <p>我对 AI Agent、软件工程与应用数据方向的机会保持开放</p>
+                    <p>我对 AI Agent、机器人、软件工程与应用数据方向的机会保持开放</p>
                 </div>
                 <div class="contact-links">
                     <a href="mailto:huang98@seas.upenn.edu">huang98@seas.upenn.edu</a>
@@ -208,6 +226,51 @@
                 </div>
             </div>
         </section>
+
+        <dialog class="detail-dialog" id="detail-bytedance" aria-labelledby="detail-bytedance-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="detail-media">
+                        <img src="assets/projects/bytedance-ads-measurement-cover.svg" alt="TikTok Pixel 事件与广告测量信号抽象图"
+                            loading="lazy">
+                        <figcaption>字节跳动 · 广告测量、信号与隐私团队</figcaption>
+                    </figure>
+                    <div>
+                        <p class="card-topline single">2026.06 - 2026.08 · 实习</p>
+                        <h3 id="detail-bytedance-title">字节跳动 · 软件工程实习生</h3>
+                        <ul>
+                            <li>开发 TikTok Pixel SDK 漏斗追踪功能并主导 Auto Advanced Matching 优化，使身份信号丰富度提升 3.2%</li>
+                            <li>分析 AAM 覆盖缺口与机会规模，使工程优先级与广告测量目标保持一致</li>
+                            <li>为基于 Agent 的 Pixel 自动配置方案设计行为约束框架，以较低成本模型实现多层用户事件检测</li>
+                            <li>为符合 EEA 法规的 TikTok Commerce Content Library 交付搜索筛选和广告详情增强功能</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="detail-dialog" id="detail-dual-arm" aria-labelledby="detail-dual-arm-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="detail-media">
+                        <img src="assets/projects/dual-arm-dispensing-robot-cover.svg" alt="两台 Franka Panda 机械臂围绕转盘协作示意图"
+                            loading="lazy">
+                        <figcaption>双臂配餐机器人 · 多机械臂操作</figcaption>
+                    </figure>
+                    <div>
+                        <p class="card-topline single">2026.03 - 2026.05 · 机器人项目</p>
+                        <h3 id="detail-dual-arm-title">双臂配餐机器人</h3>
+                        <ul>
+                            <li>使用两台 Franka Panda 机械臂与转盘设计协同配餐系统：第一台机械臂装杯并添加麦片，第二台添加燕麦、搅拌并出餐</li>
+                            <li>构建包含双臂、转盘、分配器与杯子的虚拟仿真环境，支持多机械臂操作流程的开发与调试</li>
+                            <li>使用 AprilTag 定位分配器与杯子，并结合逆运动学和位置控制按压分配器、完成杯子的抓取与放置</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
 
         <dialog class="detail-dialog" id="detail-hr" aria-labelledby="detail-hr-title">
             <div class="dialog-panel">

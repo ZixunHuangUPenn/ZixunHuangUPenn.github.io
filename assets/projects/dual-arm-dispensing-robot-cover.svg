@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Dual-arm dispensing robot</title>
+  <desc id="desc">Two articulated robot arms coordinate around a turntable and food dispensers.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#edf3ee"/><stop offset="1" stop-color="#d7e5df"/></linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b94b"/><stop offset="1" stop-color="#c87827"/></linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#bg)"/>
+  <path d="M0 500Q240 440 480 500T960 500V600H0Z" fill="#b8ccc4"/>
+  <g fill="#fff" stroke="#44665a" stroke-width="8" stroke-linejoin="round">
+    <path d="M110 474h105l18-62h-141z"/><path d="M162 412l8-90 76-62 48 36-56 76-8 77z"/>
+    <circle cx="170" cy="322" r="24"/><circle cx="246" cy="260" r="24"/><circle cx="294" cy="296" r="21"/>
+    <path d="M850 474h-105l-18-62h141z"/><path d="M798 412l-8-90-76-62-48 36 56 76 8 77z"/>
+    <circle cx="790" cy="322" r="24"/><circle cx="714" cy="260" r="24"/><circle cx="666" cy="296" r="21"/>
+  </g>
+  <g fill="#345247"><circle cx="170" cy="322" r="9"/><circle cx="246" cy="260" r="9"/><circle cx="790" cy="322" r="9"/><circle cx="714" cy="260" r="9"/></g>
+  <ellipse cx="480" cy="445" rx="190" ry="62" fill="#8c5a2b" opacity=".25"/>
+  <ellipse cx="480" cy="420" rx="176" ry="58" fill="url(#table)" stroke="#71491f" stroke-width="8"/>
+  <path d="M455 420h50l-9 92h-32z" fill="#f9faf7" stroke="#44665a" stroke-width="6"/>
+  <g fill="#f8fbf9" stroke="#44665a" stroke-width="6"><rect x="355" y="88" width="102" height="180" rx="18"/><rect x="503" y="88" width="102" height="180" rx="18"/></g>
+  <g fill="#ef8f3f"><circle cx="406" cy="145" r="27"/><circle cx="554" cy="145" r="27"/></g>
+  <path d="M406 268v52M554 268v52" stroke="#44665a" stroke-width="12" stroke-linecap="round"/>
+  <path d="M310 360c42-28 72-32 106-18M650 360c-42-28-72-32-106-18" fill="none" stroke="#ed7047" stroke-width="7" stroke-dasharray="12 12"/>
+  <g fill="#29473e" font-family="Inter, Arial, sans-serif">
+    <text x="54" y="66" font-size="28" font-weight="700" letter-spacing="2">DUAL-ARM DISPENSING</text>
+    <text x="344" y="560" font-size="20" font-weight="700" letter-spacing="3">PERCEIVE · PLAN · SERVE</text>
+  </g>
+</svg>
