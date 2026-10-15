@@ -408,6 +408,13 @@ section {
     padding-left: 18px;
     color: var(--muted);
     font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.internship-highlights strong,
+.project-highlights strong {
+    color: var(--walnut);
+    font-weight: 800;
 }
 
 .card-cta {
@@ -743,11 +750,20 @@ section {
     line-height: 1.28;
 }
 
-.experience-card p {
+.experience-card p,
+.project-highlights {
     max-width: calc(100% - 84px);
     margin-top: 14px;
     color: var(--muted);
     font-size: 1.02rem;
+}
+
+.project-highlights {
+    display: grid;
+    gap: 9px;
+    padding-left: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .orbit-caption {
