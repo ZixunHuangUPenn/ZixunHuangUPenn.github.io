@@ -626,6 +626,10 @@ section {
     height: 84px;
 }
 
+.bytedance-thumbnail {
+    object-position: center 32%;
+}
+
 .internship-card:hover .card-thumbnail,
 .internship-card:focus .card-thumbnail,
 .experience-card:hover .card-thumbnail,
@@ -911,6 +915,24 @@ section {
     max-height: 420px;
     aspect-ratio: 16 / 10;
     object-fit: cover;
+}
+
+.detail-media-portrait img {
+    max-height: 540px;
+    aspect-ratio: 4 / 5;
+    object-position: center;
+}
+
+.detail-gallery-grid {
+    display: grid;
+    gap: 8px;
+    padding: 8px;
+}
+
+.detail-gallery-grid img {
+    max-height: none;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
 }
 
 .detail-media figcaption {
