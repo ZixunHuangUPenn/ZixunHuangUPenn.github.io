@@ -90,17 +90,10 @@ header {
     white-space: nowrap;
 }
 
-.logo span {
-    display: inline-grid;
+.logo-mark {
     width: 36px;
     height: 36px;
-    place-items: center;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--leaf-light);
-    color: var(--leaf-dark);
-    font-size: 0.86rem;
-    font-weight: 700;
+    flex: 0 0 36px;
 }
 
 .logo strong {
@@ -1005,12 +998,16 @@ section {
 }
 
 .detail-dialog {
+    position: fixed;
+    inset: 0;
     width: min(980px, calc(100% - 32px));
     max-height: calc(100vh - 40px);
+    margin: auto;
     border: 0;
     background: transparent;
     color: var(--text);
     overflow: visible;
+    padding: 0;
 }
 
 .detail-dialog::backdrop {
