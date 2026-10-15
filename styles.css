@@ -309,6 +309,116 @@ section {
     color: var(--muted);
 }
 
+.internships-section {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    background:
+        radial-gradient(circle at 8% 12%, rgba(219, 233, 210, 0.72), transparent 28%),
+        radial-gradient(circle at 92% 84%, rgba(235, 218, 194, 0.6), transparent 30%),
+        var(--bg);
+}
+
+.internship-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.internship-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 390px;
+    border: 1px solid var(--line-strong);
+    border-radius: 20px;
+    background: rgba(255, 253, 248, 0.88);
+    box-shadow: 0 18px 54px rgba(63, 75, 59, 0.11);
+    cursor: pointer;
+    padding: 30px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.internship-card::after {
+    position: absolute;
+    right: -80px;
+    bottom: -100px;
+    width: 240px;
+    height: 240px;
+    border-radius: 999px;
+    background: rgba(111, 139, 98, 0.08);
+    content: "";
+    pointer-events: none;
+}
+
+.internship-card:hover,
+.internship-card:focus {
+    border-color: rgba(111, 139, 98, 0.72);
+    box-shadow: 0 24px 68px rgba(63, 75, 59, 0.18);
+    outline: none;
+    transform: translateY(-5px);
+}
+
+.internship-card:focus-visible {
+    outline: 3px solid rgba(111, 139, 98, 0.28);
+    outline-offset: 4px;
+}
+
+.internship-card .card-topline {
+    max-width: calc(100% - 154px);
+}
+
+.internship-card .card-topline span:last-child {
+    border-color: rgba(111, 139, 98, 0.28);
+    background: #e9f0e4;
+    color: var(--leaf-dark);
+}
+
+.card-title-group {
+    max-width: calc(100% - 146px);
+    margin-top: 28px;
+}
+
+.card-title-group h3 {
+    color: var(--text);
+    font-size: clamp(2rem, 3.4vw, 2.7rem);
+    line-height: 1.05;
+}
+
+.card-role {
+    margin-top: 8px;
+    color: var(--walnut);
+    font-size: 0.96rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.internship-highlights {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.card-cta {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-top: 24px;
+    color: var(--leaf-dark);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
 .section-panel {
     position: relative;
     overflow: hidden;
@@ -496,6 +606,33 @@ section {
     z-index: 1;
 }
 
+.card-thumbnail {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+    width: 112px;
+    height: 72px;
+    border: 1px solid rgba(111, 139, 98, 0.32);
+    border-radius: 12px;
+    background: var(--surface-soft);
+    box-shadow: 0 9px 24px rgba(46, 51, 43, 0.16);
+    object-fit: cover;
+    transition: transform 0.2s ease;
+}
+
+.internship-card .card-thumbnail {
+    width: 132px;
+    height: 84px;
+}
+
+.internship-card:hover .card-thumbnail,
+.internship-card:focus .card-thumbnail,
+.experience-card:hover .card-thumbnail,
+.experience-card:focus .card-thumbnail {
+    transform: scale(1.04) rotate(1deg);
+}
+
 .experience-card.is-active {
     z-index: 5;
     opacity: 1;
@@ -591,6 +728,7 @@ section {
 }
 
 .experience-card h3 {
+    max-width: calc(100% - 124px);
     margin-top: 16px;
     color: var(--text);
     font-size: clamp(1.45rem, 3vw, 2.2rem);
@@ -598,7 +736,7 @@ section {
 }
 
 .experience-card p {
-    max-width: 560px;
+    max-width: calc(100% - 84px);
     margin-top: 14px;
     color: var(--muted);
     font-size: 1.02rem;
@@ -844,6 +982,14 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .internship-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .internship-card {
+        min-height: 360px;
+    }
+
     .experience-card {
         width: min(560px, 76%);
     }
@@ -865,7 +1011,7 @@ footer {
 @media (max-width: 720px) {
     .container,
     .nav-container {
-        width: min(100% - 32px, 1120px);
+        width: min(1120px, calc(100% - 32px));
     }
 
     .nav-menu li:not(.language-switcher) {
@@ -897,6 +1043,40 @@ footer {
         width: min(430px, 86%);
         min-height: 300px;
         padding: 22px;
+    }
+
+    .internship-card {
+        min-height: 400px;
+        padding: 24px;
+    }
+
+    .internship-card .card-thumbnail {
+        top: 22px;
+        right: 22px;
+        width: 104px;
+        height: 68px;
+    }
+
+    .internship-card .card-topline,
+    .card-title-group {
+        max-width: calc(100% - 116px);
+    }
+
+    .card-title-group {
+        margin-top: 24px;
+    }
+
+    .card-title-group h3 {
+        font-size: 2rem;
+    }
+
+    .experience-card .card-thumbnail {
+        width: 92px;
+        height: 60px;
+    }
+
+    .experience-card h3 {
+        max-width: calc(100% - 98px);
     }
 
     .experience-card.is-prev {
@@ -953,6 +1133,24 @@ footer {
 
     .dialog-panel {
         padding: 24px;
+    }
+
+    .internship-card {
+        min-height: 465px;
+    }
+
+    .internship-card .card-topline {
+        max-width: calc(100% - 105px);
+        font-size: 0.78rem;
+    }
+
+    .card-title-group {
+        max-width: 100%;
+        margin-top: 38px;
+    }
+
+    .internship-highlights {
+        margin-top: 22px;
     }
 
     .experience-orbit {

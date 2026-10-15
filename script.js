@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
             openDialog(dialogId);
         });
 
-        if (!trigger.classList.contains("experience-card")) {
+        if (!trigger.classList.contains("experience-card") && !trigger.classList.contains("internship-card")) {
             return;
         }
 

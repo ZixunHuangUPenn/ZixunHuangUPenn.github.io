@@ -7,7 +7,7 @@
     <title>Zixun Huang | AI Agents, Robotics, and Software Engineering</title>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css?v=agent-orbit-controls-20260427">
+    <link rel="stylesheet" href="styles.css?v=experience-sections-20261014">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -20,7 +20,8 @@
             </a>
             <ul class="nav-menu">
                 <li><a href="#welcome">Welcome</a></li>
-                <li><a href="#journey">Experience</a></li>
+                <li><a href="#internships">Internships</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#growth">Growth</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li class="language-switcher">
@@ -45,7 +46,7 @@
                         context engineering, and full-stack products, alongside robotics and perception systems that
                         connect software intelligence with the physical world.</p>
                     <div class="hero-actions">
-                        <a class="btn btn-primary" href="#journey">View Experience</a>
+                        <a class="btn btn-primary" href="#internships">View Experience</a>
                         <a class="btn btn-secondary" href="mailto:huang98@seas.upenn.edu">Email Me</a>
                     </div>
                 </div>
@@ -77,29 +78,72 @@
             </div>
         </section>
 
-        <section id="journey" class="section-panel">
+        <section id="internships" class="internships-section">
             <div class="container">
                 <div class="section-heading">
-                    <p class="eyebrow">Internships and Projects</p>
-                    <h2>Intelligent systems in motion</h2>
-                    <p>A rotating view of projects and internships across AI agents, robotics, software systems,
-                        ads measurement, data tooling, and product workflows.</p>
+                    <p class="eyebrow">Internship Experience</p>
+                    <h2>Engineering for real-world scale</h2>
+                    <p>Product-facing software work spanning ads measurement, agentic automation, vehicle systems,
+                        and engineering data platforms.</p>
+                </div>
+
+                <div class="internship-grid">
+                    <article class="internship-card" data-dialog-open="detail-bytedance">
+                        <img class="card-thumbnail" src="assets/projects/bytedance-ads-measurement-cover.svg"
+                            alt="TikTok Pixel signal flow preview" loading="lazy">
+                        <div class="card-topline">
+                            <span>06/2026 - 08/2026</span>
+                            <span>San Jose, CA</span>
+                        </div>
+                        <div class="card-title-group">
+                            <h3>ByteDance</h3>
+                            <p class="card-role">Software Engineering Intern · Ads Measurement, Signal and Privacy</p>
+                        </div>
+                        <ul class="internship-highlights">
+                            <li>Improved TikTok Pixel funnel tracking and enriched identity signals by 3.2%.</li>
+                            <li>Built guardrails for an agentic Pixel auto-setup workflow using lower-cost models.</li>
+                            <li>Shipped EEA-compliant search and ad-detail features for the Commerce Content Library.</li>
+                        </ul>
+                        <span class="card-cta">View case study <span aria-hidden="true">&rarr;</span></span>
+                    </article>
+
+                    <article class="internship-card" data-dialog-open="detail-tesla">
+                        <img class="card-thumbnail" src="assets/projects/tesla-service-engineering-cover.jpg"
+                            alt="Tesla service engineering platform preview" loading="lazy">
+                        <div class="card-topline">
+                            <span>03/2024 - 08/2024</span>
+                            <span>Shanghai, China</span>
+                        </div>
+                        <div class="card-title-group">
+                            <h3>Tesla</h3>
+                            <p class="card-role">Software Engineering Intern · APAC Service Engineering</p>
+                        </div>
+                        <ul class="internship-highlights">
+                            <li>Developed the China Vehicle Management Platform with React and TypeScript.</li>
+                            <li>Created Python tooling and dashboards for large-scale vehicle alert analysis.</li>
+                            <li>Built an AWS OpenSearch workflow that reduced reliance on scripts and front-end tasks.</li>
+                        </ul>
+                        <span class="card-cta">View case study <span aria-hidden="true">&rarr;</span></span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section-panel">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Selected Projects</p>
+                    <h2>Ideas built into working systems</h2>
+                    <p>A rotating collection of work across AI agents, robotics, computer vision, full-stack products,
+                        and systems engineering.</p>
                 </div>
 
                 <div class="experience-orbit">
                     <div class="orbit-glow" aria-hidden="true"></div>
-                    <div class="experience-carousel" aria-label="Internship and project cards">
-                        <article class="experience-card" data-dialog-open="detail-bytedance">
-                            <div class="card-topline">
-                                <span>06/2026 - 08/2026</span>
-                                <span>Internship</span>
-                            </div>
-                            <h3>ByteDance · Software Engineering Intern</h3>
-                            <p>TikTok Pixel, identity-signal optimization, agentic auto-setup, and EEA-compliant ads
-                                transparency features.</p>
-                        </article>
-
+                    <div class="experience-carousel" aria-label="Project cards">
                         <article class="experience-card" data-dialog-open="detail-dual-arm">
+                            <img class="card-thumbnail" src="assets/projects/dual-arm-dispensing-robot-cover.svg"
+                                alt="Dual-arm dispensing robot preview" loading="lazy">
                             <div class="card-topline">
                                 <span>03/2026 - 05/2026</span>
                                 <span>Robotics Project</span>
@@ -110,6 +154,8 @@
                         </article>
 
                         <article class="experience-card" data-dialog-open="detail-hr">
+                            <img class="card-thumbnail" src="assets/projects/hr-management-system-cover.jpg"
+                                alt="HR Management System preview" loading="lazy">
                             <div class="card-topline">
                                 <span>12/2025 - 03/2026</span>
                                 <span>Project</span>
@@ -120,6 +166,8 @@
                         </article>
 
                         <article class="experience-card" data-dialog-open="detail-image2gps">
+                            <img class="card-thumbnail" src="assets/projects/image2gps-cover.jpg"
+                                alt="Image2GPS visualization preview" loading="lazy">
                             <div class="card-topline">
                                 <span>10/2025 - 12/2025</span>
                                 <span>Project</span>
@@ -128,18 +176,9 @@
                             <p>Visual localization model that predicts GPS coordinates from a single Penn campus image.
                             </p>
                         </article>
-
-                        <article class="experience-card" data-dialog-open="detail-tesla">
-                            <div class="card-topline">
-                                <span>03/2024 - 08/2024</span>
-                                <span>Internship</span>
-                            </div>
-                            <h3>Tesla · Software Engineering Intern</h3>
-                            <p>React, TypeScript, Python data tooling, and AWS OpenSearch work for APAC Service
-                                Engineering.</p>
-                        </article>
-
                         <article class="experience-card" data-dialog-open="detail-actionmap">
+                            <img class="card-thumbnail" src="assets/projects/actionmap-cover.jpg"
+                                alt="ActionMap application preview" loading="lazy">
                             <div class="card-topline">
                                 <span>10/2023 - 12/2023</span>
                                 <span>Project</span>
@@ -147,17 +186,9 @@
                             <h3>ActionMap</h3>
                             <p>Ruby on Rails map-based web app for candidate information and related news.</p>
                         </article>
-
-                        <article class="experience-card" data-dialog-open="detail-hundsun">
-                            <div class="card-topline">
-                                <span>07/2023 - 08/2023</span>
-                                <span>Internship</span>
-                            </div>
-                            <h3>Hundsun · Software Engineering Intern</h3>
-                            <p>Vue 2.0 front-end development, UI layout work, CSS refactoring, and testing.</p>
-                        </article>
-
                         <article class="experience-card" data-dialog-open="detail-pintos">
+                            <img class="card-thumbnail" src="assets/projects/pintos-cover.jpg"
+                                alt="PintOS project preview" loading="lazy">
                             <div class="card-topline">
                                 <span>01/2023 - 05/2023</span>
                                 <span>Project</span>
@@ -175,7 +206,7 @@
                         aria-label="Next project card">
                         <span aria-hidden="true">&rsaquo;</span>
                     </button>
-                    <div class="orbit-caption" aria-hidden="true">Agents · Robotics · Systems · Product</div>
+                    <div class="orbit-caption" aria-hidden="true">Robotics · Vision · Agents · Systems</div>
                 </div>
             </div>
         </section>
@@ -444,7 +475,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=agent-orbit-controls-20260427"></script>
+    <script src="script.js?v=experience-sections-20261014"></script>
 </body>
 
 </html>
