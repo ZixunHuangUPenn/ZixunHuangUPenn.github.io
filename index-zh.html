@@ -7,7 +7,7 @@
     <title>黄子迅 | AI Agent、机器人与软件工程</title>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261014">
-    <link rel="stylesheet" href="styles.css?v=modal-logo-20261014">
+    <link rel="stylesheet" href="styles.css?v=tonyclaw-20261014">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -144,6 +144,17 @@
                 <div class="experience-orbit">
                     <div class="orbit-glow" aria-hidden="true"></div>
                     <div class="experience-carousel" aria-label="项目卡片">
+                        <article class="experience-card" data-dialog-open="detail-tonyclaw">
+                            <img class="card-thumbnail" src="assets/projects/tonyclaw-slack-zh.png"
+                                alt="TonyClaw 在 Slack 中运行的界面" loading="lazy">
+                            <div class="card-topline">
+                                <span>2026.03 - 2026.06</span>
+                                <span>AI Agent 项目</span>
+                            </div>
+                            <h3>TonyClaw</h3>
+                            <p>基于 Pi-mono 的个人编程 Agent，集成 Slack ChatOps、工具调用与 Docker/Git 隔离执行环境</p>
+                        </article>
+
                         <article class="experience-card" data-dialog-open="detail-dual-arm">
                             <img class="card-thumbnail" src="assets/projects/dual-arm-robot-demo.jpg"
                                 alt="双臂配餐机器人现场演示" loading="lazy">
@@ -340,6 +351,28 @@
                             <li>分析 AAM 覆盖缺口与机会规模，使工程优先级与广告测量目标保持一致</li>
                             <li>为基于 Agent 的 Pixel 自动配置方案设计行为约束框架，以较低成本模型实现多层用户事件检测</li>
                             <li>为符合 EEA 法规的 TikTok Commerce Content Library 交付搜索筛选和广告详情增强功能</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="detail-dialog" id="detail-tonyclaw" aria-labelledby="detail-tonyclaw-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="关闭详情">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="detail-media detail-media-screenshot">
+                        <img src="assets/projects/tonyclaw-slack-zh.png" alt="TonyClaw 在 Slack 中处理开发任务的中文对话界面"
+                            loading="lazy">
+                        <figcaption>TonyClaw 通过 Slack ChatOps 界面接收并处理开发任务。</figcaption>
+                    </figure>
+                    <div>
+                        <p class="card-topline single">2026.03 - 2026.06 · AI Agent 项目</p>
+                        <h3 id="detail-tonyclaw-title">TonyClaw · 个人编程 Agent</h3>
+                        <ul>
+                            <li>基于 Pi-mono 构建轻量级编程 Agent，设计运行时与工具调用闭环，实现代码生成、执行和环境交互</li>
+                            <li>将 Slack 集成为对话式 ChatOps 界面，支持自然语言任务分发、执行控制与结果反馈</li>
+                            <li>构建集成 Git 的 Docker 沙箱，为代码编辑、命令执行和版本管理提供安全的隔离环境</li>
                         </ul>
                     </div>
                 </div>

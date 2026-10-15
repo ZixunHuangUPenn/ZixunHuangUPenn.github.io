@@ -7,7 +7,7 @@
     <title>Zixun Huang | AI Agents, Robotics, and Software Engineering</title>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261014">
-    <link rel="stylesheet" href="styles.css?v=modal-logo-20261014">
+    <link rel="stylesheet" href="styles.css?v=tonyclaw-20261014">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -148,6 +148,18 @@
                 <div class="experience-orbit">
                     <div class="orbit-glow" aria-hidden="true"></div>
                     <div class="experience-carousel" aria-label="Project cards">
+                        <article class="experience-card" data-dialog-open="detail-tonyclaw">
+                            <img class="card-thumbnail" src="assets/projects/tonyclaw-slack-en.png"
+                                alt="TonyClaw coding agent in Slack" loading="lazy">
+                            <div class="card-topline">
+                                <span>03/2026 - 06/2026</span>
+                                <span>AI Agent Project</span>
+                            </div>
+                            <h3>TonyClaw</h3>
+                            <p>Personal coding agent with a Pi-mono runtime, Slack ChatOps, tool calling, and isolated
+                                Docker/Git execution.</p>
+                        </article>
+
                         <article class="experience-card" data-dialog-open="detail-dual-arm">
                             <img class="card-thumbnail" src="assets/projects/dual-arm-robot-demo.jpg"
                                 alt="Dual-arm dispensing robot demonstration" loading="lazy">
@@ -356,6 +368,32 @@
                                 multi-layer user-event detection with lower-cost models.</li>
                             <li>Shipped search filters and ad-detail enrichment for TikTok's Commerce Content Library in
                                 compliance with EEA regulations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog class="detail-dialog" id="detail-tonyclaw" aria-labelledby="detail-tonyclaw-title">
+            <div class="dialog-panel">
+                <button class="dialog-close" type="button" data-dialog-close aria-label="Close detail">&times;</button>
+                <div class="dialog-grid">
+                    <figure class="detail-media detail-media-screenshot">
+                        <img src="assets/projects/tonyclaw-slack-en.png"
+                            alt="English TonyClaw conversation and agent activity displayed in Slack" loading="lazy">
+                        <figcaption>TonyClaw handling conversational development tasks through a Slack ChatOps
+                            interface.</figcaption>
+                    </figure>
+                    <div>
+                        <p class="card-topline single">03/2026 - 06/2026 · AI Agent Project</p>
+                        <h3 id="detail-tonyclaw-title">TonyClaw · Personal Coding Agent</h3>
+                        <ul>
+                            <li>Built a lightweight coding-agent system on Pi-mono, designing the runtime and
+                                tool-calling loop for code generation, execution, and environment interaction.</li>
+                            <li>Integrated Slack as a conversational ChatOps interface for natural-language task
+                                dispatch, execution control, and result feedback.</li>
+                            <li>Created a Docker-based sandbox with Git integration for secure, isolated code editing,
+                                command execution, and version management.</li>
                         </ul>
                     </div>
                 </div>

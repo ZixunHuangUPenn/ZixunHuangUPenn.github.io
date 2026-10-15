@@ -1072,6 +1072,13 @@ section {
     object-position: center;
 }
 
+.detail-media-screenshot img {
+    max-height: 540px;
+    aspect-ratio: 4 / 3;
+    background: #1f2327;
+    object-fit: contain;
+}
+
 .detail-gallery-grid {
     display: grid;
     gap: 8px;
