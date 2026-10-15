@@ -955,14 +955,17 @@ section {
 }
 
 .contact-section .eyebrow,
-.contact-section h2,
-.contact-section p {
+.contact-section h2 {
     color: #fffdf8;
+}
+
+.contact-section .contact-grid .contact-intro {
+    color: #f1e4d2;
 }
 
 .contact-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) 390px;
     gap: 48px;
     align-items: center;
 }
@@ -973,6 +976,9 @@ section {
 }
 
 .contact-links a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
     border: 1px solid rgba(255, 253, 248, 0.26);
     border-radius: 10px;
     background: rgba(255, 253, 248, 0.08);
@@ -985,6 +991,17 @@ section {
 
 .contact-links a:hover {
     background: rgba(255, 253, 248, 0.16);
+}
+
+.contact-icon {
+    flex: 0 0 19px;
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
 }
 
 .detail-dialog {
