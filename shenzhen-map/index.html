@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>深圳双人通勤 · 班车地图</title>
+<style>/* Leaflet 1.9.4 */
+/* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
+
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+	pointer-events: auto;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+/* Printing */
+
+@media print {
+	/* Prevent printers from removing background-images of controls. */
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+</style>
+<style>.office{background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;width:270px!important;height:56px!important;display:flex!important;align-items:flex-start;filter:drop-shadow(0 5px 7px #102a3040)}.office .map-pin{width:38px;height:48px;flex:0 0 38px}.office .map-pin svg{display:block;width:38px;height:48px}.office .office-note{position:relative;margin:2px 0 0 7px;padding:7px 11px 7px 12px;border:2px solid white;border-radius:11px;background:var(--dark);color:white;white-space:nowrap;line-height:1.2}.office .office-note:before{content:"";position:absolute;left:-7px;top:13px;width:10px;height:10px;background:var(--dark);transform:rotate(45deg);border-left:2px solid white;border-bottom:2px solid white}.office .office-note b{display:block;font-size:12px}.office .office-note small{display:block;margin-top:3px;color:#bcd2cd;font-size:10px;font-weight:600}</style>
+<style>.metro-marker{background:transparent!important;border:0!important;width:110px!important;height:28px!important;display:flex!important;align-items:center}.metro-dot{display:grid;place-items:center;width:22px;height:22px;flex:0 0 22px;border:2px solid white;border-radius:50%;background:#2575d8;color:white;font:900 10px/1 system-ui;box-shadow:0 2px 7px #163e6d55}.metro-name{margin-left:4px;padding:2px 5px;border-radius:5px;background:#ffffffea;color:#173f6c;font:700 10px/1.2 system-ui;white-space:nowrap;box-shadow:0 2px 6px #102a3025}.home-marker{background:transparent!important;border:0!important;width:180px!important;height:42px!important;display:flex!important;align-items:center}.home-icon{display:grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border:2px solid white;border-radius:10px;background:#f0b43c;color:#543400;font-size:18px;box-shadow:0 3px 9px #54340044}.home-note{margin-left:5px;padding:5px 8px;border:2px solid white;border-radius:9px;background:#754f13;color:white;font:800 11px/1.2 system-ui;white-space:nowrap}.leaflet-popup-content .stop-title{font-size:15px;color:#102a30}.leaflet-popup-content .stop-time{display:block;margin:7px 0 4px;padding:7px 9px;border-radius:8px;background:#fff1db;color:#8b4e12;font-weight:800}.leaflet-popup-content .stop-route{color:#53696c;font-size:12px}</style>
+<style>.metro-marker{width:22px!important;height:22px!important}.metro-name{display:none!important}</style>
+<style>.station-icon{background:transparent!important;border:0!important;width:18px!important;height:18px!important}.station-dot{display:block;width:16px;height:16px;border:3px solid;border-radius:50%;background:white;box-shadow:0 2px 6px #102a3045;transition:.15s}.station-icon:hover .station-dot{transform:scale(1.35);background:#fff6d9}</style>
+<style>.place-search{position:relative;margin:0 0 13px}.search-row{display:grid;grid-template-columns:34px 1fr auto;align-items:center;border:1px solid #c9d1ca;border-radius:14px;background:#fff;box-shadow:0 8px 24px #102a3012;overflow:hidden}.search-row .search-symbol{display:grid;place-items:center;color:#55716c;font-size:19px}.search-row input{width:100%;height:46px;border:0;outline:0;background:transparent;color:#102a30}.search-row button{height:36px;margin-right:5px;padding:0 14px;border:0;border-radius:9px;background:#112c32;color:white;font-weight:800}.search-row button:disabled{opacity:.55;cursor:wait}.place-results{display:none;position:absolute;z-index:800;top:51px;left:0;right:0;max-height:280px;overflow:auto;padding:6px;border:1px solid #d9d6cb;border-radius:13px;background:#fff;box-shadow:0 16px 40px #102a3030}.place-results.show{display:block}.place-results button{display:block;width:100%;padding:9px 10px;border:0;border-radius:8px;background:white;text-align:left}.place-results button:hover{background:#eef3ef;transform:none}.place-results b,.place-results span{display:block}.place-results b{font-size:12px}.place-results span{margin-top:2px;color:#6b7b7d;font-size:10px;line-height:1.35}.place-search-status{display:none;padding:8px 10px;color:#6b7b7d;font-size:11px}.place-search-status.show{display:block}.place-fallback{display:block;margin:4px 6px 6px;padding:7px 9px;border-radius:8px;background:#fff1db;color:#8b4e12;font-size:11px}.search-map-pin{background:transparent!important;border:0!important;width:190px!important;height:48px!important;display:flex!important;align-items:flex-start}.search-map-pin .pin{display:grid;place-items:center;width:36px;height:42px;flex:0 0 36px;border:3px solid white;border-radius:50% 50% 50% 4px;background:#e83d42;color:white;font-size:18px;transform:rotate(-45deg);box-shadow:0 4px 10px #6b171a55}.search-map-pin .pin span{transform:rotate(45deg)}.search-map-pin .label{margin:3px 0 0 5px;padding:6px 9px;border:2px solid white;border-radius:9px;background:#8f2025;color:white;font:800 11px/1.2 system-ui;white-space:nowrap}</style>
+<style>*{box-sizing:border-box}:root{--ink:#102a30;--muted:#66777a;--paper:#f4f0e8;--card:#fffdf8;--line:#d9d6cb;--accent:#ef6a3a;--mint:#b9dccd;--dark:#112c32}body{margin:0;font:14px/1.6 system-ui,-apple-system,"Microsoft YaHei",sans-serif;color:var(--ink);background:var(--paper)}header{min-height:94px;padding:18px 26px;background:var(--dark);color:white;display:flex;align-items:center;justify-content:space-between;gap:28px;border-bottom:1px solid #315057}h1{font-size:22px;margin:0;letter-spacing:.02em}header p{margin:4px 0 0;color:#a9c4c0}.brand{display:flex;gap:14px;align-items:center}.brandmark{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:var(--accent);font-size:23px;box-shadow:inset 0 0 0 1px #ffffff35}.eyebrow{font-size:10px;letter-spacing:.17em;color:#8fb8af;font-weight:800}.stats{display:flex;gap:8px}.stat{min-width:88px;padding:8px 11px;border:1px solid #35545a;border-radius:12px;background:#18383e}.stat b{display:block;font-size:17px;line-height:1.2}.stat span{font-size:10px;color:#a9c4c0}.layout{display:grid;grid-template-columns:400px 1fr;height:calc(100dvh - 94px)}aside{padding:20px;overflow:auto;background:#f7f4ed;border-right:1px solid var(--line)}#map{height:100%;min-height:500px}.note{padding:13px 14px;background:#fff1db;border:1px solid #efd4aa;border-radius:13px;font-size:12px;margin:13px 0;color:#714916}.row{display:flex;gap:8px;align-items:center;margin:10px 0}.swatch{width:22px;height:5px;border-radius:9px;display:inline-block}button,select{font:inherit;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:8px 11px;cursor:pointer;transition:.18s}button:hover{background:#e9efeb;transform:translateY(-1px)}select{flex:1}.controls{padding:12px;border:1px solid var(--line);border-radius:15px;background:var(--card);box-shadow:0 8px 20px #102a300b}.controls .row{margin:0 0 8px}.controls .row:last-child{margin-bottom:0}.mode-badge{display:flex;align-items:center;gap:7px;margin-bottom:12px;font-size:12px;font-weight:800;color:#2d6f60}.mode-badge:before{content:"";width:8px;height:8px;border-radius:50%;background:#3f9b78;box-shadow:0 0 0 4px #3f9b7825}#routes,#specialList,#metroLines{display:grid;gap:9px}.line-card,.special-card,#routes details{border:1px solid var(--line);border-radius:13px;background:var(--card);padding:0;overflow:hidden}.line-card,.special-card{padding:11px 12px}.line-card label,.special-card label{display:flex;align-items:center;gap:9px;font-weight:800;cursor:pointer}.line-card small,.special-card small{display:block;margin:5px 0 0 26px}.line-dot{width:22px;height:6px;border-radius:9px;display:inline-block}.special-symbol{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:#e9efeb}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 10px;padding:5px;border:1px solid var(--line);border-radius:14px;background:#ece9e1;position:sticky;top:-20px;z-index:30}.tab-button{padding:9px 5px;border:0;background:transparent;color:#617174;font-size:12px;font-weight:800}.tab-button.active{background:#fff;color:var(--dark);box-shadow:0 3px 10px #102a3018}.tab-panel{display:none}.tab-panel.active{display:block}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;margin:0 0 10px}.panel-head h2{margin:0;font-size:16px}.panel-head p{margin:2px 0 0;color:var(--muted);font-size:11px}.master-toggle.active{background:var(--dark);color:white;border-color:var(--dark)}#routes summary{padding:11px 12px;cursor:pointer;font-weight:800}#routes details>*:not(summary){margin-left:12px;margin-right:12px}details{border-top:1px solid #e0dfd8;padding:9px 0}summary{cursor:pointer;font-weight:700}ol{padding-left:24px}li{margin:5px 0}a{color:#1c7067}small{color:var(--muted)}.office{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important;width:38px!important;height:48px!important}.office .office-note{display:none!important}.leaflet-tooltip{font:12px system-ui;border-radius:8px}.status{color:#98620f}#detail{min-height:58px;margin-top:12px;padding:12px;border-radius:12px;background:#e8f0ec;color:#365d55;font-size:12px}footer{font-size:11px;margin-top:16px;color:var(--muted)}.leaflet-control-layers,.leaflet-control-zoom{border:0!important;box-shadow:0 8px 24px #102a3020!important}.leaflet-control-attribution{font-size:9px!important}@media(max-width:880px){.layout{grid-template-columns:350px 1fr}.stats .stat:nth-child(2){display:none}}@media(max-width:760px){header{padding:14px 16px}.stats{display:none}.layout{display:flex;flex-direction:column;height:auto}aside{order:2;max-height:none}.layout main{order:1}#map{height:62dvh;min-height:430px}h1{font-size:18px}.brandmark{width:42px;height:42px}.tabs{top:0}}</style><style>.card-row{display:flex;align-items:center;gap:9px}.card-row b{font-size:13px}.route-meta{margin-left:auto;color:var(--muted);font-size:11px;white-space:nowrap}.line-card.off{opacity:.58}.line-card details{border-top:1px dashed #e0dfd8;margin-top:8px;padding:6px 0 0}.line-card summary{font-size:12px;font-weight:700;color:#4b6266}.line-card ol{margin:6px 0;padding-left:20px}.line-card li{margin:2px 0}.stop-link{display:inline;padding:2px 6px;border:0;border-radius:6px;background:transparent;font-size:12px;text-align:left}.stop-link:hover{background:#e9efeb;transform:none}.stop-link.open{background:var(--dark);color:white}.station-chips{display:flex;flex-wrap:wrap;gap:3px;margin:6px 0}.station-chips span{padding:2px 6px;font-size:12px;color:var(--muted)}.special-card{padding:8px 10px}.note-link{flex:1;display:flex;align-items:center;gap:10px;padding:6px 8px;border:0;background:transparent;text-align:left;font-weight:800}.note-link small{display:block;margin:0;font-weight:500}.note-link:hover{transform:none}.note-link:disabled{opacity:.5;cursor:default}.note-state{margin-left:auto;font-size:11px;color:var(--muted);font-weight:700}.note-state:after{content:"展开注解 ▸"}.note-link.open{background:var(--dark);color:white}.note-link.open small,.note-link.open .note-state{color:#bcd2cd}.note-link.open .note-state:after{content:"收起 ▾"}.note-link.open .special-symbol{background:#ffffff22}.metro-stop-icon{background:transparent!important;border:0!important}.metro-stop{display:block;width:9px;height:9px;border:2px solid;border-radius:50%;background:white;box-shadow:0 1px 4px #102a3040;transition:.15s}.metro-stop.transfer{width:12px;height:12px;border-width:2px;outline:1.5px solid #102a30}.metro-stop-icon:hover .metro-stop{transform:scale(1.35)}.metro-chips{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0}.metro-chip{padding:2px 7px;border-radius:999px;color:white;font-size:11px;font-weight:800}.panel-head .master-toggle{white-space:nowrap}.controls .row{flex-wrap:wrap}</style></head>
+<body><header><div class="brand"><div class="brandmark">↗</div><div><div class="eyebrow">SHENZHEN COMMUTE ATLAS · 2025</div><h1>深圳双人通勤 · 班车选房助手</h1><p>用真实街道地图比较玛丝菲尔班车站与深圳湾创新科技中心 T2 通勤位置</p></div></div><div class="stats"><div class="stat"><b>6 条</b><span>重点班车线路</span></div><div class="stat"><b>6:50</b><span>最早发车时间</span></div><div class="stat"><b>9 月 19 日</b><span>新版时刻执行</span></div></div></header><div class="layout"><aside>
+<div class="note"><b>当前为选区参考版</b><br>站序和时刻来自你提供的 2025 年 PDF；地图坐标为参考落点，尚未逐站核实。虚线连接站点，不代表班车实际行车轨迹或精确上车口。选房签约前请向行政核实。</div>
+<section class="place-search" aria-label="搜索公寓或地址"><div class="search-row"><span class="search-symbol">⌕</span><input id="placeQuery" autocomplete="off" placeholder="搜索公寓、小区或地址"><button id="placeSearchBtn">搜索</button></div><div id="placeSearchStatus" class="place-search-status" aria-live="polite"></div><div id="placeResults" class="place-results"></div></section>
+<div class="mode-badge">默认加载真实街道地图</div><div class="controls"><div class="row"><button id="fit">⌖ 显示全部</button><button id="labels">显示站名</button><button id="metroQuick" class="master-toggle active">Ⓜ 隐藏地铁</button></div><div class="row"><button id="online">重新加载街道图</button><button id="offline">离线备用图</button></div></div>
+<nav class="tabs" aria-label="地图图层分类"><button class="tab-button active" data-tab="special">特殊点</button><button class="tab-button" data-tab="shuttle">班车线路</button><button class="tab-button" data-tab="subway">深圳地铁</button></nav>
+<section class="tab-panel active" data-panel="special"><div class="panel-head"><div><h2>特殊点</h2><p>公司、公寓和搜索位置</p></div></div><div id="specialList"></div></section>
+<section class="tab-panel" data-panel="shuttle"><div class="panel-head"><div><h2>班车线路</h2><p>勾选控制每条线路是否显示</p></div><button id="routesToggle" class="master-toggle active">全部隐藏</button></div><div class="controls"><div class="row"><label for="direction">方向</label><select id="direction"><option value="out">早班 · 去公司</option><option value="back">晚班 · 17:45 发车</option></select></div></div><div id="routes"></div></section>
+<section class="tab-panel" data-panel="subway"><div class="panel-head"><div><h2>深圳地铁线路</h2><p>本片区 12 条线路 · 点站点看换乘</p></div><button id="metro" class="master-toggle active">全部隐藏</button></div><div id="metroLines"></div></section>
+<div id="detail" aria-live="polite">点击地图标记展开注解；再次点击同一标记即可收起。</div>
+<details><summary>定位说明与修正</summary><p>两个办公楼按地址标记。玛丝菲尔参考公开坐标 22.7034, 113.9786（WGS84），已转换至高德底图使用的 GCJ-02；深圳湾创新科技中心 T2 与班车站点均为建筑或地址周边参考落点。</p><p>“中诺”“人民路”“家家顺”等旧站名无法唯一定位，保留在站点清单中，不在地图上放置猜测点。其他参考点也不等于精确上车位置。</p><label><input id="edit" type="checkbox"> 开启修正：拖动已有标记</label><p><button id="export">导出当前坐标 JSON</button></p><small>拖动修正仅保存在当前浏览器。导出的 JSON 可用于后续更新地图。</small></details>
+<details><summary>来源与版本</summary><p>Marisfrolg班车线路图2025.pdf，2025-09-19 起执行。PDF 未提供地图坐标，且去程与返程站点不完全相同。</p><p><a target="_blank" rel="noopener" href="https://www.marisfrolg.com/cn/contactus.aspx">玛丝菲尔官方地址</a><br><a target="_blank" rel="noopener" href="https://pnr.sz.gov.cn/d-cyyf/noticeDetailServlet?noticeId=59e463e28195472797620891b4c8dae0&noticeType=5&type=2">深圳湾创新科技中心项目区位</a><br><a target="_blank" rel="noopener" href="https://zjj.sz.gov.cn/attachment/1/1276/1276613/10513788.pdf">中海闻华里项目资料</a></p><p>按使用者提供的信息，字节办公点标记为深圳湾创新科技中心 T2 栋（科苑南路 3156 号）。“中海文化里”按项目正式名称“中海闻华里”标注。</p></details>
+<footer>默认离线示意图与班车清单无需联网。街道底图和地图内搜索使用 OpenStreetMap；搜索结果仅供选区参考，可一键转到高德核对。参考位置统一为 GCJ-02，切换 OSM 时自动转换。</footer></aside><main id="map" aria-label="深圳班车与办公楼地图"><p style="padding:24px">正在加载地图组件……若长时间没有地图，请检查网络。下载后请用 Chrome / Edge 打开 HTML，不要只在附件预览中查看。</p></main></div>
+<script>
+window.SZ_POINTS={
+ maris:['玛丝菲尔大厦',22.7034,113.9786,'wgs'],byte:['字节跳动 · 深圳湾创新科技中心 T2栋',22.5314,113.9414,'wgs'],home:['中海闻华里',22.63148,114.01285,'wgs'],
+ dt:['鼎太风华',22.5188,113.9102],cg:['茶光村站点',22.5765,113.9493],xl:['西丽天虹站',22.5808,113.9538],dx:['大学城地铁站',22.5826,113.9657],tl:['塘朗站',22.5882,113.9947],szb:['深圳北站',22.6097,114.0293],jj:['民治交警中队公交站（北行）',22.6174,114.0299],xf:['北站消防站公交站（红山）',22.6247,114.0254],js:['简上村',22.6346,114.0202],mb:['民宝路（红山）',22.6272,114.0219],gz:['高级中学北校区',22.6207,114.0288],
+ ys:['滢水山庄公交站',22.5966,114.0545],xh:['星河盛世',22.6059,114.0491],mx:['民兴苑公交站',22.6296,114.0288],
+ mt:['民治天虹',22.6121,114.0468],ql:['潜龙花园',22.6174,114.0456],syp:['沙元埔公交站',22.6231,114.0419],sx:['沙吓大门',22.6294,114.0408],zn:['中诺',null,null],rm:['人民路',null,null],jjs:['家家顺',null,null],ls:['龙胜',22.6523,114.0158],lj:['绿景香颂',22.6354,114.0372],
+ cl:['赤岭头天桥',22.6501,114.0118],lhc:['龙华村',22.6602,114.0207],lht:['龙华天虹',22.6651,114.0252],db:['墩背居委会',22.6793,114.0232],lk:['浪口社区中心',22.6885,114.0177],ay:['爱义学校',22.6915,114.0099],dc:['大船坑',22.6951,114.0077],xw:['新围村',22.7010,114.0019],sw:['大船坑水围新村',22.6955,114.0100],
+ yc:['壹城中心',22.6473,114.0366],drf:['龙华大润发',22.6604,114.0325],xbc:['新宝城酒店',22.6655,114.0325]
+};
+Object.assign(window.SZ_POINTS,{
+ hf:['华丰金融港公交站',22.5705,113.8680],pz:['坪洲地铁站 A 口',22.5808,113.8709],dy:['大溢广场公交站',22.5912,113.8736],np:['农批市场公交站（2）',22.5990,113.8802],hz:['鹤州高速口',22.6260,113.8675],tw:['台湾工业区公交站',22.6665,113.9142],wl:['石岩万联',22.6790,113.9280],br:['石岩宝燃油站',22.6834,113.9367],hk:['惠科',22.6970,113.9590],hzback:['鹤州高速天桥底',22.6260,113.8675],xg:['西乡城管办',null,null],ch:['彩虹城',null,null],dyback:['大益广场',22.5912,113.8736]
+});
+window.SZ_ROUTES=[
+ {name:'宝安线',color:'#795548',out:['hf','pz','dy','np','hz','tw','wl','br','hk','maris'],times:['7:05','7:08','7:15','7:18','7:25','7:40','7:45','7:50','8:00','8:15'],back:['maris','hk','br','hzback','xg','ch','dyback','pz','hf'],road:'创业路—新湖路—西乡大道—107 国道—机荷高速—松柏路—宝石路—德政路；石岩万联、台湾工业区未列入返程。大溢/大益为 PDF 原文差异，暂按同片区参考。'},
+ {name:'南山线',color:'#2464d6',out:['dt','cg','xl','dx','tl','szb','jj','xf','js','maris'],times:['6:50','7:10','7:13','7:16','7:24','7:34','7:36','7:38','7:42','8:12'],back:['maris','js','mb','gz','szb','tl','dx','xl','cg','dt'],road:'前海路—北环大道—沙河西路—留仙大道—福龙路—德政路'},
+ {name:'龙华 1 线',color:'#0b886f',out:['ys','xh','mx','maris'],times:['7:25','7:28','7:35','8:10'],back:['maris','mx','xh','ys'],road:'民塘路—新区大道—上塘路—福龙路—德政路'},
+ {name:'龙华 2 线',color:'#d07b12',out:['mt','ql','syp','sx','zn','rm','jjs','ls','maris'],times:['7:20','7:23','7:27','7:28','7:30','7:37','7:42','7:45','8:10'],back:['maris','ls','jjs','rm','lj','sx','syp','ql','mt'],road:'民治大道—布龙路—和平路—福龙路—德政路'},
+ {name:'龙华 3 线',color:'#9445b3',out:['cl','lhc','lht','db','lk','ay','dc','xw','maris'],times:['7:30','7:35','7:40','7:50','7:54','7:58','8:00','8:04','8:10'],back:['maris','xw','sw','lk','db','lht','lhc','cl'],road:'龙观路—大浪南路—华宁路—浪荣路—石凹路—浪宁路—石仔路'},
+ {name:'龙华 4 线',color:'#d84d69',out:['yc','drf','xbc','maris'],times:['7:30','7:35','7:38','8:10'],back:['maris','drf','xbc','yc'],road:'东环一路—和平路—清泉路—大浪北路'}];
+// 深圳地铁线路（WGS84）：站点与线路走向取自 HKUST-Trans-Lab/China-Metro-Info（百度地图数据转换），按本片区裁剪并抽稀；13 号线为人工约略补充。
+window.SZ_METRO=[{"id":"1","name":"1号线","color":"#00b140","stations":[["科学馆",22.54333,114.08976],["华强路",22.54313,114.08008],["岗厦",22.53762,114.06292],["会展中心",22.53749,114.0561],["购物公园",22.5374,114.04959],["香蜜湖",22.54158,114.03362],["车公庙",22.53905,114.02086],["竹子林",22.53617,114.00896],["侨城东",22.53523,113.99179],["华侨城",22.53638,113.98033],["世界之窗",22.5399,113.96905],["白石洲",22.54262,113.96196],["高新园",22.54329,113.949],["深大",22.54122,113.93891],["桃园",22.53537,113.91993],["大新",22.53525,113.91036],["鲤鱼门",22.53515,113.89851],["前海湾",22.53959,113.89292],["新安",22.55076,113.88958],["宝安中心",22.55754,113.88234],["宝体",22.56324,113.87646],["坪洲",22.572,113.86587],["西乡",22.57854,113.85772],["固戍",22.60373,113.84211],["后瑞",22.6317,113.83048],["机场东",22.64999,113.81768]],"path":[[22.54316,114.08169],[22.54294,114.07103],[22.54279,114.0701],[22.54162,114.06885],[22.53905,114.06751],[22.53839,114.06642],[22.53765,114.06402],[22.53984,114.03973],[22.54132,114.03735],[22.54151,114.03681],[22.54158,114.03362],[22.53905,114.02086],[22.53772,114.01287],[22.53641,114.01011],[22.53624,113.98751],[22.53638,113.98033],[22.53666,113.97692],[22.5399,113.96905],[22.54329,113.949],[22.54317,113.94054],[22.54198,113.93943],[22.53747,113.93598],[22.53546,113.93399],[22.53553,113.92703],[22.53535,113.89639],[22.53638,113.89426],[22.5379,113.89308],[22.53959,113.89292],[22.54926,113.89091],[22.55076,113.88958],[22.55754,113.88234],[22.56324,113.87646],[22.572,113.86587],[22.57854,113.85772],[22.583,113.85236],[22.5863,113.8498],[22.59031,113.8473],[22.59977,113.844],[22.62024,113.83442],[22.63008,113.83158],[22.6317,113.83048],[22.6343,113.82882],[22.6371,113.8256],[22.64069,113.82314]],"clipped":true},{"id":"2","name":"2号线","color":"#b94700","stations":[["燕南",22.54712,114.08699],["华强北",22.54707,114.08017],["岗厦北",22.54349,114.0642],["市民中心",22.54325,114.05656],["福田",22.54249,114.04847],["莲花西",22.54951,114.04501],["景田",22.55615,114.03881],["香梅北",22.55695,114.02821],["香蜜",22.5555,114.01888],["侨香",22.5525,114.00937],["安托山",22.55162,114.00101],["深康",22.54936,113.99416],["侨城北",22.54705,113.98446],["世界之窗",22.53963,113.96932],["红树湾",22.52804,113.96376],["科苑",22.53,113.94164],["后海",22.52056,113.93553],["登良",22.51224,113.93292],["海月",22.50298,113.93288],["湾厦",22.4964,113.93379],["东角头",22.48929,113.92622],["水湾",22.49146,113.91494],["海上世界",22.48826,113.91026],["蛇口港",22.47969,113.90728],["赤湾",22.48225,113.89284]],"path":[[22.54712,114.08699],[22.54684,114.07593],[22.54627,114.07479],[22.54419,114.07259],[22.5436,114.07157],[22.54351,114.06539],[22.54325,114.05757],[22.54314,114.05369],[22.5426,114.05247],[22.54257,114.05077],[22.54286,114.046],[22.5435,114.04549],[22.55372,114.04491],[22.55527,114.04399],[22.55584,114.04327],[22.55615,114.03881],[22.55671,114.03315],[22.55695,114.02821],[22.55637,114.02738],[22.55588,114.02403],[22.55546,114.01788],[22.55454,114.01482],[22.55175,114.00705],[22.55162,114.00102],[22.55146,113.99895],[22.55022,113.99526],[22.54815,113.99282],[22.54608,113.97156],[22.54315,113.97],[22.54082,113.96952],[22.52937,113.96924],[22.52865,113.96876],[22.52826,113.96823],[22.52807,113.96589],[22.52843,113.95646],[22.52977,113.95195],[22.53,113.94164],[22.52998,113.9402],[22.52922,113.939],[22.52315,113.93651],[22.51335,113.93297],[22.51224,113.93292],[22.4964,113.93379],[22.48986,113.93336],[22.48935,113.93149],[22.49134,113.91837],[22.49146,113.91494],[22.49091,113.9124],[22.49057,113.91169],[22.49005,113.9112],[22.48621,113.90944],[22.48548,113.90938],[22.4839,113.90976],[22.48258,113.90962],[22.48161,113.90928],[22.48098,113.90878],[22.47972,113.90733],[22.48225,113.89284]],"clipped":true},{"id":"4","name":"4号线","color":"#da291c","stations":[["牛湖",22.72721,114.08403],["观澜湖",22.72435,114.07128],["松元厦",22.72379,114.05974],["观澜",22.71799,114.04974],["长湖",22.71339,114.03965],["茜坑",22.70002,114.03599],["竹村",22.68949,114.03517],["清湖北",22.67492,114.03534],["清湖",22.66686,114.0315],["龙华",22.65444,114.01743],["龙胜",22.64761,114.00739],["上塘",22.63975,114.00775],["红山",22.62466,114.01848],["深圳北站",22.61337,114.02538],["白石龙",22.60421,114.03753],["民乐",22.59719,114.04345],["上梅林",22.57321,114.05434],["莲花北",22.56327,114.05426],["少年宫",22.55016,114.05569],["市民中心",22.54443,114.05579],["会展中心",22.53728,114.05595],["福民",22.52591,114.05967],["福田口岸",22.51846,114.0643]],"path":[[22.72721,114.08403],[22.72628,114.081],[22.72612,114.07849],[22.7264,114.07721],[22.72636,114.07659],[22.72539,114.07486],[22.72435,114.07128],[22.72386,114.06912],[22.72423,114.06447],[22.72379,114.05974],[22.72367,114.05749],[22.72329,114.05585],[22.71799,114.04974],[22.716,114.04476],[22.7151,114.04109],[22.71466,114.04036],[22.71346,114.03968],[22.71127,114.03887],[22.7006,114.03614],[22.69738,114.03536],[22.69364,114.03582],[22.69228,114.03581],[22.6689,114.03242],[22.66347,114.02975],[22.65444,114.01743],[22.65139,114.01323],[22.64761,114.00739],[22.63353,114.01206],[22.61764,114.02193],[22.61661,114.02249],[22.61442,114.02434],[22.61096,114.0282],[22.60987,114.03083],[22.60789,114.03298],[22.60486,114.03678],[22.59719,114.04345],[22.59083,114.0487],[22.58805,114.05126],[22.58458,114.05314],[22.58144,114.05417],[22.57321,114.05434],[22.55447,114.05552],[22.55016,114.05569],[22.53282,114.05634],[22.53104,114.05833],[22.52111,114.06102],[22.51846,114.0643]],"clipped":false},{"id":"5","name":"5号线","color":"#a05eb5","stations":[["赤湾",22.4822,113.89276],["荔湾",22.5007,113.88881],["铁路公园",22.50605,113.88507],["妈湾",22.51056,113.88135],["前湾公园",22.51897,113.8845],["前湾",22.52535,113.89107],["桂湾",22.53503,113.89296],["前海湾",22.53958,113.89286],["临海",22.54704,113.88418],["宝华",22.55276,113.88012],["宝安中心",22.55759,113.88235],["翻身",22.5628,113.88841],["灵芝",22.57235,113.89963],["洪浪北",22.57763,113.90578],["兴东",22.58467,113.91393],["留仙洞",22.58347,113.93895],["西丽",22.58368,113.94807],["大学城",22.58483,113.96035],["塘朗",22.59297,113.99503],["长岭陂",22.60209,114.00531],["深圳北站",22.61364,114.02595],["民治",22.62039,114.03579],["五和",22.62935,114.0556],["坂田",22.63024,114.06572],["杨美",22.62948,114.07491]],"path":[[22.4822,113.89276],[22.48445,113.89054],[22.48534,113.89004],[22.48633,113.88991],[22.4973,113.89267],[22.49814,113.89192],[22.50009,113.88953],[22.50283,113.88657],[22.5053,113.88563],[22.50973,113.88198],[22.51897,113.8845],[22.52257,113.88865],[22.52535,113.89107],[22.52778,113.89273],[22.53503,113.89296],[22.53958,113.89286],[22.54132,113.89286],[22.54339,113.89207],[22.54441,113.89128],[22.5455,113.88968],[22.54649,113.88711],[22.54704,113.88419],[22.54788,113.88192],[22.54837,113.88134],[22.54953,113.88056],[22.55067,113.88018],[22.55276,113.88012],[22.55584,113.88061],[22.55759,113.88235],[22.5628,113.88841],[22.57235,113.89963],[22.57763,113.90578],[22.58374,113.93358],[22.58347,113.93895],[22.58368,113.94807],[22.58374,113.95217],[22.5842,113.95719],[22.58483,113.96035],[22.58593,113.96393],[22.58704,113.97149],[22.58734,113.97382],[22.58736,113.97943],[22.58777,113.98185],[22.59297,113.99503],[22.59418,113.99803],[22.59521,113.99993],[22.59914,114.0033],[22.60209,114.00531],[22.60517,114.0074],[22.60586,114.00859],[22.6063,114.01118],[22.60742,114.01455],[22.61192,114.02326],[22.61364,114.02595],[22.61426,114.02695],[22.61612,114.02867],[22.62039,114.03579],[22.62886,114.05024],[22.62935,114.0556],[22.62939,114.05997],[22.63014,114.06474],[22.62948,114.07491]],"clipped":true},{"id":"6","name":"6号线","color":"#2cccd3","stations":[["松岗",22.77525,113.82488],["溪头",22.77762,113.83298],["松岗公园",22.78086,113.84341],["薯田埔",22.78395,113.86304],["合水口",22.78453,113.87637],["公明广场",22.7805,113.88647],["红花山",22.78059,113.90309],["楼村",22.77901,113.91841],["科学公园",22.78047,113.92936],["光明",22.77466,113.94025],["光明大街",22.76508,113.938],["凤凰城",22.75038,113.92797],["长圳",22.72944,113.92586],["上屋",22.69201,113.93396],["官田",22.68621,113.94468],["阳台山东",22.67069,113.9865],["元芬",22.65897,114.00024],["上芬",22.64312,114.01163],["红山",22.62463,114.01841],["深圳北站",22.61333,114.02533],["梅林关",22.59619,114.04879],["翰岭",22.57692,114.06408],["银湖",22.57096,114.08461],["八卦岭",22.56314,114.08897],["体育中心",22.55745,114.09058],["通新岭",22.551,114.09107],["科学馆",22.54206,114.09129]],"path":[[22.77525,113.82488],[22.77762,113.83298],[22.77988,113.84037],[22.78282,113.84959],[22.78271,113.8534],[22.78221,113.85733],[22.78315,113.86094],[22.78453,113.87637],[22.78036,113.90745],[22.77934,113.91028],[22.77901,113.91841],[22.78034,113.92613],[22.78047,113.92936],[22.78026,113.93785],[22.77925,113.93913],[22.77856,113.9396],[22.77642,113.94016],[22.77466,113.94025],[22.76879,113.94005],[22.76629,113.93884],[22.75117,113.92848],[22.74919,113.9272],[22.71603,113.92811],[22.69517,113.92915],[22.69417,113.92972],[22.69201,113.93396],[22.69009,113.9368],[22.68724,113.93902],[22.68693,113.93949],[22.68656,113.94077],[22.68621,113.94468],[22.68606,113.94748],[22.68584,113.94839],[22.68097,113.96104],[22.67524,113.97475],[22.67466,113.97655],[22.67393,113.9811],[22.67253,113.9837],[22.6707,113.98649],[22.66832,113.99064],[22.66277,113.99716],[22.66189,113.99806],[22.65998,113.99949],[22.64364,114.01127],[22.64186,114.01245],[22.64022,114.01281],[22.63896,114.01255],[22.63731,114.0117],[22.63348,114.01214],[22.62615,114.01734],[22.62061,114.0211],[22.6176,114.0219],[22.61519,114.02352],[22.61021,114.0281],[22.60728,114.0296],[22.59933,114.03762],[22.59884,114.03833],[22.59864,114.03967],[22.59886,114.04261],[22.59937,114.04494],[22.59934,114.04641],[22.59893,114.04707],[22.59619,114.04879],[22.58722,114.05499],[22.57926,114.06076],[22.57758,114.06226],[22.57692,114.06408],[22.5737,114.06882],[22.57331,114.0701],[22.57293,114.07345],[22.57297,114.08014],[22.5722,114.08286],[22.57096,114.08461],[22.56952,114.08623],[22.56314,114.08897],[22.56017,114.09045],[22.55745,114.09058],[22.551,114.09107],[22.54206,114.09129]],"clipped":false},{"id":"6b","name":"6号线支线","color":"#5ba8b0","stations":[["深理工",22.81039,113.96451],["中大",22.79958,113.94841],["圳美",22.79087,113.94442],["光明",22.77466,113.94034]],"path":[[22.81039,113.96451],[22.80564,113.961],[22.80453,113.95973],[22.80116,113.95309],[22.79958,113.94841],[22.79856,113.94526],[22.7981,113.9446],[22.79087,113.94442],[22.7883,113.94437],[22.78604,113.94225],[22.78355,113.94039],[22.77466,113.94034]],"clipped":false},{"id":"13","name":"13号线","color":"#de7c00","stations":[["深圳湾口岸",22.5048,113.9447,1],["人才公园",22.5128,113.9441,1],["后海",22.5206,113.9355],["科苑",22.53,113.9416],["粤海门",22.5358,113.9424],["深大",22.5412,113.9389],["高新中",22.549,113.944,1],["高新北",22.5575,113.9455,1],["石鼓",22.5745,113.9425,1],["留仙洞",22.5835,113.939],["百旺",22.601,113.9355,1],["应人石",22.6215,113.9335,1],["罗租",22.644,113.93,1],["石岩",22.665,113.93,1],["上屋",22.692,113.934]],"path":[[22.5048,113.9447],[22.5128,113.9441],[22.5206,113.9355],[22.53,113.9416],[22.5358,113.9424],[22.5412,113.9389],[22.549,113.944],[22.5575,113.9455],[22.5745,113.9425],[22.5835,113.939],[22.601,113.9355],[22.6215,113.9335],[22.644,113.93],[22.665,113.93],[22.692,113.934]],"clipped":false,"approx":true},{"id":"7","name":"7号线","color":"#0033a0","stations":[["红岭北",22.56471,114.09922],["八卦岭",22.56452,114.08947],["黄木岗",22.55849,114.08203],["华新",22.55161,114.08162],["华强北",22.54599,114.08159],["华强南",22.53998,114.08172],["赤尾",22.5345,114.07872],["福邻",22.5278,114.07566],["皇岗口岸",22.52404,114.06935],["福民",22.52592,114.06065],["皇岗村",22.52583,114.05457],["石厦",22.52574,114.04872],["沙尾",22.52356,114.03747],["上沙",22.52736,114.03054],["车公庙",22.53848,114.02342],["农林",22.5433,114.01332],["安托山",22.55141,114.00122],["深云",22.5593,113.98893],["桃源村",22.56291,113.97688],["龙井",22.5669,113.96989],["珠光",22.57126,113.95547],["茶光",22.57699,113.94944],["西丽",22.58372,113.94958],["西丽湖",22.59653,113.96079]],"path":[[22.56471,114.09922],[22.56452,114.08947],[22.56442,114.08621],[22.56402,114.08532],[22.55975,114.08271],[22.53998,114.08172],[22.53857,114.08162],[22.53799,114.0813],[22.53675,114.08001],[22.53551,114.07918],[22.52913,114.07628],[22.52486,114.07413],[22.52423,114.07357],[22.52577,114.0651],[22.52592,114.05979],[22.52583,114.05457],[22.52563,114.04556],[22.52544,114.0447],[22.52474,114.04395],[22.52717,114.03092],[22.52955,114.02633],[22.53064,114.02553],[22.53316,114.0247],[22.53751,114.02368],[22.54198,114.02243],[22.5433,114.01332],[22.5458,114.00234],[22.54736,114.00187],[22.5491,114.00144],[22.55141,114.00122],[22.55243,114.00119],[22.55332,114.00092],[22.55514,113.99858],[22.55778,113.99323],[22.5593,113.98893],[22.56162,113.97982],[22.56203,113.97857],[22.56291,113.97688],[22.56529,113.97272],[22.56918,113.96564],[22.57083,113.9591],[22.57126,113.95547],[22.5716,113.952],[22.5723,113.95032],[22.57302,113.94977],[22.57699,113.94944],[22.58125,113.94946],[22.58919,113.95007],[22.59074,113.95132],[22.59502,113.95699],[22.59624,113.95816],[22.59653,113.96079]],"clipped":true},{"id":"9","name":"9号线","color":"#7b6469","stations":[["前湾",22.52514,113.89089],["梦海",22.52211,113.89403],["怡海",22.51846,113.89803],["荔林",22.51491,113.90844],["南油西",22.51206,113.9136],["南油",22.51322,113.92104],["南山书城",22.52143,113.92332],["深大南",22.52887,113.9307],["粤海门",22.53577,113.94236],["高新南",22.53577,113.94682],["红树湾南",22.52601,113.96651],["深湾",22.52618,113.97373],["深圳湾公园",22.52459,113.98832],["下沙",22.53195,114.01941],["车公庙",22.53845,114.02334],["香梅",22.54822,114.03452],["景田",22.55662,114.03798],["梅景",22.56333,114.03288],["下梅林",22.56831,114.03639],["梅村",22.57124,114.04736],["上梅林",22.57124,114.05536],["孖岭",22.57117,114.06327],["银湖",22.57102,114.08469],["泥岗",22.57026,114.09277],["红岭北",22.56476,114.09922],["园岭",22.55868,114.09933],["红岭",22.55105,114.09945],["红岭南",22.54247,114.09979]],"path":[[22.52514,113.89089],[22.52213,113.89402],[22.51705,113.89968],[22.515,113.9027],[22.51212,113.91355],[22.51322,113.92104],[22.51513,113.92177],[22.51836,113.92219],[22.52143,113.92332],[22.52458,113.92467],[22.52517,113.92516],[22.52632,113.92875],[22.52665,113.92929],[22.52887,113.9307],[22.53158,113.93258],[22.53449,113.93616],[22.535,113.93703],[22.53558,113.9389],[22.53577,113.94236],[22.53571,113.95137],[22.53555,113.9522],[22.53517,113.9528],[22.5346,113.95329],[22.52735,113.95757],[22.52608,113.9588],[22.52603,113.96539],[22.52618,113.97373],[22.52563,113.97943],[22.52683,113.99374],[22.52963,113.99795],[22.53014,114.00089],[22.53023,114.00354],[22.52983,114.00774],[22.52997,114.0098],[22.53195,114.01941],[22.53239,114.02238],[22.53269,114.02312],[22.53845,114.02334],[22.5459,114.02676],[22.54822,114.03452],[22.54932,114.03794],[22.55662,114.03798],[22.55866,114.03639],[22.5613,114.03306],[22.56155,114.0329],[22.56333,114.03288],[22.56565,114.03305],[22.56674,114.03339],[22.5673,114.03394],[22.56831,114.03639],[22.57047,114.04174],[22.57124,114.04736],[22.57124,114.05536],[22.57117,114.06327],[22.57102,114.08469],[22.57026,114.09277],[22.57018,114.09643],[22.56987,114.09795],[22.56958,114.0985],[22.56912,114.09887],[22.56799,114.09915],[22.56476,114.09922],[22.55868,114.09933],[22.55112,114.09945],[22.54247,114.09979]],"clipped":true},{"id":"10","name":"10号线","color":"#f8779e","stations":[["雪象",22.65893,114.07483],["岗头",22.65957,114.06668],["华为",22.65326,114.06222],["贝尔路",22.64433,114.06129],["坂田北",22.6378,114.05828],["五和",22.62885,114.05562],["光雅园",22.61924,114.05575],["南坑",22.61365,114.05535],["雅宝",22.60612,114.05517],["孖岭",22.56987,114.06194],["冬瓜岭",22.56281,114.0625],["莲花村",22.55171,114.06277],["岗厦北",22.54089,114.06284],["岗厦",22.5374,114.06293],["福民",22.52858,114.06312],["福田口岸",22.51771,114.06236]],"path":[[22.65893,114.07483],[22.65897,114.07476],[22.65625,114.06364],[22.65353,114.06234],[22.65104,114.06145],[22.63997,114.06115],[22.63951,114.06095],[22.63882,114.06015],[22.6378,114.05828],[22.63663,114.05659],[22.63569,114.05573],[22.61924,114.05575],[22.61423,114.05547],[22.6136,114.05534],[22.60294,114.05547],[22.60088,114.05674],[22.59927,114.05722],[22.59853,114.05729],[22.59467,114.0568],[22.56987,114.06194],[22.5682,114.06227],[22.56281,114.0625],[22.55171,114.06277],[22.54113,114.06284],[22.5374,114.06293],[22.51771,114.06236]],"clipped":true},{"id":"11","name":"11号线","color":"#6a1d44","stations":[["碧头",22.78755,113.81493],["松岗",22.77519,113.8246],["后亭",22.75554,113.82182],["沙井",22.73332,113.81936],["马安山",22.71982,113.81197],["塘尾",22.70506,113.81283],["桥头",22.69093,113.80582],["福永",22.67655,113.80095],["机场北",22.65432,113.79315],["机场",22.62653,113.80903],["碧海湾",22.57801,113.85132],["宝安",22.55772,113.87553],["前海湾",22.53959,113.89298],["南山",22.52703,113.91904],["后海",22.52158,113.93721],["红树湾南",22.52613,113.96652],["车公庙",22.53897,114.0209],["福田",22.54257,114.0511],["岗厦北",22.54274,114.06261]],"path":[[22.78755,113.81493],[22.78468,113.81496],[22.78376,113.81538],[22.78202,113.82143],[22.78068,113.82286],[22.77519,113.8246],[22.76371,113.82452],[22.76256,113.82367],[22.76031,113.82261],[22.75838,113.82216],[22.72992,113.81836],[22.72839,113.81755],[22.72203,113.8131],[22.71982,113.81197],[22.70819,113.81234],[22.70569,113.81279],[22.7018,113.81226],[22.70103,113.81196],[22.69265,113.80699],[22.68626,113.80295],[22.68371,113.80193],[22.68003,113.80115],[22.67655,113.80095],[22.66951,113.80063],[22.6664,113.79993],[22.66549,113.79918],[22.66494,113.79828],[22.6637,113.79537],[22.65341,113.79365],[22.60764,113.81975],[22.60684,113.82068],[22.60502,113.82382],[22.60355,113.82537],[22.59568,113.82876],[22.59299,113.83032],[22.59228,113.83093],[22.59113,113.83241],[22.58205,113.84631],[22.57801,113.85132],[22.57256,113.85796],[22.56533,113.86787],[22.55329,113.87993],[22.55125,113.88471],[22.54978,113.8875],[22.54561,113.89243],[22.54317,113.89296],[22.53959,113.89298],[22.53041,113.89356],[22.5296,113.89408],[22.52875,113.89512],[22.52734,113.89762],[22.52742,113.91739],[22.52469,113.92743],[22.52354,113.92983],[22.52236,113.93412],[22.5257,113.9541],[22.52601,113.95511],[22.52613,113.96652],[22.52628,113.97759],[22.52647,113.97867],[22.5271,113.98023],[22.52901,113.98332],[22.52944,113.98485],[22.53108,113.99371],[22.53238,113.99657],[22.53525,113.99926],[22.5357,114.00023],[22.53779,114.01444],[22.53897,114.02089],[22.54226,114.04028],[22.54248,114.04803],[22.54274,114.06261]],"clipped":false},{"id":"12","name":"12号线","color":"#a192b2","stations":[["福海西",22.69112,113.78434],["桥头西",22.68605,113.79236],["福永",22.67823,113.80185],["怀德",22.66959,113.81386],["福围",22.65972,113.81612],["机场东",22.64975,113.81742],["兴围",22.64579,113.82969],["黄田",22.63307,113.84085],["钟屋南",22.62177,113.8541],["西乡桃源",22.61412,113.8574],["平峦山",22.60619,113.86497],["宝田一路",22.59745,113.87374],["宝安客运站",22.59228,113.87895],["流塘",22.58687,113.8844],["上川",22.5811,113.89015],["灵芝",22.5724,113.89883],["新安公园",22.56525,113.906],["同乐南",22.55935,113.914],["中山公园",22.54983,113.91841],["南头古城",22.54031,113.91934],["桃园",22.53444,113.91992],["南山",22.52713,113.91868],["南光",22.51957,113.91961],["南油",22.51324,113.92094],["四海",22.50333,113.91703],["花果山",22.49731,113.9141],["海上世界",22.48838,113.90909],["太子湾",22.47599,113.90629],["左炮台东",22.47307,113.89512]],"path":[[22.69112,113.78434],[22.691,113.78983],[22.69072,113.79207],[22.69037,113.79223],[22.68609,113.79236],[22.67836,113.79262],[22.67722,113.80887],[22.67268,113.81164],[22.67045,113.81325],[22.66682,113.8159],[22.64806,113.81862],[22.64785,113.81999],[22.64874,113.82408],[22.64883,113.82665],[22.64774,113.82828],[22.64579,113.82969],[22.6428,113.83165],[22.63776,113.83665],[22.63385,113.84014],[22.62957,113.84372],[22.62504,113.84615],[22.62435,113.84684],[22.62372,113.84788],[22.62351,113.84859],[22.62284,113.85283],[22.62177,113.85409],[22.61412,113.8574],[22.60619,113.86497],[22.59745,113.87374],[22.58694,113.88434],[22.57345,113.89776],[22.56616,113.9051],[22.56053,113.91072],[22.5598,113.91166],[22.55943,113.91241],[22.55935,113.914],[22.55929,113.91797],[22.5552,113.91838],[22.55107,113.91837],[22.54268,113.91913],[22.53791,113.91956],[22.53683,113.91985],[22.53051,113.91946],[22.5194,113.91986],[22.51324,113.92094],[22.50837,113.91896],[22.49965,113.91562],[22.49804,113.91467],[22.49491,113.91237],[22.4886,113.90919],[22.48542,113.90762],[22.4846,113.9074],[22.48148,113.90732],[22.47996,113.90843],[22.47944,113.90847],[22.47796,113.90818],[22.47708,113.90768],[22.47672,113.90723],[22.47468,113.90448],[22.4742,113.89924],[22.47307,113.89512]],"clipped":true}];
+</script>
+<script>
+function startMap(){
+'use strict';
+const points=window.SZ_POINTS,routes=window.SZ_ROUTES,metroLines=window.SZ_METRO;
+// WGS84 / GCJ-02 conversion for consistent tile coordinates.
+function delta(lat,lng){let x=lng-105,y=lat-35;let a=-100+2*x+3*y+.2*y*y+.1*x*y+.2*Math.sqrt(Math.abs(x)),b=300+x+2*y+.1*x*x+.1*x*y+.1*Math.sqrt(Math.abs(x));a+=(20*Math.sin(6*x*Math.PI)+20*Math.sin(2*x*Math.PI))*2/3;a+=(20*Math.sin(y*Math.PI)+40*Math.sin(y/3*Math.PI))*2/3;a+=(160*Math.sin(y/12*Math.PI)+320*Math.sin(y*Math.PI/30))*2/3;b+=(20*Math.sin(6*x*Math.PI)+20*Math.sin(2*x*Math.PI))*2/3;b+=(20*Math.sin(x*Math.PI)+40*Math.sin(x/3*Math.PI))*2/3;b+=(150*Math.sin(x/12*Math.PI)+300*Math.sin(x/30*Math.PI))*2/3;let rad=lat*Math.PI/180,m=1-.00669342162296594323*Math.sin(rad)**2,s=Math.sqrt(m);return [a*180/((6378245*(1-.00669342162296594323)/(m*s))*Math.PI),b*180/(6378245/s*Math.cos(rad)*Math.PI)]}
+function gcj(p){if(p[3]!=='wgs')return [p[1],p[2]];let d=delta(p[1],p[2]);return [p[1]+d[0],p[2]+d[1]]}
+const coords={};Object.entries(points).forEach(([k,p])=>{if(p[1]!==null)coords[k]=gcj(p)});
+try{Object.assign(coords,JSON.parse(localStorage.getItem('sz-shuttle-coords-v2')||'{}'))}catch(e){}
+const DEFAULT_DETAIL='点击地图标记展开注解；再次点击同一标记即可收起。';
+document.getElementById('map').innerHTML='';document.getElementById('detail').textContent=DEFAULT_DETAIL;document.getElementById('edit').disabled=false;
+let osm=true,showLabels=false,showMetro=true,editing=false,searchMarker=null,searchSelection=null,openNote=null,activePopup=null;
+const selected=routes.map(()=>true),selectedMetro=metroLines.map(()=>true),specialVisibility={maris:true,byte:true,home:true,search:true},notes=new Map(),map=L.map('map').setView([22.615,113.98],11);
+map.createPane('metroPane');map.getPane('metroPane').style.zIndex=350;map.createPane('metroStationPane');map.getPane('metroStationPane').style.zIndex=450;
+const amap=L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?style=7&x={x}&y={y}&z={z}',{subdomains:'1234',maxZoom:18,attribution:'高德地图 · GCJ-02'});
+const osmlayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+L.control.layers({'高德中文街道图':amap,'OpenStreetMap':osmlayer},null,{position:'topright'}).addTo(map);L.control.scale({imperial:false}).addTo(map);
+const overlay=L.layerGroup().addTo(map);
+function pos(k){const c=coords[k];if(!osm)return c;const d=delta(c[0],c[1]);return [c[0]-d[0],c[1]-d[1]]}
+// Metro data is WGS84; shift to GCJ-02 only when the AMap base layer is active.
+function wgsPos(lat,lng){if(osm)return[lat,lng];const d=delta(lat,lng);return[lat+d[0],lng+d[1]]}
+function link(k){return 'https://uri.amap.com/search?keyword='+encodeURIComponent(points[k][0])+'&city=深圳&src=shuttle-map&callnative=0'}
+function amapLink(q){return 'https://uri.amap.com/search?keyword='+encodeURIComponent(q)+'&city=深圳&src=shuttle-map&callnative=0'}
+function popup(k,extra=''){return '<b class="stop-title">'+points[k][0]+'</b><br>'+extra+'<br><span class="status">'+(['maris','byte'].includes(k)?'办公楼参考落点，入口请核实':'位置为近似参考，上车点待核实')+'</span><br><a target="_blank" rel="noopener" href="'+link(k)+'">在高德搜索核对</a>'}
+function officeHtml(k){const fill=k==='maris'?'#112c32':'#ef6a3a';return '<span class="map-pin"><svg viewBox="0 0 38 48" aria-hidden="true"><path fill="'+fill+'" stroke="white" stroke-width="2" d="M19 1C9.1 1 1 9.1 1 19c0 13.5 18 28 18 28s18-14.5 18-28C37 9.1 28.9 1 19 1Z"/><circle cx="19" cy="19" r="6" fill="white"/></svg></span>'}
+function safe(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+// Annotation toggle: one note open at a time; clicking the same marker (or its sidebar entry) again closes it.
+function setDetail(title,detail){document.getElementById('detail').innerHTML=title?'<b>'+title+'</b><br>'+detail:DEFAULT_DETAIL}
+function registerNote(key,marker,html,title,detail,offset){notes.set(key,{marker,html,title,detail,offset:offset||[0,-6]});marker.on('preclick',L.DomEvent.stopPropagation);marker.on('click',e=>{L.DomEvent.stop(e);toggleNote(key)})}
+function closeNote(){const p=activePopup;openNote=null;activePopup=null;if(p)map.closePopup(p);setDetail();markActive()}
+function toggleNote(key,focus){if(openNote===key){closeNote();return}const n=notes.get(key);if(!n)return;if(activePopup){const p=activePopup;activePopup=null;map.closePopup(p)}openNote=key;activePopup=L.popup({offset:n.offset,autoPanPadding:[40,40],maxWidth:280}).setLatLng(n.marker.getLatLng()).setContent(n.html).openOn(map);if(focus)map.panTo(n.marker.getLatLng());setDetail(n.title,n.detail);markActive()}
+map.on('popupclose',e=>{if(e.popup===activePopup){openNote=null;activePopup=null;setDetail();markActive()}});
+function markActive(){document.querySelectorAll('[data-note]').forEach(el=>el.classList.toggle('open',el.dataset.note===openNote))}
+function makeMarker(k,color,extra,office=false,key){const icon=office?L.divIcon({className:'office',html:officeHtml(k),iconAnchor:[19,46]}):L.divIcon({className:'station-icon',html:'<span class="station-dot" style="border-color:'+color+'"></span>',iconAnchor:[8,8]}),marker=L.marker(pos(k),{draggable:editing,icon}).addTo(overlay);if(!office)marker.bindTooltip(points[k][0],{permanent:showLabels,direction:'top'});registerNote(key||('special:'+k),marker,popup(k,extra),points[k][0],extra,office?[0,-42]:[0,-6]);if(editing)marker.on('dragend',()=>{let p=marker.getLatLng(),c=[p.lat,p.lng];if(osm){let d=delta(...c);c=[c[0]+d[0],c[1]+d[1]]}coords[k]=c;try{localStorage.setItem('sz-shuttle-coords-v2',JSON.stringify(coords))}catch(e){}draw()});}
+function addMetro(){const stations=new Map();metroLines.forEach((line,i)=>{if(!selectedMetro[i])return;if(line.path.length>1)L.polyline(line.path.map(p=>wgsPos(p[0],p[1])),{color:line.color,weight:4,opacity:.55,pane:'metroPane',interactive:false}).addTo(overlay);line.stations.forEach(s=>{if(!stations.has(s[0]))stations.set(s[0],{s,lines:[],approx:false});const st=stations.get(s[0]);st.lines.push(line);if(s[3])st.approx=true})});
+ stations.forEach(({s,lines,approx},name)=>{const label=name.endsWith('站')?name:name+'站',transfer=lines.length>1,html='<span class="metro-stop'+(transfer?' transfer':'')+'" style="border-color:'+lines[0].color+'"></span>',icon=L.divIcon({className:'metro-stop-icon',html,iconSize:transfer?[12,12]:[9,9],iconAnchor:transfer?[6,6]:[4.5,4.5]}),marker=L.marker(wgsPos(s[1],s[2]),{icon,pane:'metroStationPane'}).addTo(overlay),chips=lines.map(l=>'<span class="metro-chip" style="background:'+l.color+'">'+l.name+'</span>').join(' ');marker.bindTooltip(label,{direction:'top',offset:[0,-6]});registerNote('metro:'+name,marker,'<b class="stop-title">地铁 '+label+'</b><div class="metro-chips">'+chips+'</div><span class="status">'+(approx?'站点位置为约略参考，':'')+'出入口请以深圳地铁最新信息为准</span><br><a target="_blank" rel="noopener" href="'+amapLink(name+'地铁站')+'">在高德搜索核对</a>','地铁 '+label,lines.map(l=>l.name).join(' / ')+(transfer?' · 换乘站':''),[0,-6])})}
+function addHome(){const icon=L.divIcon({className:'home-marker',html:'<span class="home-icon">⌂</span>',iconAnchor:[16,16]}),html='<b class="stop-title">中海闻华里</b><br>你提到的“中海文化里”，按项目正式名称标注。<br>腾龙路与大洋西街交汇处<br><a target="_blank" rel="noopener" href="'+link('home')+'">在高德搜索核对</a>',marker=L.marker(pos('home'),{icon,zIndexOffset:900}).addTo(overlay);registerNote('special:home',marker,html,'中海闻华里','重点居住点 · 腾龙路与大洋西街交汇处',[0,-16])}
+function searchPos(p){const c=[Number(p.lat),Number(p.lon)];if(osm)return c;const d=delta(c[0],c[1]);return[c[0]+d[0],c[1]+d[1]]}
+function searchTitle(p){return (p.name||p.display_name||'搜索结果').split(',')[0]}
+function addSearch(){if(!searchSelection||!specialVisibility.search){searchMarker=null;return}const p=searchSelection,title=searchTitle(p),icon=L.divIcon({className:'search-map-pin',html:'<span class="pin"><span>●</span></span><span class="label">'+safe(title)+'</span>',iconAnchor:[18,39]});searchMarker=L.marker(searchPos(p),{icon,zIndexOffset:1200}).addTo(overlay);registerNote('special:search',searchMarker,'<b class="stop-title">'+safe(title)+'</b><br>'+safe(p.display_name)+'<br><small>搜索位置来自 OpenStreetMap，请结合高德核对。</small><br><a target="_blank" rel="noopener" href="'+amapLink(title)+'">在高德搜索核对</a>',safe(title),'搜索位置 · '+safe(p.display_name),[0,-38])}
+function showSearchPlace(p){searchSelection=p;specialVisibility.search=true;draw();map.setView(searchPos(p),15);document.getElementById('placeResults').classList.remove('show');document.getElementById('placeSearchStatus').classList.remove('show');if(openNote!=='special:search')toggleNote('special:search')}
+function searchFallback(query,message){const status=document.getElementById('placeSearchStatus');status.innerHTML=safe(message)+'<a class="place-fallback" target="_blank" rel="noopener" href="'+amapLink(query)+'">去高德搜索并核对 ↗</a>';status.classList.add('show')}
+async function searchPlace(){const input=document.getElementById('placeQuery'),button=document.getElementById('placeSearchBtn'),results=document.getElementById('placeResults'),status=document.getElementById('placeSearchStatus'),query=input.value.trim();if(!query){input.focus();return}button.disabled=true;button.textContent='搜索中';results.classList.remove('show');status.textContent='正在深圳范围内查找…';status.classList.add('show');try{const q=query.includes('深圳')?query:query+'，深圳',url='https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=6&dedupe=1&countrycodes=cn&bounded=1&viewbox=113.7,22.9,114.7,22.4&accept-language=zh-CN&q='+encodeURIComponent(q),response=await fetch(url,{headers:{Accept:'application/json'}});if(!response.ok)throw new Error('HTTP '+response.status);const data=(await response.json()).filter(p=>Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon)));if(!data.length){results.innerHTML='';results.classList.remove('show');searchFallback(query,'地图内暂未找到“'+query+'”。');return}results.innerHTML=data.map((p,i)=>'<button data-place="'+i+'"><b>'+safe((p.name||p.display_name).split(',')[0])+'</b><span>'+safe(p.display_name)+'</span></button>').join('');results.classList.add('show');status.classList.remove('show');results.querySelectorAll('[data-place]').forEach(el=>el.onclick=()=>showSearchPlace(data[+el.dataset.place]))}catch(e){results.innerHTML='';results.classList.remove('show');searchFallback(query,'地名服务暂时不可用。')}finally{button.disabled=false;button.textContent='搜索'}}
+function draw(){overlay.clearLayers();notes.clear();const dir=document.getElementById('direction').value;routes.forEach((r,i)=>{if(!selected[i])return;const ids=r[dir];let chain=[];const flush=()=>{if(chain.length>1)L.polyline(chain,{color:r.color,weight:3.5,dashArray:'7 7',opacity:.95,interactive:false}).addTo(overlay);chain=[]};ids.forEach((k,j)=>{if(!coords[k]){flush();return}chain.push(pos(k));if(k!=='maris'){const timing=dir==='out'?'<span class="stop-time">早班到站 '+r.times[j]+'</span>':'<span class="stop-time">公司 17:45 发车</span><small>沿途到站时间未提供</small>';makeMarker(k,r.color,'<span class="stop-route">'+r.name+' · 第 '+(j+1)+' 站</span>'+timing,false,'stop:'+i+':'+k)}});flush()});if(showMetro)addMetro();if(specialVisibility.home)addHome();if(specialVisibility.maris)makeMarker('maris','#142c40','全部班车线路终点',true);if(specialVisibility.byte)makeMarker('byte','#142c40','深圳湾创新科技中心 T2栋 · 科苑南路 3156 号',true);addSearch();renderPanels();
+ if(openNote){const n=notes.get(openNote);if(n&&activePopup)activePopup.setLatLng(n.marker.getLatLng());else closeNote()}}
+function renderPanels(){const dir=document.getElementById('direction').value,specials=[['maris','●','玛丝菲尔大厦','班车公司终点'],['byte','●','深圳湾创新科技中心','字节办公点 · T2 栋'],['home','⌂','中海闻华里','重点居住点']];if(searchSelection)specials.push(['search','⌕',safe(searchTitle(searchSelection)),'搜索位置']);
+ document.getElementById('specialList').innerHTML=specials.map(x=>'<div class="special-card"><div class="card-row"><input type="checkbox" aria-label="显示'+x[2]+'" data-special="'+x[0]+'" '+(specialVisibility[x[0]]?'checked':'')+'><button class="note-link" data-note="special:'+x[0]+'" '+(specialVisibility[x[0]]?'':'disabled')+'><span class="special-symbol">'+x[1]+'</span><span>'+x[2]+'<small>'+x[3]+'</small></span><span class="note-state"></span></button></div></div>').join('');
+ document.getElementById('routes').innerHTML=routes.map((r,i)=>{const stops=r[dir];return '<div class="line-card route-card'+(selected[i]?'':' off')+'"><div class="card-row"><input type="checkbox" aria-label="显示'+r.name+'" data-route="'+i+'" '+(selected[i]?'checked':'')+'><span class="line-dot" style="background:'+r.color+'"></span><b>'+r.name+'</b><small class="route-meta">'+(stops.length-1)+' 站 · '+(dir==='out'?r.times[0]+' 首站发车':'17:45 公司发车')+'</small></div><details><summary>站点与时刻</summary><ol>'+stops.map((k,j)=>{const key='stop:'+i+':'+k,can=selected[i]&&coords[k]&&k!=='maris';return '<li>'+(can?'<button class="stop-link" data-note="'+key+'">':'<span>')+(dir==='out'?'<b>'+r.times[j]+'</b> ':'')+points[k][0]+(!coords[k]?' <b class="status">待定位</b>':'')+(can?'</button>':'</span>')+'</li>'}).join('')+'</ol><small>PDF 行驶道路：'+r.road+'</small></details></div>'}).join('');
+ document.getElementById('metroLines').innerHTML=metroLines.map((line,i)=>'<div class="line-card'+(selectedMetro[i]?'':' off')+'"><div class="card-row"><input type="checkbox" aria-label="显示'+line.name+'" data-metro-line="'+i+'" '+(selectedMetro[i]?'checked':'')+'><span class="line-dot" style="background:'+line.color+'"></span><b>'+line.name+'</b><small class="route-meta">'+(line.clipped?'本片区 ':'')+line.stations.length+' 站</small></div><details><summary>'+line.stations[0][0]+' — '+line.stations[line.stations.length-1][0]+'</summary><p class="station-chips">'+line.stations.map(s=>selectedMetro[i]?'<button class="stop-link" data-note="metro:'+s[0]+'">'+s[0]+'</button>':'<span>'+s[0]+'</span>').join('')+'</p>'+(line.approx?'<small>13 号线一期（深圳湾口岸—上屋）站位为约略参考；北延段（上屋—李松蓢）未画入。</small>':'')+'</details></div>').join('');
+ document.querySelectorAll('[data-special]').forEach(x=>x.onchange=()=>{specialVisibility[x.dataset.special]=x.checked;draw()});document.querySelectorAll('[data-route]').forEach(x=>x.onchange=()=>{selected[+x.dataset.route]=x.checked;syncButtons();draw()});document.querySelectorAll('[data-metro-line]').forEach(x=>x.onchange=()=>{selectedMetro[+x.dataset.metroLine]=x.checked;showMetro=selectedMetro.some(Boolean);syncButtons();draw()});document.querySelectorAll('aside [data-note]').forEach(x=>x.onclick=()=>toggleNote(x.dataset.note,true));markActive()}
+function syncButtons(){const t=showMetro?'全部隐藏':'全部显示';const b=document.getElementById('metro');b.textContent=t;b.classList.toggle('active',showMetro);const q=document.getElementById('metroQuick');q.textContent=showMetro?'Ⓜ 隐藏地铁':'Ⓜ 显示地铁';q.classList.toggle('active',showMetro);const all=selected.every(Boolean),r=document.getElementById('routesToggle');r.textContent=all?'全部隐藏':'全部显示';r.classList.toggle('active',all)}
+function toggleMetro(){showMetro=!showMetro;selectedMetro.fill(showMetro);syncButtons();draw()}
+function fit(){const ids=new Set();['maris','byte','home'].forEach(k=>{if(specialVisibility[k])ids.add(k)});routes.forEach((r,i)=>{if(selected[i])r[document.getElementById('direction').value].forEach(k=>{if(coords[k])ids.add(k)})});const bounds=[...ids].map(pos);if(bounds.length<4&&showMetro)metroLines.forEach((line,i)=>{if(selectedMetro[i])line.stations.forEach(s=>bounds.push(wgsPos(s[1],s[2])))});if(bounds.length)map.fitBounds(bounds,{padding:[45,45]})}
+document.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===button));document.querySelectorAll('[data-panel]').forEach(x=>x.classList.toggle('active',x.dataset.panel===button.dataset.tab))});document.getElementById('fit').onclick=fit;document.getElementById('labels').onclick=()=>{showLabels=!showLabels;document.getElementById('labels').textContent=showLabels?'隐藏站名':'显示站名';draw()};document.getElementById('metro').onclick=toggleMetro;document.getElementById('metroQuick').onclick=toggleMetro;document.getElementById('routesToggle').onclick=()=>{selected.fill(!selected.every(Boolean));syncButtons();draw()};document.getElementById('placeSearchBtn').onclick=searchPlace;document.getElementById('placeQuery').onkeydown=e=>{if(e.key==='Enter')searchPlace()};document.getElementById('direction').onchange=draw;document.getElementById('edit').onchange=e=>{editing=e.target.checked;draw()};map.on('baselayerchange',e=>{osm=e.name==='OpenStreetMap';draw();fit()});document.getElementById('export').onclick=()=>{const blob=new Blob([JSON.stringify({coordinateSystem:'GCJ-02',points:Object.entries(points).map(([id,p])=>({id,name:p[0],coordinate:coords[id]||null})),routes,metro:{coordinateSystem:'WGS84',lines:metroLines}},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='shenzhen-shuttle-coordinates.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+syncButtons();draw();fit();osmlayer.on('tileerror',()=>document.getElementById('detail').textContent='街道底图加载失败，请检查网络连接；线路与站点清单仍可使用。');
+}
+
+const resources=['https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js','https://unpkg.com/leaflet@1.9.4/dist/leaflet.js','https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'];
+function loadMapLibrary(i){if(i>=resources.length){document.getElementById('detail').textContent='联网地图加载失败。离线图和班车清单仍可使用。';return}let script=document.createElement('script');script.src=resources[i];let done=false;const timer=setTimeout(()=>{if(!done){done=true;script.remove();loadMapLibrary(i+1)}},5000);script.onload=()=>{if(done)return;done=true;clearTimeout(timer);try{startMap()}catch(e){document.getElementById('map').textContent='地图初始化失败：'+e.message}};script.onerror=()=>{if(!done){done=true;clearTimeout(timer);loadMapLibrary(i+1)}};document.head.appendChild(script)}
+</script>
+<script>
+(()=>{const points=window.SZ_POINTS,routes=window.SZ_ROUTES,metroLines=window.SZ_METRO,metroStations=[...new Map(metroLines.flatMap(l=>l.stations.map(s=>[s[0],[s[0],s[1],s[2],metroLines.filter(x=>x.stations.some(t=>t[0]===s[0])).map(x=>x.name).join('/')]]))).values()];
+const panel=document.getElementById('routes'),host=document.getElementById('map');let labels=false,metros=true;const selected=routes.map(()=>true);
+function draw(){
+const dir=document.getElementById('direction').value;
+document.getElementById('specialList').innerHTML='<div class="special-card"><label><input type="checkbox" checked disabled><span class="special-symbol">●</span>玛丝菲尔大厦</label><small>班车公司终点</small></div><div class="special-card"><label><input type="checkbox" checked disabled><span class="special-symbol">●</span>深圳湾创新科技中心</label><small>字节办公点 · T2 栋</small></div><div class="special-card"><label><input type="checkbox" checked disabled><span class="special-symbol">⌂</span>中海闻华里</label><small>重点居住点</small></div>';
+document.getElementById('metroLines').innerHTML=metroLines.map(line=>'<div class="line-card"><div class="card-row"><input type="checkbox" '+(metros?'checked':'')+' disabled><span class="line-dot" style="background:'+line.color+'"></span><b>'+line.name+'</b></div><small>'+line.stations.map(s=>s[0]).join(' · ')+'</small></div>').join('');
+panel.innerHTML=routes.map((r,i)=>'<details open><summary style="color:'+r.color+'">'+r.name+'</summary><label><input data-i="'+i+'" type="checkbox" '+(selected[i]?'checked':'')+'>显示线路</label><ol>'+r[dir].map((k,j)=>'<li>'+(dir==='out'?r.times[j]+' ':'')+points[k][0]+(points[k][1]===null?'（待定位）':'')+'</li>').join('')+'</ol><small>'+r.road+'</small></details>').join('');
+panel.querySelectorAll('input').forEach(e=>e.onchange=()=>{selected[+e.dataset.i]=e.checked;draw()});
+const xyRaw=(lat,lng)=>[60+(lng-113.85)*4000,680-(lat-22.50)*2800],xy=k=>xyRaw(points[k][1],points[k][2]);
+let s='<svg viewBox="0 0 1000 740" style="width:100%;height:90%;background:#eef4f8" xmlns="http://www.w3.org/2000/svg"><text x="30" y="30" font-size="18">离线地理示意图 · 北 ↑ · 虚线不代表实际道路</text>';
+routes.forEach((r,i)=>{if(!selected[i])return;let prev=null;r[dir].forEach((k,j)=>{if(points[k][1]===null){prev=null;return}const [x,y]=xy(k);if(prev)s+='<line x1="'+prev[0]+'" y1="'+prev[1]+'" x2="'+x+'" y2="'+y+'" stroke="'+r.color+'" stroke-width="3" stroke-dasharray="7 6"/>';prev=[x,y];s+='<circle data-off-point="'+k+'" data-ri="'+i+'" data-j="'+j+'" cx="'+x+'" cy="'+y+'" r="7" fill="white" stroke="'+r.color+'" stroke-width="3" style="cursor:pointer"><title>'+points[k][0]+' · '+r.name+' · '+(dir==='out'?r.times[j]:'17:45 从公司发车')+'</title></circle>';if(labels)s+='<text x="'+(x+10)+'" y="'+(y-10)+'" font-size="12">'+points[k][0]+'</text>';});});
+if(metros)metroStations.forEach(m=>{const[x,y]=xyRaw(m[1],m[2]);s+='<g><title>'+m[0]+' · '+m[3]+'</title><circle cx="'+x+'" cy="'+y+'" r="6" fill="#2575d8" stroke="white" stroke-width="2"/><text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" fill="white" font-size="0"></text></g>'});
+{const[x,y]=xy('home');s+='<g><rect x="'+(x-14)+'" y="'+(y-14)+'" width="28" height="28" rx="8" fill="#f0b43c" stroke="white" stroke-width="2"/><text x="'+x+'" y="'+(y+5)+'" text-anchor="middle" font-size="17">⌂</text><text x="'+(x+18)+'" y="'+(y+4)+'" font-size="13" font-weight="bold" fill="#754f13">中海闻华里</text></g>'}
+['maris','byte'].forEach(k=>{let[x,y]=xy(k),title=k==='maris'?'玛丝菲尔大厦':'深圳湾创新科技中心',sub=k==='maris'?'班车公司终点':'字节办公点 · T2 栋',fill=k==='maris'?'#112c32':'#ef6a3a';s+='<g transform="translate('+(x-16)+' '+(y-42)+')"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26s16-14 16-26C32 7.2 24.8 0 16 0Z" fill="'+fill+'" stroke="white" stroke-width="2"/><circle cx="16" cy="16" r="5" fill="white"/></g><g transform="translate('+(x+23)+' '+(y-39)+')"><rect width="205" height="43" rx="9" fill="#112c32" stroke="white" stroke-width="2"/><text x="11" y="18" fill="white" font-size="13" font-weight="bold">'+title+'</text><text x="11" y="34" fill="#bcd2cd" font-size="10">'+sub+'</text></g>'});
+host.innerHTML=s+'</svg>';host.querySelectorAll('[data-off-point]').forEach(el=>el.onclick=()=>{const r=routes[+el.dataset.ri],k=el.dataset.offPoint,j=+el.dataset.j,time=dir==='out'?'早班到站 '+r.times[j]:'公司 17:45 发车（沿途时间未提供）';document.getElementById('detail').innerHTML='<b>'+points[k][0]+'</b><br>'+r.name+' · '+time});document.getElementById('detail').textContent='离线模式：点击任意小站点查看名称与时间；精确上车位置仍需核实。';
+}
+document.getElementById('direction').onchange=draw;
+document.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===button));document.querySelectorAll('[data-panel]').forEach(x=>x.classList.toggle('active',x.dataset.panel===button.dataset.tab))});
+document.getElementById('labels').onclick=()=>{labels=!labels;draw()};
+document.getElementById('metro').onclick=document.getElementById('metroQuick').onclick=()=>{metros=!metros;document.getElementById('metro').textContent=metros?'全部隐藏':'全部显示';document.getElementById('metroQuick').textContent=metros?'Ⓜ 隐藏地铁':'Ⓜ 显示地铁';draw()};
+document.getElementById('routesToggle').onclick=()=>{selected.fill(!selected.every(Boolean));draw()};
+document.getElementById('fit').onclick=()=>{selected.fill(true);draw()};
+document.getElementById('edit').disabled=true;
+document.getElementById('export').onclick=()=>{let a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify({points,routes},null,2)],{type:'application/json'}));a.href=u;a.download='shenzhen-shuttle-data.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+document.getElementById('online').onclick=()=>{document.getElementById('detail').textContent='正在加载街道图，失败时请点击恢复离线图。';loadMapLibrary(0)};
+document.getElementById('offline').onclick=()=>location.reload();
+document.getElementById('placeSearchBtn').onclick=()=>{document.getElementById('placeSearchStatus').textContent='正在加载街道地图，加载完成后请再次搜索。';document.getElementById('placeSearchStatus').classList.add('show');loadMapLibrary(0)};
+document.getElementById('placeQuery').onkeydown=e=>{if(e.key==='Enter')document.getElementById('placeSearchBtn').click()};
+draw();loadMapLibrary(0);
+})();
+</script></body></html>
