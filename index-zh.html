@@ -24,8 +24,8 @@
                 <li><a href="#welcome">首页</a></li>
                 <li><a href="#internships">实习</a></li>
                 <li><a href="#projects">项目</a></li>
-                <li><a href="#games">游戏</a></li>
                 <li><a href="#sharing">分享</a></li>
+                <li><a href="#games">游戏</a></li>
                 <li><a href="#growth">成长</a></li>
                 <li><a href="#contact">联系</a></li>
                 <li class="language-switcher">
@@ -240,49 +240,6 @@
             </div>
         </section>
 
-        <section id="games" class="games-section">
-            <div class="container">
-                <div class="section-heading">
-                    <p class="eyebrow">游戏</p>
-                    <h2>可以直接玩的小项目</h2>
-                    <p>我业余做的网页游戏，全部在浏览器本地运行，对手都是 AI，无需安装即可开玩。</p>
-                </div>
-                <div class="games-grid">
-                    <a class="game-card" href="https://zixunhuangupenn.github.io/Hold-emGame/" target="_blank" rel="noopener">
-                        <div class="game-art game-art-holdem" aria-hidden="true">
-                            <span class="play-card">A<em>&spades;</em></span>
-                            <span class="play-card play-card-red">K<em>&hearts;</em></span>
-                        </div>
-                        <div class="game-body">
-                            <div class="sharing-meta">
-                                <span>棋牌游戏</span>
-                                <span>浏览器内运行 Python</span>
-                            </div>
-                            <h3>德州扑克 Hold'em</h3>
-                            <p>电视转播风格的无限注德州扑克牌桌，可以观看 bot 对战，也可以亲自入座 6 人或 8 人桌。</p>
-                            <div class="sharing-topics"><span>Pyodide 引擎</span><span>Bot 对手</span><span>6 / 8 人桌</span></div>
-                            <span class="game-cta">开始游戏 <span aria-hidden="true">&rarr;</span></span>
-                        </div>
-                    </a>
-                    <a class="game-card" href="https://zixunhuangupenn.github.io/Arena-Wreckers/" target="_blank" rel="noopener">
-                        <div class="game-art game-art-arena">
-                            <img src="assets/games/arena-wreckers-vehicle.png" alt="Arena Wreckers 战车" loading="lazy">
-                        </div>
-                        <div class="game-body">
-                            <div class="sharing-meta">
-                                <span>载具对战</span>
-                                <span>Three.js · TypeScript</span>
-                            </div>
-                            <h3>Arena Wreckers</h3>
-                            <p>单人载具对战：选择战车、升级装备，在生存、死斗、夺旗等模式中与 AI 交战。</p>
-                            <div class="sharing-topics"><span>6 种模式</span><span>3 张地图</span><span>触屏 / 键盘</span></div>
-                            <span class="game-cta">开始游戏 <span aria-hidden="true">&rarr;</span></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
         <section id="sharing" class="sharing-section">
             <div class="container sharing-grid">
                 <div class="sharing-copy">
@@ -321,6 +278,58 @@
                             alt="子迅讲解卷积神经网络的参数量计算" loading="lazy">
                         <figcaption>逐步讲解卷积层参数量的计算方法。</figcaption>
                     </figure>
+                </div>
+            </div>
+        </section>
+
+        <section id="games" class="games-section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">游戏</p>
+                    <h2>可以直接玩的小项目</h2>
+                    <p>我业余做的网页游戏，全部在浏览器本地运行，对手都是 AI，无需安装即可开玩。</p>
+                </div>
+                <div class="games-grid">
+                    <article class="game-card">
+                        <div class="game-cover">
+                            <img src="assets/games/holdem-table.webp" alt="德州扑克牌桌，八名 bot 玩家" loading="lazy">
+                        </div>
+                        <div class="game-body">
+                            <div class="card-topline">
+                                <span>棋牌游戏</span>
+                                <span>浏览器内运行 Python</span>
+                            </div>
+                            <h3>德州扑克 Hold'em</h3>
+                            <p class="game-role">无限注德州扑克牌桌</p>
+                            <ul class="internship-highlights">
+                            <li><strong>转播风格牌桌：</strong>观看 6 人或 8 人桌的 bot 对战，也可以亲自入座。</li>
+                            <li><strong>真实引擎：</strong>通过 Pyodide 在浏览器里运行同一套 Python 扑克引擎。</li>
+                            <li><strong>多种 Bot 对手：</strong>跟注站、疯子、紧弱、TAG、推弃和蒙特卡洛等风格。</li>
+                            </ul>
+                            <a class="btn btn-primary game-play" href="https://zixunhuangupenn.github.io/Hold-emGame/" target="_blank" rel="noopener">开始游戏
+                                <span aria-hidden="true">&rarr;</span></a>
+                        </div>
+                    </article>
+                    <article class="game-card">
+                        <div class="game-cover game-cover-arena">
+                            <img src="assets/games/arena-wreckers-vehicle.png" alt="Arena Wreckers 战车" loading="lazy">
+                        </div>
+                        <div class="game-body">
+                            <div class="card-topline">
+                                <span>载具对战</span>
+                                <span>Three.js · TypeScript</span>
+                            </div>
+                            <h3>Arena Wreckers</h3>
+                            <p class="game-role">单人竞技场载具对战</p>
+                            <ul class="internship-highlights">
+                            <li><strong>战车与升级：</strong>每辆战车有独特武器和技能，可升级装甲、引擎和火力。</li>
+                            <li><strong>六种模式：</strong>波次生存、团队死斗、占点、歼灭、夺旗和能量争夺。</li>
+                            <li><strong>触屏或键鼠：</strong>移动端双摇杆操作，桌面端 WASD 加鼠标。</li>
+                            </ul>
+                            <a class="btn btn-primary game-play" href="https://zixunhuangupenn.github.io/Arena-Wreckers/" target="_blank" rel="noopener">开始游戏
+                                <span aria-hidden="true">&rarr;</span></a>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
