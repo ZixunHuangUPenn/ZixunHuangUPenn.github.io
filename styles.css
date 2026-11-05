@@ -255,6 +255,7 @@ section {
     max-height: 390px;
     aspect-ratio: 4 / 5;
     object-fit: cover;
+    object-position: center 40%;
     border-radius: 10px;
 }
 
