@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akita — Agent Generative Insurance</title>
+<meta name="description" content="Akita is an AI-native insurance company for exporters, powered by an agent loop that verifies damage claims end to end.">
+<meta property="og:title" content="Akita — Agent Generative Insurance">
+<meta property="og:description" content="AI-native insurance for exporters. Agents verify damage claims; Akita covers what gets through.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M14 50 L22 14 L32 28 L42 14 L50 50 Z' fill='%23f2a43a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1220;
+    --bg-2: #111a2e;
+    --card: #15203a;
+    --line: #24314f;
+    --text: #e8edf7;
+    --muted: #93a0bb;
+    --accent: #f2a43a;
+    --accent-2: #ffcf8a;
+    --good: #4cc38a;
+    --warn: #f2c94c;
+    --bad: #eb5757;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 6vw;
+    position: relative;
+    border-bottom: 1px solid #ffffff08;
+  }
+  .slide:nth-child(even) { background: var(--bg-2); }
+  .inner { width: 100%; max-width: 1120px; }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(48px, 8vw, 104px); font-weight: 800; letter-spacing: -.035em; line-height: 1; }
+  h2 { font-size: clamp(30px, 4.2vw, 52px); font-weight: 750; letter-spacing: -.025em; line-height: 1.1; margin-bottom: 22px; }
+  h3 { font-size: 19px; font-weight: 650; margin-bottom: 8px; }
+  p.lead { font-size: clamp(17px, 1.7vw, 21px); color: var(--muted); max-width: 820px; }
+  .hl { color: var(--accent); }
+  .grid { display: grid; gap: 18px; margin-top: 36px; }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .card p { color: var(--muted); font-size: 15.5px; }
+  .card .num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .stat .big { font-size: clamp(40px, 5vw, 60px); font-weight: 800; letter-spacing: -.03em; color: var(--accent); line-height: 1; margin-bottom: 10px; }
+
+  /* Title slide */
+  .hero { background: radial-gradient(1000px 600px at 80% 20%, #f2a43a22, transparent 60%), radial-gradient(800px 500px at 10% 90%, #3a6df222, transparent 60%), var(--bg) !important; }
+  .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 40px; }
+  .brand svg { width: 44px; height: 44px; }
+  .brand span { font-weight: 700; font-size: 20px; letter-spacing: .02em; }
+  .tagline { font-size: clamp(20px, 2.4vw, 30px); color: var(--muted); margin-top: 28px; max-width: 820px; font-weight: 500; }
+  .tagline b { color: var(--text); font-weight: 650; }
+  .meta { margin-top: 44px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .pill { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 14px; color: var(--muted); background: #ffffff06; }
+
+  /* Problem chain */
+  .chain { display: flex; align-items: stretch; gap: 0; margin-top: 40px; flex-wrap: wrap; }
+  .chain .step { flex: 1 1 180px; background: var(--card); border: 1px solid var(--line); padding: 22px; position: relative; }
+  .chain .step:first-child { border-radius: 16px 0 0 16px; }
+  .chain .step:last-child { border-radius: 0 16px 16px 0; border-color: #eb575766; background: #2a1620; }
+  .chain .step + .step { border-left: none; }
+  .chain .step small { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 12px; display: block; margin-bottom: 8px; }
+  .chain .step p { color: var(--muted); font-size: 15px; }
+  .callout { margin-top: 28px; border-left: 3px solid var(--accent); padding: 6px 0 6px 18px; font-size: 18px; max-width: 860px; }
+
+  /* Agent loop */
+  .loop-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; margin-top: 24px; }
+  .loop svg { width: 100%; height: auto; }
+  .decisions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .tag { font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 8px; }
+  .tag.ok { background: #4cc38a22; color: var(--good); }
+  .tag.esc { background: #f2c94c22; color: var(--warn); }
+  .tag.no { background: #eb575722; color: var(--bad); }
+  ol.flow { list-style: none; counter-reset: f; }
+  ol.flow li { counter-increment: f; padding: 14px 0 14px 52px; position: relative; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 15.5px; }
+  ol.flow li b { color: var(--text); display: block; font-size: 17px; margin-bottom: 2px; }
+  ol.flow li::before { content: counter(f, decimal-leading-zero); position: absolute; left: 0; top: 15px; font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 14px; }
+
+  /* AGI */
+  .agi { text-align: center; }
+  .agi .acro { display: flex; justify-content: center; gap: clamp(16px, 4vw, 56px); margin: 36px 0 30px; flex-wrap: wrap; }
+  .agi .acro div { font-size: clamp(22px, 3vw, 34px); font-weight: 700; }
+  .agi .acro div span { color: var(--accent); font-size: 1.6em; font-weight: 800; }
+  .agi p.lead { margin: 0 auto; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 40px; text-align: left; }
+  .vs .card.old { opacity: .75; }
+  .vs ul { list-style: none; margin-top: 10px; }
+  .vs li { padding: 6px 0; color: var(--muted); font-size: 15.5px; }
+  .vs .new li::before { content: "→ "; color: var(--accent); }
+  .vs .old li::before { content: "· "; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 15px; }
+  th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+  td:first-child { font-weight: 600; }
+  td { color: var(--muted); }
+  td.y { color: var(--good); font-weight: 600; }
+  td.n { color: #5d6a86; }
+  tr.us td { color: var(--text); background: #f2a43a12; }
+  tr.us td:first-child { color: var(--accent); }
+
+  /* Revenue */
+  .rev { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 30px; }
+  .phases { display: flex; flex-direction: column; gap: 14px; }
+  .phase { display: flex; gap: 16px; align-items: flex-start; }
+  .phase .dot { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; font-weight: 700; color: var(--accent); flex-shrink: 0; font-size: 14px; }
+  .phase p { color: var(--muted); font-size: 15.5px; }
+  .math { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 30px; }
+  .math .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--line); font-size: 17px; }
+  .math .row:last-child { border: none; font-size: 22px; font-weight: 700; color: var(--accent); }
+  .math .row span:first-child { color: var(--muted); }
+
+  /* Team */
+  .person { display: flex; flex-direction: column; gap: 12px; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #c46d16); display: grid; place-items: center; font-weight: 800; font-size: 26px; color: #1a1205; }
+  .role { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 13px; }
+  .person ul { list-style: none; }
+  .person li { color: var(--muted); padding: 5px 0 5px 18px; position: relative; font-size: 15.5px; }
+  .person li::before { content: ""; position: absolute; left: 0; top: 14px; width: 7px; height: 2px; background: var(--accent); }
+
+  /* Milestones */
+  .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; position: relative; }
+  .timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 17px; height: 2px; background: linear-gradient(90deg, var(--accent), #f2a43a22); }
+  .ms .pin { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-2); border: 2px solid var(--accent); position: relative; display: grid; place-items: center; font-weight: 700; color: var(--accent); margin-bottom: 20px; font-size: 14px; }
+  .ms h3 { font-size: 22px; }
+  .ms p { color: var(--muted); font-size: 15.5px; }
+
+  .closing { text-align: center; }
+  .closing h2 { font-size: clamp(36px, 5.5vw, 68px); }
+  .closing p.lead { margin: 0 auto; }
+
+  /* Nav */
+  .dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 10; }
+  .dots a { width: 9px; height: 9px; border-radius: 50%; background: #ffffff30; transition: all .2s; }
+  .dots a.active { background: var(--accent); transform: scale(1.35); }
+  .counter { position: fixed; left: 24px; bottom: 20px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); z-index: 10; }
+  .topbar { position: fixed; top: 0; left: 0; right: 0; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 10; background: linear-gradient(var(--bg), transparent); pointer-events: none; }
+  .topbar * { pointer-events: auto; }
+  .topbar .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--text); text-decoration: none; font-size: 15px; }
+  .topbar .logo svg { width: 22px; height: 22px; }
+  .hint { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .in .reveal { opacity: 1; transform: none; }
+  .in .reveal:nth-child(2) { transition-delay: .08s; }
+  .in .reveal:nth-child(3) { transition-delay: .16s; }
+  .in .reveal:nth-child(4) { transition-delay: .24s; }
+  .in .reveal:nth-child(5) { transition-delay: .32s; }
+
+  @media (max-width: 860px) {
+    html { scroll-snap-type: none; }
+    .slide { padding: 80px 22px 56px; min-height: auto; }
+    .slide.hero { min-height: 100vh; }
+    .g2, .g3, .g4, .loop-wrap, .rev, .vs, .timeline { grid-template-columns: 1fr; }
+    .timeline::before { display: none; }
+    .chain .step { border-radius: 12px !important; border-left: 1px solid var(--line) !important; flex-basis: 100%; margin-bottom: 8px; }
+    .dots, .hint { display: none; }
+    table { font-size: 13px; }
+    th, td { padding: 10px 6px; }
+  }
+  @media print {
+    html { scroll-snap-type: none; }
+    .slide { page-break-after: always; min-height: 100vh; }
+    .dots, .counter, .topbar { display: none; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="logo" href="#s1">
+    <svg viewBox="0 0 64 64"><path d="M10 54 L20 10 L32 30 L44 10 L54 54 Z" fill="#f2a43a"/></svg>
+    Akita
+  </a>
+  <span class="hint">↑ ↓ / space to navigate</span>
+</div>
+
+<main id="deck">
+
+  <!-- 1. Title -->
+  <section class="slide hero" id="s1">
+    <div class="inner">
+      <div class="brand reveal">
+        <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#15203a"/><path d="M14 50 L22 14 L32 28 L42 14 L50 50 Z" fill="#f2a43a"/></svg>
+        <span>AKITA</span>
+      </div>
+      <h1 class="reveal">Agent Generative<br><span class="hl">Insurance.</span></h1>
+      <p class="tagline reveal">An <b>AI-native insurance company</b> for exporters — agents verify every damage claim, and Akita covers the losses that still get through.</p>
+      <div class="meta reveal">
+        <span class="pill">Founded 2026</span>
+        <span class="pill">New York</span>
+        <span class="pill">AI Agents × Insurance</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Problem -->
+  <section class="slide" id="s2">
+    <div class="inner">
+      <div class="kicker reveal">01 — The problem</div>
+      <h2 class="reveal">Exporters refund overseas buyers<br>based on photos they <span class="hl">cannot verify.</span></h2>
+      <div class="chain reveal">
+        <div class="step"><small>STEP 1</small><h3>Buyer sends a photo</h3><p>"Arrived damaged." Thousands of miles away, no inspector on site.</p></div>
+        <div class="step"><small>STEP 2</small><h3>GenAI makes it trivial</h3><p>Realistic fake damage can now be generated in seconds.</p></div>
+        <div class="step"><small>STEP 3</small><h3>Exporter pays anyway</h3><p>Refusing risks the relationship, so the refund goes out.</p></div>
+        <div class="step"><small>THE COST</small><h3>Refund + freight</h3><p>Each false claim costs the refund plus international shipping of a replacement.</p></div>
+      </div>
+      <p class="callout reveal">Fraud tools check <b>payments</b>, not <b>claims</b>. Detection can flag fake photos — but exporters still absorb every loss that gets through. <span class="hl">They need insurance to cover what detection misses.</span></p>
+    </div>
+  </section>
+
+  <!-- 3. Solution: Agent loop -->
+  <section class="slide" id="s3">
+    <div class="inner">
+      <div class="kicker reveal">02 — What we're building</div>
+      <h2 class="reveal">One agent loop. Every claim,<br>end to end.</h2>
+      <div class="loop-wrap">
+        <div class="loop reveal">
+          <svg viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Akita agent loop: evidence, diagnose, decide, underwrite, learn">
+            <defs>
+              <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f2a43a"/></marker>
+            </defs>
+            <circle cx="240" cy="210" r="150" stroke="#24314f" stroke-width="2" stroke-dasharray="4 6"/>
+            <path d="M 285 67 A 150 150 0 0 1 383 165" stroke="#f2a43a" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M 380 265 A 150 150 0 0 1 305 345" stroke="#f2a43a" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M 175 345 A 150 150 0 0 1 100 265" stroke="#f2a43a" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M 97 165 A 150 150 0 0 1 195 67" stroke="#f2a43a" stroke-width="2.5" marker-end="url(#ar)"/>
+            <circle cx="240" cy="210" r="62" fill="#f2a43a"/>
+            <text x="240" y="205" text-anchor="middle" font-family="Inter" font-weight="800" font-size="20" fill="#1a1205">AKITA</text>
+            <text x="240" y="228" text-anchor="middle" font-family="Inter" font-weight="600" font-size="13" fill="#1a1205">AGENT</text>
+            <g font-family="Inter" text-anchor="middle">
+              <rect x="168" y="38" width="144" height="44" rx="12" fill="#15203a" stroke="#24314f"/>
+              <text x="240" y="66" font-size="15" font-weight="650" fill="#e8edf7">Gather evidence</text>
+              <rect x="358" y="188" width="112" height="44" rx="12" fill="#15203a" stroke="#24314f"/>
+              <text x="414" y="216" font-size="15" font-weight="650" fill="#e8edf7">Diagnose</text>
+              <rect x="180" y="338" width="120" height="44" rx="12" fill="#15203a" stroke="#24314f"/>
+              <text x="240" y="366" font-size="15" font-weight="650" fill="#e8edf7">Decide &amp; log</text>
+              <rect x="10" y="188" width="112" height="44" rx="12" fill="#15203a" stroke="#24314f"/>
+              <text x="66" y="216" font-size="15" font-weight="650" fill="#e8edf7">Learn</text>
+            </g>
+          </svg>
+        </div>
+        <ol class="flow reveal">
+          <li><b>Gather evidence</b>Pulls shipping, inspection, photo and claims records automatically.</li>
+          <li><b>Diagnose</b>Runs a library of specialized diagnostic and fraud-check skills.</li>
+          <li><b>Decide &amp; log</b>Approve, escalate, or deny — every decision logged with its full reasoning chain.
+            <div class="decisions"><span class="tag ok">Approve refund</span><span class="tag esc">Escalate to human</span><span class="tag no">Deny</span></div>
+          </li>
+          <li><b>Underwrite &amp; learn</b>Losses that get through are covered by Akita. Every outcome flows back, sharpening detection, risk selection and pricing.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Vision -->
+  <section class="slide agi" id="s4">
+    <div class="inner">
+      <div class="kicker reveal">03 — Our vision</div>
+      <h2 class="reveal">AGI = <span class="hl">Agent Generative Insurance</span></h2>
+      <div class="acro reveal">
+        <div><span>A</span>gent</div>
+        <div><span>G</span>enerative</div>
+        <div><span>I</span>nsurance</div>
+      </div>
+      <p class="lead reveal">Insurance where verification, pricing, and claims operations are generated and continuously improved by agents — not run as manual workflows.</p>
+      <div class="vs reveal">
+        <div class="card old">
+          <h3>Traditional insurance</h3>
+          <ul><li>Manual claims adjusters</li><li>Annual, static pricing tables</li><li>Fraud discovered after payout</li><li>Detection and coverage sold separately</li></ul>
+        </div>
+        <div class="card new">
+          <h3 class="hl">Akita</h3>
+          <ul><li>Agents verify claims in minutes</li><li>Pricing learns from every outcome</li><li>Fraud stopped before the refund</li><li>Prevention + financial protection in one product</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Traction -->
+  <section class="slide" id="s5">
+    <div class="inner">
+      <div class="kicker reveal">04 — Traction</div>
+      <h2 class="reveal">Validated demand, real fraud caught.</h2>
+      <div class="grid g4">
+        <div class="card stat reveal"><div class="big">137</div><h3>Exporters interviewed</h3><p>Across a 30-year furniture export network.</p></div>
+        <div class="card stat reveal"><div class="big">87%</div><h3>Refunded suspected fraud</h3><p>Reported paying out damage claims they believed were fake.</p></div>
+        <div class="card stat reveal"><div class="big">5 / 64</div><h3>Claims flagged</h3><p>Our AI reviewed 64 damage claims and flagged 5 as suspected fraud — including a <b style="color:var(--text)">$2,643 sofa claim</b>.</p></div>
+        <div class="card stat reveal"><div class="big">3</div><h3>Paying customers</h3><p>Plus active discussions with insurers on underwriting our first fraud insurance product.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Market & customers -->
+  <section class="slide" id="s6">
+    <div class="inner">
+      <div class="kicker reveal">05 — Who we serve</div>
+      <h2 class="reveal">Starting where the pain is sharpest.</h2>
+      <div class="grid g3">
+        <div class="card reveal"><div class="num">BEACHHEAD</div><h3>Furniture exporters → U.S.</h3><p>High-value, bulky goods. Costly damage claims, fraudulent refunds and replacement shipments based on photos that are hard to verify.</p></div>
+        <div class="card reveal"><div class="num">BUYER</div><h3>Owners, CEOs, Ops leaders</h3><p>The people who personally absorb these losses — reached directly through our founding team's 30-year export network.</p></div>
+        <div class="card reveal"><div class="num">EXPANSION</div><h3>Every emerging fraud risk</h3><p>Other high-value export categories next, then businesses across industries facing AI-era fraud that traditional insurance leaves uncovered.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Business model -->
+  <section class="slide" id="s7">
+    <div class="inner">
+      <div class="kicker reveal">06 — Business model</div>
+      <h2 class="reveal">Premiums for protection.<br>AI that prevents the loss.</h2>
+      <div class="rev">
+        <div class="phases reveal">
+          <div class="phase"><div class="dot">1</div><div><h3>Partner-carried</h3><p>Licensed insurance partners carry the risk; Akita earns commissions and service fees for AI verification and risk management.</p></div></div>
+          <div class="phase"><div class="dot">2</div><div><h3>MGA</h3><p>Underwriting authority adds underwriting fees and performance-based compensation.</p></div></div>
+          <div class="phase"><div class="dot">3</div><div><h3>AI-native carrier</h3><p>Akita underwrites directly — the agent loop becomes our pricing and loss-ratio advantage.</p></div></div>
+        </div>
+        <div class="math reveal">
+          <div class="kicker" style="margin-bottom:8px">Illustrative scale</div>
+          <div class="row"><span>Annual written premium</span><span>$100M</span></div>
+          <div class="row"><span>Commission rate</span><span>15–20%</span></div>
+          <div class="row"><span>Annual revenue</span><span>$15–20M</span></div>
+          <p style="color:var(--muted);font-size:13px;margin-top:10px">Before expenses. Excludes underwriting fees and profit share.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Competition -->
+  <section class="slide" id="s8">
+    <div class="inner">
+      <div class="kicker reveal">07 — Landscape</div>
+      <h2 class="reveal">Others detect, ship, or dispute.<br>Akita verifies <span class="hl">and</span> covers.</h2>
+      <div class="reveal" style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Player</th><th>Focus</th><th>Verifies damage claims</th><th>Covers the loss</th><th>Built for exporters</th></tr></thead>
+        <tbody>
+          <tr><td>Signifyd, Forter</td><td>E-commerce payment fraud, returns abuse</td><td class="n">—</td><td class="n">Chargebacks only</td><td class="n">—</td></tr>
+          <tr><td>Hive</td><td>AI-generated content detection</td><td class="n">Component</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr><td>Marine cargo insurers &amp; brokers</td><td>Shipping risk coverage</td><td class="n">Manual</td><td class="y">✓</td><td class="y">✓</td></tr>
+          <tr><td>Alibaba Trade Assurance</td><td>Platform buyer protection</td><td class="n">—</td><td class="n">On-platform only</td><td class="n">Partial</td></tr>
+          <tr class="us"><td>Akita</td><td>AI claim verification + fraud insurance</td><td class="y">✓ Agent loop</td><td class="y">✓</td><td class="y">✓</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="callout reveal">Our moat: real claim outcomes continuously improve underwriting and pricing — a data loop detection-only or insurance-only players don't have.</p>
+    </div>
+  </section>
+
+  <!-- 9. GTM -->
+  <section class="slide" id="s9">
+    <div class="inner">
+      <div class="kicker reveal">08 — Go-to-market</div>
+      <h2 class="reveal">Prevention is the wedge.<br>Insurance is the business.</h2>
+      <div class="grid g3">
+        <div class="card reveal"><div class="num">NOW</div><h3>Founder network</h3><p>Cassie's family's 30-year furniture export network and the 137 sellers we've interviewed.</p></div>
+        <div class="card reveal"><div class="num">NEXT</div><h3>Agents collect the data</h3><p>AI verification prevents fraud today while building the dataset that prices our insurance tomorrow.</p></div>
+        <div class="card reveal"><div class="num">SCALE</div><h3>Channel partners</h3><p>Export associations, logistics providers and insurance brokers — our agents become both an underwriting edge and a distribution channel.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Team -->
+  <section class="slide" id="s10">
+    <div class="inner">
+      <div class="kicker reveal">09 — Team</div>
+      <h2 class="reveal">Two founders. Both sides of the problem.</h2>
+      <div class="grid g2">
+        <div class="card person reveal">
+          <div class="avatar">C</div>
+          <div><h3 style="font-size:24px">Cassie</h3><div class="role">CO-FOUNDER · INSURANCE &amp; GROWTH</div></div>
+          <ul>
+            <li>M.S. Actuarial Science, Columbia University — 4.0 GPA</li>
+            <li>President, Columbia Actuarial Society</li>
+            <li>Actuarial experience at Harford Mutual, FWD Insurance, Optimizing Foundations</li>
+            <li>Interviewed 137 sellers and secured our first 3 customers through her family's 30-year export network</li>
+          </ul>
+          <p style="color:var(--text)">Designs the insurance products, defines which risks to underwrite, brings in customers.</p>
+        </div>
+        <div class="card person reveal">
+          <div class="avatar">T</div>
+          <div><h3 style="font-size:24px">Tony</h3><div class="role">CO-FOUNDER · CTO</div></div>
+          <ul>
+            <li>Helped build Tesla's Vehicle Management System from zero to one</li>
+            <li>Contributed to TikTok Ads agent systems at ByteDance</li>
+            <li>M.S. Electrical Engineering, University of Pennsylvania</li>
+          </ul>
+          <p style="color:var(--text)">Builds the agents that verify claims at scale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Milestones -->
+  <section class="slide" id="s11">
+    <div class="inner">
+      <div class="kicker reveal">10 — What's next</div>
+      <h2 class="reveal">Three milestones to $1M ARR.</h2>
+      <div class="timeline">
+        <div class="ms reveal"><div class="pin">1</div><h3>3 → 100 exporters</h3><p>Grow paying customers while validating detection performance and measurable cost savings.</p></div>
+        <div class="ms reveal"><div class="pin">2</div><h3>First fraud insurance product</h3><p>Finalize the product and secure an underwriting partnership with a licensed insurer.</p></div>
+        <div class="ms reveal"><div class="pin">3</div><h3>$1M ARR</h3><p>Launch our first insurance pilot, combining AI-powered prevention with financial protection.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Closing -->
+  <section class="slide closing hero" id="s12">
+    <div class="inner">
+      <div class="kicker reveal">Akita</div>
+      <h2 class="reveal">Detection catches fraud.<br><span class="hl">Akita insures what it misses.</span></h2>
+      <p class="lead reveal">We're turning early traction into a venture-scale, AI-native insurance company — starting with exporters, scaling across every industry facing AI-era fraud.</p>
+      <div class="meta reveal" style="justify-content:center">
+        <span class="pill">Partners &amp; investors welcome</span>
+        <span class="pill">New York · 2026</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="dots" id="dots" aria-label="Slides"></nav>
+<div class="counter" id="counter">01 / 12</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const dots = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const pad = n => String(n).padStart(2, '0');
+  slides.forEach((s, i) => {
+    const a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dots.appendChild(a);
+  });
+  let current = 0;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        if (e.intersectionRatio > 0.5) {
+          current = slides.indexOf(e.target);
+          [...dots.children].forEach((d, i) => d.classList.toggle('active', i === current));
+          counter.textContent = pad(current + 1) + ' / ' + pad(slides.length);
+        }
+      }
+    });
+  }, { threshold: [0.15, 0.55] });
+  slides.forEach(s => io.observe(s));
+  const go = i => { i = Math.max(0, Math.min(slides.length - 1, i)); slides[i].scrollIntoView({ behavior: 'smooth' }); };
+  document.addEventListener('keydown', e => {
+    if (['ArrowDown', 'PageDown', ' ', 'ArrowRight'].includes(e.key)) { e.preventDefault(); go(current + 1); }
+    if (['ArrowUp', 'PageUp', 'ArrowLeft'].includes(e.key)) { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); go(0); }
+    if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+  });
+</script>
+</body>
+</html>
