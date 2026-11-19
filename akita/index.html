@@ -41,7 +41,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 80px 7vw;
+    padding: 64px 4.5vw;
     position: relative;
   }
   .slide:nth-child(even) { background: var(--paper-2); }
@@ -533,6 +533,25 @@
 
 <script>
   const slides = [...document.querySelectorAll('.slide')];
+  // Scale each slide's content to fill the screen on desktop
+  function fitSlides() {
+    const W = window.innerWidth, H = window.innerHeight;
+    slides.forEach(s => {
+      const el = s.querySelector('.inner');
+      if (!el) return;
+      el.style.zoom = '';
+      if (W <= 860) return;
+      const cs = getComputedStyle(s);
+      const availW = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const zw = availW / el.offsetWidth;
+      const zh = (H - 140) / el.offsetHeight;
+      el.style.zoom = Math.max(1, Math.min(zw, zh, 1.5)).toFixed(3);
+    });
+  }
+  fitSlides();
+  window.addEventListener('resize', fitSlides);
+  window.addEventListener('load', fitSlides);
+  document.fonts && document.fonts.ready.then(fitSlides);
   const page = document.getElementById('page');
   let current = 0;
   const io = new IntersectionObserver(entries => {
