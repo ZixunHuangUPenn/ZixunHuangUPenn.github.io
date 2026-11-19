@@ -204,6 +204,29 @@
   .fill.cyber { background: #a6977f; border-radius: 10px; }
   .fill.fake { background: var(--akita); }
   .bar-row .src { display: block; margin-top: 8px; font-size: 13.5px; color: var(--soft); }
+  .fakes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
+  .fakes figure { margin: 0; }
+  .fakes .photo img { aspect-ratio: 473 / 596; object-fit: cover; }
+  .fakes figcaption { font-family: 'Lora', serif; font-size: 22px; font-weight: 600; margin-top: 14px; }
+  .gap-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 64px; margin-top: 30px; align-items: start; }
+  .perils { list-style: none; border-top: 1.5px solid var(--line); }
+  .perils li { display: flex; align-items: baseline; gap: 14px; padding: 17px 0; border-bottom: 1.5px solid var(--line); }
+  .perils span { font-family: 'Lora', serif; font-size: clamp(20px, 2vw, 26px); font-weight: 600; white-space: nowrap; }
+  .perils i { flex: 1; border-bottom: 2px dotted #d6c4ad; transform: translateY(-5px); }
+  .perils em { font-style: normal; font-weight: 600; font-size: 16px; }
+  .perils em.ok { color: var(--sage); }
+  .perils li.no span, .perils li.no em { color: var(--rust); }
+  .facts { display: grid; gap: 26px; }
+  .facts b { font-family: 'Lora', serif; font-size: clamp(38px, 4vw, 52px); font-weight: 600; color: var(--akita); line-height: 1; display: block; margin-bottom: 6px; }
+  .facts p { color: var(--ink); font-size: 16.5px; }
+  .facts small { color: var(--soft); font-size: 13.5px; }
+  .steps3 { list-style: none; margin-top: 26px; border-top: 1.5px solid var(--line); }
+  .steps3 li { display: grid; grid-template-columns: 44px 1fr; padding: 18px 0; border-bottom: 1.5px solid var(--line); font-size: 19px; color: var(--ink); }
+  .steps3 span { font-family: 'Lora', serif; font-size: 24px; color: var(--akita); line-height: 1.2; }
+  .pp .cant { font-family: 'Lora', serif; font-size: 19px; color: var(--ink); padding-bottom: 14px; border-bottom: 1.5px solid var(--line); margin-bottom: 16px; }
+  .pp .cant span { color: var(--rust); }
+  .pp h3 { font-size: clamp(38px, 4vw, 52px); color: var(--akita); margin-bottom: 10px; }
+  .pp p { font-size: 16.5px; }
   /* Policy certificate */
   .policy { background: #fffdf8; border-radius: 10px; padding: 14px; box-shadow: 0 22px 46px -20px #3a2e2666; transform: rotate(-1.5deg); background-image: repeating-linear-gradient(45deg, #e9dcc8 0 2px, transparent 2px 6px); }
   .policy .in { background: #fffdf8; border: 1.5px solid #d9c6ad; border-radius: 6px; padding: 26px 30px 22px; position: relative; }
@@ -256,6 +279,8 @@
     .photo.tall img { height: auto; }
     .row87 { grid-template-columns: 1fr; gap: 8px; }
     .policy { transform: none; }
+    .fakes, .gap-grid { grid-template-columns: 1fr; gap: 30px; }
+    .perils span { white-space: normal; }
   }
   @media print {
     .slide { page-break-after: always; min-height: 100vh; }
@@ -330,79 +355,109 @@
     </div>
   </section>
 
-  <!-- 2 One prompt -->
+  <!-- 2 One prompt breaks anything -->
   <section class="slide" id="p2">
-    <div class="inner split">
-      <div>
-        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The problem</div>
-        <h2 class="fade">One prompt.<br>One photo.<br>One refund.</h2>
-        <div class="prompt fade">
-          <small>AI photo editor</small>
-          <div class="box">Crack the eyeshadow.<span class="send">↑</span></div>
-        </div>
-        <p class="lead fade" style="margin-top:28px;font-size:18px">It works on anything that ships: furniture, wine, beauty.</p>
+    <div class="inner">
+      <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The problem</div>
+      <h2 class="fade">One prompt breaks anything that ships.</h2>
+      <div class="fakes fade">
+        <figure><div class="photo"><img src="img/fake-cushion.jpg" alt="Outdoor lounge cushion with a tear added by AI, prompt: Add a tear to the cushion"></div><figcaption>Furniture</figcaption></figure>
+        <figure><div class="photo"><img src="img/fake-wine.jpg" alt="Wine bottle made to look leaking by AI, prompt: Make the bottle leak"></div><figcaption>Wine and spirits</figcaption></figure>
+        <figure><div class="photo"><img src="img/fake-eyeshadow.jpg" alt="Eyeshadow palette with cracks added by AI, prompt: Crack the eyeshadow"></div><figcaption>Beauty</figcaption></figure>
       </div>
-      <div class="photo tall fade"><img src="img/eyeshadow.jpg" alt="Eyeshadow palette with a crack added by AI, circled"><span class="cap">The circled crack was added by AI</span></div>
     </div>
   </section>
 
   <!-- 3 Acts of God -->
   <section class="slide" id="p3">
-    <div class="inner split">
-      <div class="photo tall fade"><img src="img/wine.jpg" alt="Wine bottle with a crack and leak added by AI, circled"><span class="cap">The circled crack was added by AI</span></div>
-      <div>
-        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The gap</div>
-        <h2 class="fade">Acts of God are covered. Acts of AI are not.</h2>
-        <ul class="covered fade">
-          <li><span class="ic">✓</span>Fire</li>
-          <li><span class="ic">✓</span>Theft</li>
-          <li><span class="ic">✓</span>Storm</li>
-          <li class="no"><span class="ic">✕</span>A damage photo faked with AI</li>
+    <div class="inner">
+      <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The gap</div>
+      <h2 class="fade">Acts of God are covered.<br>Acts of AI are not.</h2>
+      <div class="gap-grid fade">
+        <ul class="perils">
+          <li><span>Fire</span><i></i><em class="ok">Covered</em></li>
+          <li><span>Theft</span><i></i><em class="ok">Covered</em></li>
+          <li><span>Storm</span><i></i><em class="ok">Covered</em></li>
+          <li><span>Damage in transit</span><i></i><em class="ok">Covered</em></li>
+          <li class="no"><span>A refund claim faked with AI</span><i></i><em>Not covered</em></li>
         </ul>
+        <div class="facts">
+          <div><b>87%</b><p>of the 137 sellers we interviewed refund claims they suspect are fake</p><small>Our interviews, 2026</small></div>
+          <div><b>1 in 4</b><p>refund dollars claimed is abusive</p><small>Riskified, over 1M claims</small></div>
+          <div><b>$16B+</b><p>lost to fake refund claims every year, worldwide</p><small>Our estimate from eMarketer and Riskified figures</small></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 4 Sellers pay anyway + market -->
+  <!-- 4 Cyber comparison -->
   <section class="slide" id="p4">
     <div class="inner">
-      <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Why it matters</div>
-      <h2 class="fade">Sellers know. They pay anyway.</h2>
-      <div class="two fade" style="margin-top:26px">
-        <div class="row87">
-          <div class="big87">87%</div>
-          <p style="font-size:17px">of the 137 sellers we interviewed suspect some damage claims are fake, and refund them anyway. They can't prove it, so the loss is theirs every time.</p>
+      <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Market</div>
+      <h2 class="fade">A loss as big as cyber insurance.</h2>
+      <div class="bars fade" style="margin-top:34px">
+        <div class="bar-row">
+          <div class="bar-head"><span>Cyber insurance premiums, 2025</span><b>$16.3B</b></div>
+          <div class="track"><div class="fill cyber" style="width:51%"></div></div>
+          <span class="src">Munich Re</span>
         </div>
-        <div>
-          <h3>A loss as big as cyber insurance</h3>
-          <div class="bars">
-            <div class="bar-row">
-              <div class="bar-head"><span>Cyber insurance premiums, 2025</span><b>$16.3B</b></div>
-              <div class="track"><div class="fill cyber" style="width:51%"></div></div>
-              <span class="src">Munich Re</span>
-            </div>
-            <div class="bar-row">
-              <div class="bar-head"><span>Fake refund claims, every year</span><b class="accent">$16–32B</b></div>
-              <div class="track range"><div class="fill fake" style="width:50%"></div></div>
-              <span class="src">Our estimate. Carried by sellers.</span>
-            </div>
-          </div>
-          <p class="note" style="margin-top:26px">Nobody publishes how much of it is AI-made. <b>We are collecting that data.</b></p>
+        <div class="bar-row">
+          <div class="bar-head"><span>Fake refund claims, every year</span><b class="accent">$16–32B</b></div>
+          <div class="track range"><div class="fill fake" style="width:50%"></div></div>
+          <span class="src">Our estimate. Carried by sellers.</span>
         </div>
+      </div>
+      <p class="note fade" style="margin-top:34px">Nobody publishes how much of it is AI-made. <b>We are collecting that data.</b></p>
+    </div>
+  </section>
+
+  <!-- 5 Policy, adjuster built in -->
+  <section class="slide" id="p5">
+    <div class="inner split" style="grid-template-columns:0.9fr 1.1fr">
+      <div>
+        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The product</div>
+        <h2 class="fade">One policy. Adjuster built in.</h2>
+        <ol class="steps3 fade">
+          <li><span>1</span>You pay one premium.</li>
+          <li><span>2</span>Our AI adjuster checks every claim before the refund.</li>
+          <li><span>3</span>If a fake still costs you, the policy pays.</li>
+        </ol>
+        <p class="fade" style="margin-top:22px">Underwritten by a licensed insurance partner.</p>
+      </div>
+      <div class="shot fade"><img src="img/adjuster.jpg" alt="Akita adjuster screen: a torn lounge cushion claim marked likely edited"></div>
+    </div>
+  </section>
+
+  <!-- 6 Insurers refuse fraud -->
+  <section class="slide" id="p6">
+    <div class="inner">
+      <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Why us</div>
+      <h2 class="fade">Insurers refuse fraud.<br>For refund fraud, we can.</h2>
+      <div class="cols c3 fade">
+        <div class="pp"><p class="cant">Insurers <span>cannot</span> prevent it.</p><h3>Prevent</h3><p>We check every claim before the refund.</p></div>
+        <div class="pp"><p class="cant">Insurers <span>cannot</span> prove it.</p><h3>Prove</h3><p>Every claim leaves a record of the loss.</p></div>
+        <div class="pp"><p class="cant">Insurers <span>cannot</span> price it.</p><h3>Price</h3><p>Every seller adds the data to price the risk.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 5 Policy -->
-  <section class="slide" id="p5">
+  <!-- 7 Business model -->
+  <section class="slide" id="p7">
     <div class="inner split">
       <div>
-        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The product</div>
-        <h2 class="fade">One policy, with the adjuster built in.</h2>
-        <div class="ai fade">
-          <div><div class="l">A</div><h3>Adjuster</h3><p>Our AI adjuster checks every claim and stops the fakes before the refund.</p></div>
-          <div><div class="l">I</div><h3>Insurer</h3><p>The policy pays the seller for the ones that still get through.</p></div>
+        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Business model</div>
+        <h2 class="fade">Payments got a guarantee. Refunds are next.</h2>
+        <div class="guar fade" style="margin-top:20px">
+          <div class="nums">
+            <div><b>$344.6M</b><span>Riskified revenue in 2025, for deciding and guaranteeing payments</span></div>
+            <div><b>0.22%</b><span>of the sales it reviewed, the price of a guarantee</span></div>
+          </div>
         </div>
+        <ul class="flowline fade">
+          <li><span class="ic">1</span>Sellers pay one premium.</li>
+          <li><span class="ic">2</span>Akita sells, checks and settles.</li>
+          <li><span class="ic">3</span>A licensed partner carries the risk.</li>
+        </ul>
       </div>
       <div class="policy fade">
         <div class="in">
@@ -422,46 +477,6 @@
           <div class="no">No. AKT 000 001</div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- 6 Detection is underwriting -->
-  <section class="slide" id="p6">
-    <div class="inner split" style="grid-template-columns:0.9fr 1.1fr">
-      <div>
-        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>How we underwrite</div>
-        <h2 class="fade">Detection is how we underwrite.</h2>
-        <div class="ppp fade">
-          <div><h3>Prevent</h3><p>We are in the refund decision before the loss.</p></div>
-          <div><h3>Prove</h3><p>Every claim leaves evidence to verify a loss.</p></div>
-          <div><h3>Price</h3><p>Every seller adds the data to price the risk.</p></div>
-        </div>
-      </div>
-      <div class="shot fade"><img src="img/adjuster.jpg" alt="Akita adjuster screen: a torn lounge cushion claim marked likely edited"></div>
-    </div>
-  </section>
-
-  <!-- 7 Business model -->
-  <section class="slide" id="p7">
-    <div class="inner split">
-      <div>
-        <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Business model</div>
-        <h2 class="fade">We run the policy. An insurer carries the risk.</h2>
-        <ul class="flowline fade">
-          <li><span class="ic">1</span>Sellers pay one premium.</li>
-          <li><span class="ic">2</span>Akita sells, checks and settles.</li>
-          <li><span class="ic">3</span>A licensed partner underwrites.</li>
-        </ul>
-        <div class="guar fade">
-          <h3>Payments got a guarantee. Refunds are next.</h3>
-          <div class="nums">
-            <div><b>$344.6M</b><span>Riskified revenue in 2025, for deciding and guaranteeing payments</span></div>
-            <div><b>0.22%</b><span>of the sales it reviewed, the price of a guarantee</span></div>
-          </div>
-          <p style="font-size:15px">Decide before the money moves, then stand behind the decision.</p>
-        </div>
-      </div>
-      <div class="photo tall fade"><img src="img/patio.jpg" alt="Patio furniture under a red umbrella"></div>
     </div>
   </section>
 
