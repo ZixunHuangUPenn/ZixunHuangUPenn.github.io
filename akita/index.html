@@ -245,6 +245,8 @@
   .trows .ico svg { width: 24px; height: 24px; }
   .trows .ico[data-logo] svg { width: 28px; height: 28px; }
   .trows .ico img { width: 30px; height: 30px; object-fit: contain; }
+  .split-wide { grid-template-columns: 1.15fr 0.85fr; }
+  .nw { white-space: nowrap; }
   /* Policy certificate */
   .policy { background: #fffdf8; border-radius: 10px; padding: 14px; box-shadow: 0 22px 46px -20px #3a2e2666; transform: rotate(-1.5deg); background-image: repeating-linear-gradient(45deg, #e9dcc8 0 2px, transparent 2px 6px); }
   .policy .in { background: #fffdf8; border: 1.5px solid #d9c6ad; border-radius: 6px; padding: 26px 30px 22px; position: relative; }
@@ -297,6 +299,8 @@
     .photo.tall img { height: auto; }
     .row87 { grid-template-columns: 1fr; gap: 8px; }
     .policy { transform: none; }
+    .split.split-wide { grid-template-columns: 1fr; }
+    .nw { white-space: normal; }
     .team-cards { grid-template-columns: 1fr; }
     .fakes, .gap-grid { grid-template-columns: 1fr; gap: 30px; }
     .perils span { white-space: normal; }
@@ -343,7 +347,7 @@
   <section class="slide" id="p2">
     <div class="inner">
       <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The problem</div>
-      <h2 class="fade">One prompt breaks anything that ships.</h2>
+      <h2 class="fade">One prompt breaks<br>anything that ships.</h2>
       <div class="fakes fade">
         <figure><div class="photo"><img src="img/fake-cushion.jpg" alt="Outdoor lounge cushion with a tear added by AI, prompt: Add a tear to the cushion"></div><figcaption>Furniture</figcaption></figure>
         <figure><div class="photo"><img src="img/fake-wine.jpg" alt="Wine bottle made to look leaking by AI, prompt: Make the bottle leak"></div><figcaption>Wine and spirits</figcaption></figure>
@@ -400,7 +404,7 @@
     <div class="inner split" style="grid-template-columns:0.9fr 1.1fr">
       <div>
         <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>The product</div>
-        <h2 class="fade">One policy. Adjuster built in.</h2>
+        <h2 class="fade">One policy.<br>Adjuster built in.</h2>
         <ol class="steps3 fade">
           <li><span>1</span>You pay one premium.</li>
           <li><span>2</span>Our AI adjuster checks every claim before the refund.</li>
@@ -427,10 +431,10 @@
 
   <!-- 7 Business model -->
   <section class="slide" id="p7">
-    <div class="inner split">
+    <div class="inner split split-wide">
       <div>
         <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Business model</div>
-        <h2 class="fade">Payments got a guarantee. Refunds are next.</h2>
+        <h2 class="fade" style="font-size:clamp(28px,3.2vw,40px)"><span class="nw">Payments got a guarantee.</span><br>Refunds are next.</h2>
         <div class="guar fade" style="margin-top:20px">
           <div class="nums">
             <div><b>$344.6M</b><span>Riskified revenue in 2025, for deciding and guaranteeing payments</span></div>
@@ -522,7 +526,7 @@
       <img class="dog fade" src="img/akita-sit.webp" alt="An Akita dog sitting">
       <h2 class="fade">Everyone is building AGI.<br><span class="accent">So are we.</span></h2>
       <p class="lead fade">Agent Generative Insurance: cover for the generative age.</p>
-      <p class="lead fade" style="margin-top:14px;font-size:16px">Akita dogs are known for loyalty and for guarding their home. That's the job we want to do for our sellers.</p>
+      <p class="lead fade" style="margin-top:14px;font-size:16px">Akita dogs are known for loyalty and for guarding their home.<br>That's the job we want to do for our sellers.</p>
       <p class="sign fade">Akita · New York</p>
     </div>
   </section>
