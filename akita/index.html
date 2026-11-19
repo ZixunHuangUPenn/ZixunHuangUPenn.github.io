@@ -347,7 +347,7 @@
       <ellipse cx="31" cy="17" rx="4" ry="5"/>
     </symbol>
     <!-- Sitting Akita, front view -->
-    <symbol id="sitting" viewBox="0 0 220 280">
+    <symbol id="sit-base" viewBox="0 0 220 280">
       <ellipse cx="110" cy="266" rx="94" ry="9" fill="#a8643f" opacity=".1"/>
       <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
         <path d="M150 176 C146 142 176 120 198 140 C214 156 208 190 184 196 C168 199 154 190 158 178 Z" fill="#e6a36c"/>
@@ -358,14 +358,29 @@
       <path d="M80 102 C64 146 72 198 110 218 C148 198 156 146 140 102 Z" fill="#fffaf3"/>
       <path d="M96 150 l-2 4 M124 150 l2 4 M104 168 l-2 4 M116 168 l2 4" stroke="#ead6c2" stroke-width="1.8" stroke-linecap="round"/>
       <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
-        <path d="M30 236 C30 214 48 204 66 206 C82 208 90 222 88 240 C86 254 74 260 58 260 C40 260 30 252 30 236 Z" fill="#d99258"/>
-        <path d="M190 236 C190 214 172 204 154 206 C138 208 130 222 132 240 C134 254 146 260 162 260 C180 260 190 252 190 236 Z" fill="#d99258"/>
-        <path d="M76 180 C76 176 80 174 90 174 C100 174 106 176 106 182 L106 250 L76 250 Z" fill="#fffaf3"/>
-        <path d="M114 182 C114 176 120 174 130 174 C140 174 144 176 144 180 L144 250 L114 250 Z" fill="#fffaf3"/>
-        <path d="M72 252 C72 242 82 240 92 240 C102 240 110 244 110 252 C110 260 102 262 92 262 C80 262 72 260 72 252 Z" fill="#fffaf3"/>
-        <path d="M110 252 C110 244 118 240 128 240 C138 240 148 242 148 252 C148 260 140 262 128 262 C118 262 110 260 110 252 Z" fill="#fffaf3"/>
+        <path d="M30 234 C30 212 48 202 66 204 C82 206 90 220 88 238 C87 248 80 254 70 256 L40 256 C33 252 30 244 30 234 Z" fill="#d99258"/>
+        <path d="M190 234 C190 212 172 202 154 204 C138 206 130 220 132 238 C133 248 140 254 150 256 L180 256 C187 252 190 244 190 234 Z" fill="#d99258"/>
+        <path d="M22 256 C22 246 32 242 44 242 C56 242 66 246 66 255 C66 262 58 264 44 264 C30 264 22 262 22 256 Z" fill="#fffaf3"/>
+        <path d="M198 256 C198 246 188 242 176 242 C164 242 154 246 154 255 C154 262 162 264 176 264 C190 264 198 262 198 256 Z" fill="#fffaf3"/>
       </g>
-      <path d="M86 256 L86 261 M97 256 L97 261 M123 256 L123 261 M134 256 L134 261" stroke="#a8643f" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M36 258 L36 263 M46 258 L46 263 M174 258 L174 263 M184 258 L184 263" stroke="#a8643f" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="front-legs" viewBox="0 0 220 280">
+      <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
+        <path d="M78 180 C78 176 82 174 92 174 C101 174 106 176 106 182 L106 250 L78 250 Z" fill="#fffaf3"/>
+        <path d="M114 182 C114 176 119 174 128 174 C138 174 142 176 142 180 L142 250 L114 250 Z" fill="#fffaf3"/>
+        <path d="M74 254 C74 244 83 241 92 241 C101 241 109 245 109 254 C109 261 101 264 92 264 C81 264 74 261 74 254 Z" fill="#fffaf3"/>
+        <path d="M111 254 C111 245 119 241 128 241 C137 241 146 244 146 254 C146 261 139 264 128 264 C119 264 111 261 111 254 Z" fill="#fffaf3"/>
+      </g>
+      <path d="M87 258 L87 263 M97 258 L97 263 M123 258 L123 263 M133 258 L133 263" stroke="#a8643f" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="sitting" viewBox="0 0 220 280">
+      <use href="#sit-base"/>
+      <use href="#front-legs"/>
+      <use href="#head" x="36" y="-4" width="148" height="148"/>
+    </symbol>
+    <symbol id="sitting-hug" viewBox="0 0 220 280">
+      <use href="#sit-base"/>
       <use href="#head" x="36" y="-4" width="148" height="148"/>
     </symbol>
   </defs>
@@ -383,7 +398,7 @@
         <p class="sub fade">Cover for online sellers against fake refund claims.</p>
         <p class="small fade">Akita · New York · Founded 2026</p>
       </div>
-      <svg class="dog hug fade" viewBox="0 0 340 290" role="img" aria-label="An Akita sitting and hugging a bone that says acts of AI"><use href="#sitting" x="60" y="0" width="220" height="280"/>
+      <svg class="dog hug fade" viewBox="0 0 340 292" role="img" aria-label="An Akita sitting and hugging a bone that says acts of AI"><use href="#sitting-hug" x="60" y="0" width="220" height="280"/>
         <g class="bite">
           <g transform="rotate(-4 170 200)">
             <circle cx="28" cy="178" r="22" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
@@ -572,7 +587,7 @@
             <div><h3>Tony Wong</h3><div class="trole">Co-founder · CTO</div></div>
           </div>
           <ul class="trows">
-              <li><span class="ico" data-logo="penn"><svg viewBox="0 0 100 110" aria-label="University of Pennsylvania"><defs><clipPath id="pennclip"><path d="M11 7 H89 V48 C89 76 70 93 50 102 C30 93 11 76 11 48 Z"/></clipPath></defs><path d="M7 3 H93 V48 C93 79 72 97 50 107 C28 97 7 79 7 48 Z" fill="#fff" stroke="#011F5B" stroke-width="3.5"/><g clip-path="url(#pennclip)"><rect x="0" y="0" width="100" height="30" fill="#990000"/><path d="M0 84 L50 40 L100 84 L100 104 L50 62 L0 104 Z" fill="#011F5B"/></g><g fill="#fff" stroke="#011F5B" stroke-width="1.2"><rect x="15" y="11" width="18" height="14" rx="1.5"/><rect x="67" y="11" width="18" height="14" rx="1.5"/><path d="M38 25 C38 14 52 11 61 18 C58 19 57 23 61 26 C53 24 46 27 38 25 Z"/></g><path d="M24 12 V24 M76 12 V24" stroke="#011F5B" stroke-width="1.2"/><g fill="#fff"><circle cx="50" cy="53" r="6.5"/><circle cx="33" cy="69" r="6.5"/><circle cx="67" cy="69" r="6.5"/></g></svg></span><span>M.S.E. Electrical Engineering, University of Pennsylvania (4.0 GPA)</span></li>
+              <li><span class="ico" data-logo="penn"><img src="img/logo-penn.png" alt="University of Pennsylvania"></span><span>M.S.E. Electrical Engineering, University of Pennsylvania (4.0 GPA)</span></li>
               <li><span class="ico"><svg viewBox="0 0 24 24" fill="#3C8CFF"><path d="M19.8772 1.4685L24 2.5326v18.9426l-4.1228 1.0563V1.4685zm-13.3481 9.428l4.115 1.0641v8.9786l-4.115 1.0642v-11.107zM0 2.572l4.115 1.0642v16.7354L0 21.428V2.572zm17.4553 5.6205v11.107l-4.1228-1.0642V9.2568l4.1228-1.0642z"/></svg></span><span>Agent-based automation system, ByteDance</span></li>
               <li><span class="ico"><svg viewBox="0 0 24 24" fill="#E31937"><path d="M12 5.362l2.475-3.026s4.245.09 8.471 2.054c-1.082 1.636-3.231 2.438-3.231 2.438-.146-1.439-1.154-1.79-4.354-1.79L12 24 8.619 5.034c-3.18 0-4.188.354-4.335 1.792 0 0-2.146-.795-3.229-2.43C5.28 2.431 9.525 2.34 9.525 2.34L12 5.362l-.004.002H12v-.002zm0-3.899c3.415-.03 7.326.528 11.328 2.28.535-.968.672-1.395.672-1.395C19.625.612 15.528.015 12 0 8.472.015 4.375.61 0 2.349c0 0 .195.525.672 1.396C4.674 1.989 8.585 1.435 12 1.46v.003z"/></svg></span><span>Software engineering, Tesla</span></li>
               <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></span><span>AI agent workflows, developer tools and computer vision. Now builds the Akita adjuster</span></li>
