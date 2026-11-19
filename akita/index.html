@@ -7,7 +7,7 @@
 <meta name="description" content="Akita insures online sellers against fake refund claims. Our AI adjuster checks every claim before the refund, and the policy covers the ones that get through.">
 <meta property="og:title" content="Akita · Insurance against acts of AI">
 <meta property="og:description" content="Cover for online sellers against fake refund claims.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M26 58 L34 14 L58 38 Z M94 58 L86 14 L62 38 Z' fill='%23c4733a'/%3E%3Cellipse cx='60' cy='66' rx='40' ry='36' fill='%23c4733a'/%3E%3Cellipse cx='60' cy='82' rx='26' ry='19' fill='%23fbf4ea'/%3E%3Ccircle cx='45' cy='62' r='4' fill='%233a2e26'/%3E%3Ccircle cx='75' cy='62' r='4' fill='%233a2e26'/%3E%3Cellipse cx='60' cy='76' rx='7' ry='5' fill='%233a2e26'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -77,7 +77,7 @@
   .cover .sub { font-size: clamp(20px, 2vw, 25px); margin-top: 26px; max-width: 520px; color: var(--soft); line-height: 1.5; }
   .cover .small { margin-top: 36px; font-size: 15px; color: var(--soft); }
   .dog { width: 100%; max-width: 380px; margin: 0 auto; display: block; }
-  .dog.hug { max-width: 560px; }
+  .dog.hug { max-width: min(400px, 100%); max-height: 72vh; width: auto; height: auto; }
 
   /* Problem */
   .problem-list { list-style: none; margin-top: 34px; max-width: 760px; }
@@ -147,7 +147,7 @@
 
   .page { position: fixed; right: 26px; bottom: 20px; font-size: 13px; color: var(--soft); z-index: 5; font-variant-numeric: tabular-nums; }
   .brand { position: fixed; left: 26px; top: 20px; display: flex; align-items: center; gap: 8px; font-family: 'Lora', serif; font-weight: 600; font-size: 18px; color: var(--ink); text-decoration: none; z-index: 5; }
-  .brand svg { width: 26px; height: 26px; }
+  .brand svg, .brand img { width: 28px; height: 28px; }
 
   .fade { opacity: 0; transform: translateY(12px); transition: opacity .7s ease, transform .7s ease; }
   .seen .fade { opacity: 1; transform: none; }
@@ -312,32 +312,6 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <!-- Akita head, front facing -->
-    <symbol id="head" viewBox="0 0 120 120">
-      <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
-        <path d="M22 60 C18 38 24 18 34 9 C46 15 56 27 61 38 Z" fill="#e6a36c"/>
-        <path d="M98 60 C102 38 96 18 86 9 C74 15 64 27 59 38 Z" fill="#e6a36c"/>
-      </g>
-      <path d="M33 17 C42 23 49 30 52 37 L31 46 C29 36 29 26 33 17 Z" fill="#f6c4b4"/>
-      <path d="M87 17 C78 23 71 30 68 37 L89 46 C91 36 91 26 87 17 Z" fill="#f6c4b4"/>
-      <path d="M35 24 C40 29 44 33 47 37 M85 24 C80 29 76 33 73 37" stroke="#fffaf3" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <path d="M60 28 C92 28 110 48 110 70 C110 94 88 108 60 108 C32 108 10 94 10 70 C10 48 28 28 60 28 Z" fill="#e6a36c"/>
-      <path d="M60 52 C50 52 41 60 34 68 C25 70 15 73 11 78 C15 98 37 108 60 108 C83 108 105 98 109 78 C105 73 95 70 86 68 C79 60 70 52 60 52 Z" fill="#fffaf3"/>
-      <path d="M60 28 C92 28 110 48 110 70 C110 94 88 108 60 108 C32 108 10 94 10 70 C10 48 28 28 60 28 Z" fill="none" stroke="#a8643f" stroke-width="2.2"/>
-      <ellipse cx="44" cy="47" rx="6" ry="4" fill="#fffaf3"/>
-      <ellipse cx="76" cy="47" rx="6" ry="4" fill="#fffaf3"/>
-      <ellipse cx="44" cy="60" rx="5.4" ry="6" fill="#3b2621"/>
-      <ellipse cx="76" cy="60" rx="5.4" ry="6" fill="#3b2621"/>
-      <circle cx="46" cy="57.6" r="2" fill="#fff"/><circle cx="78" cy="57.6" r="2" fill="#fff"/>
-      <circle cx="42.6" cy="62.6" r=".9" fill="#fff"/><circle cx="74.6" cy="62.6" r=".9" fill="#fff"/>
-      <ellipse cx="31" cy="74" rx="7" ry="4" fill="#f7b2a4" opacity=".55"/>
-      <ellipse cx="89" cy="74" rx="7" ry="4" fill="#f7b2a4" opacity=".55"/>
-      <path d="M47 77 C53 84 67 84 73 77 C70 92 50 92 47 77 Z" fill="#8f3f36" stroke="#6e2f28" stroke-width="1.4" stroke-linejoin="round"/>
-      <path d="M52.5 84.5 C55 91 65 91 67.5 84.5 C63 87.5 57 87.5 52.5 84.5 Z" fill="#f1898a"/>
-      <path d="M60 74 L60 79" stroke="#3b2621" stroke-width="1.6" stroke-linecap="round"/>
-      <ellipse cx="60" cy="70" rx="6.6" ry="4.8" fill="#3b2621"/>
-      <ellipse cx="58" cy="68.5" rx="2" ry="1.2" fill="#7a645a"/>
-    </symbol>
     <!-- Paw print -->
     <symbol id="paw" viewBox="0 0 40 40">
       <ellipse cx="20" cy="27" rx="9" ry="7.5"/>
@@ -346,47 +320,10 @@
       <ellipse cx="24" cy="10" rx="4" ry="5"/>
       <ellipse cx="31" cy="17" rx="4" ry="5"/>
     </symbol>
-    <!-- Sitting Akita, front view -->
-    <symbol id="sit-base" viewBox="0 0 220 280">
-      <ellipse cx="110" cy="266" rx="94" ry="9" fill="#a8643f" opacity=".1"/>
-      <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
-        <path d="M150 176 C146 142 176 120 198 140 C214 156 208 190 184 196 C168 199 154 190 158 178 Z" fill="#e6a36c"/>
-        <path d="M66 106 C42 148 36 214 48 256 L172 256 C184 214 178 148 154 106 Z" fill="#e6a36c"/>
-      </g>
-      <path d="M184 134 C200 140 210 160 202 178 C196 168 188 162 178 162 C176 152 178 142 184 134 Z" fill="#fffaf3"/>
-      <path d="M168 150 C176 156 178 168 172 180" stroke="#a8643f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-      <path d="M80 102 C64 146 72 198 110 218 C148 198 156 146 140 102 Z" fill="#fffaf3"/>
-      <path d="M96 150 l-2 4 M124 150 l2 4 M104 168 l-2 4 M116 168 l2 4" stroke="#ead6c2" stroke-width="1.8" stroke-linecap="round"/>
-      <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
-        <path d="M30 234 C30 212 48 202 66 204 C82 206 90 220 88 238 C87 248 80 254 70 256 L40 256 C33 252 30 244 30 234 Z" fill="#d99258"/>
-        <path d="M190 234 C190 212 172 202 154 204 C138 206 130 220 132 238 C133 248 140 254 150 256 L180 256 C187 252 190 244 190 234 Z" fill="#d99258"/>
-        <path d="M22 256 C22 246 32 242 44 242 C56 242 66 246 66 255 C66 262 58 264 44 264 C30 264 22 262 22 256 Z" fill="#fffaf3"/>
-        <path d="M198 256 C198 246 188 242 176 242 C164 242 154 246 154 255 C154 262 162 264 176 264 C190 264 198 262 198 256 Z" fill="#fffaf3"/>
-      </g>
-      <path d="M36 258 L36 263 M46 258 L46 263 M174 258 L174 263 M184 258 L184 263" stroke="#a8643f" stroke-width="1.8" stroke-linecap="round"/>
-    </symbol>
-    <symbol id="front-legs" viewBox="0 0 220 280">
-      <g stroke="#a8643f" stroke-width="2.2" stroke-linejoin="round">
-        <path d="M78 180 C78 176 82 174 92 174 C101 174 106 176 106 182 L106 250 L78 250 Z" fill="#fffaf3"/>
-        <path d="M114 182 C114 176 119 174 128 174 C138 174 142 176 142 180 L142 250 L114 250 Z" fill="#fffaf3"/>
-        <path d="M74 254 C74 244 83 241 92 241 C101 241 109 245 109 254 C109 261 101 264 92 264 C81 264 74 261 74 254 Z" fill="#fffaf3"/>
-        <path d="M111 254 C111 245 119 241 128 241 C137 241 146 244 146 254 C146 261 139 264 128 264 C119 264 111 261 111 254 Z" fill="#fffaf3"/>
-      </g>
-      <path d="M87 258 L87 263 M97 258 L97 263 M123 258 L123 263 M133 258 L133 263" stroke="#a8643f" stroke-width="1.8" stroke-linecap="round"/>
-    </symbol>
-    <symbol id="sitting" viewBox="0 0 220 280">
-      <use href="#sit-base"/>
-      <use href="#front-legs"/>
-      <use href="#head" x="36" y="-4" width="148" height="148"/>
-    </symbol>
-    <symbol id="sitting-hug" viewBox="0 0 220 280">
-      <use href="#sit-base"/>
-      <use href="#head" x="36" y="-4" width="148" height="148"/>
-    </symbol>
   </defs>
 </svg>
 
-<a class="brand" href="#p1"><svg><use href="#head"/></svg>Akita</a>
+<a class="brand" href="#p1"><img src="img/akita-head.png" alt="">Akita</a>
 
 <main>
 
@@ -398,25 +335,7 @@
         <p class="sub fade">Cover for online sellers against fake refund claims.</p>
         <p class="small fade">Akita · New York · Founded 2026</p>
       </div>
-      <svg class="dog hug fade" viewBox="0 0 340 292" role="img" aria-label="An Akita sitting and hugging a bone that says acts of AI"><use href="#sitting-hug" x="60" y="0" width="220" height="280"/>
-        <g class="bite">
-          <g transform="rotate(-4 170 200)">
-            <circle cx="28" cy="178" r="22" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
-            <circle cx="28" cy="222" r="22" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
-            <circle cx="312" cy="178" r="22" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
-            <circle cx="312" cy="222" r="22" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
-            <rect x="28" y="179.1" width="284" height="41.8" fill="#fffaf3"/>
-            <rect x="18" y="179.3" width="22" height="41.4" fill="#fffaf3"/>
-            <rect x="300" y="179.3" width="22" height="41.4" fill="#fffaf3"/>
-            <line x1="28" y1="178" x2="312" y2="178" stroke="#a8643f" stroke-width="2.2"/>
-            <line x1="28" y1="222" x2="312" y2="222" stroke="#a8643f" stroke-width="2.2"/>
-            <text x="170" y="212" text-anchor="middle" font-family="Lora, Georgia, serif" font-weight="600" font-size="30" fill="#3a2e26">acts of <tspan fill="#b3533e">AI</tspan></text>
-            <ellipse cx="146" cy="176" rx="16" ry="10" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
-            <ellipse cx="194" cy="176" rx="16" ry="10" fill="#fffaf3" stroke="#a8643f" stroke-width="2.2"/>
-            <path d="M140 178 l0 5 M146 179 l0 5 M152 178 l0 5 M188 178 l0 5 M194 179 l0 5 M200 178 l0 5" stroke="#a8643f" stroke-width="1.6" stroke-linecap="round"/>
-          </g>
-        </g>
-      </svg>
+      <img class="dog hug fade" src="img/akita-bone.webp" alt="An Akita sitting and hugging a bone that says acts of AI">
     </div>
   </section>
 
@@ -526,7 +445,7 @@
       </div>
       <div class="policy fade">
         <div class="in">
-          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="58" fill="#fbf4ea" stroke="#c4733a" stroke-width="3"/><use href="#head" x="16" y="12" width="88" height="88"/></svg>
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="58" fill="#fbf4ea" stroke="#c4733a" stroke-width="3"/><image href="img/akita-head.png" x="16" y="14" width="88" height="88"/></svg>
           <div class="org">AKITA</div>
           <h3>Policy of Insurance</h3>
           <div class="against">against Acts of AI</div>
@@ -600,7 +519,7 @@
   <!-- 10 Closing -->
   <section class="slide closing" id="p10">
     <div class="inner">
-      <svg class="dog fade" viewBox="0 0 220 280" role="img" aria-label="An Akita dog sitting"><use href="#sitting"/></svg>
+      <img class="dog fade" src="img/akita-sit.webp" alt="An Akita dog sitting">
       <h2 class="fade">Everyone is building AGI.<br><span class="accent">So are we.</span></h2>
       <p class="lead fade">Agent Generative Insurance: cover for the generative age.</p>
       <p class="lead fade" style="margin-top:14px;font-size:16px">Akita dogs are known for loyalty and for guarding their home. That's the job we want to do for our sellers.</p>
