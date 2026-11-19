@@ -77,6 +77,7 @@
   .cover .sub { font-size: clamp(20px, 2vw, 25px); margin-top: 26px; max-width: 520px; color: var(--soft); line-height: 1.5; }
   .cover .small { margin-top: 36px; font-size: 15px; color: var(--soft); }
   .dog { width: 100%; max-width: 380px; margin: 0 auto; display: block; }
+  .dog.hug { max-width: 500px; }
 
   /* Problem */
   .problem-list { list-style: none; margin-top: 34px; max-width: 760px; }
@@ -229,7 +230,7 @@
   .pp .cant span { color: var(--rust); }
   .pp h3 { font-size: clamp(38px, 4vw, 52px); color: var(--akita); margin-bottom: 10px; }
   .pp p { font-size: 16.5px; }
-  .bite { transform-box: view-box; transform-origin: 110px 100px; animation: tug 3.2s ease-in-out infinite; }
+  .bite { transform-box: view-box; transform-origin: 170px 200px; animation: tug 3.2s ease-in-out infinite; }
   @keyframes tug { 0%, 70%, 100% { transform: rotate(0); } 76% { transform: rotate(-5deg); } 82% { transform: rotate(4deg); } 88% { transform: rotate(-3deg); } 94% { transform: rotate(1deg); } }
   @media (prefers-reduced-motion: reduce) { .bite { animation: none; } }
   /* Policy certificate */
@@ -352,18 +353,27 @@
   <section class="slide cover" id="p1">
     <div class="inner cover-grid">
       <div>
-        <h1 class="fade" style="font-size:clamp(48px,6.6vw,84px);line-height:1.05">Insurance against<br><span style="white-space:nowrap">acts of <span class="ai-word">AI</span></span></h1>
+        <h1 class="fade" style="font-size:clamp(48px,6.6vw,84px);line-height:1.05">Insurance against</h1>
         <p class="sub fade">Cover for online sellers against fake refund claims.</p>
         <p class="small fade">Akita · New York · Founded 2026</p>
       </div>
-      <svg class="dog fade" viewBox="0 0 220 280" role="img" aria-label="An Akita dog biting a tag that says AI"><use href="#sitting"/>
+      <svg class="dog hug fade" viewBox="0 0 340 290" role="img" aria-label="An Akita sitting and hugging a bone that says acts of AI"><use href="#sitting" x="60" y="0" width="220" height="280"/>
         <g class="bite">
-          <g transform="rotate(-7 110 112)">
-            <rect x="80" y="99" width="60" height="30" rx="7" fill="#fffdf8" stroke="#a85d2c" stroke-width="2"/>
-            <text x="110" y="121" text-anchor="middle" font-family="Lora, Georgia, serif" font-weight="600" font-size="19" fill="#b3533e" letter-spacing="1">AI</text>
+          <g transform="rotate(-4 170 200)">
+            <circle cx="28" cy="178" r="22" fill="#fffaf2" stroke="#dcc9b0" stroke-width="2"/>
+            <circle cx="28" cy="222" r="22" fill="#fffaf2" stroke="#dcc9b0" stroke-width="2"/>
+            <circle cx="312" cy="178" r="22" fill="#fffaf2" stroke="#dcc9b0" stroke-width="2"/>
+            <circle cx="312" cy="222" r="22" fill="#fffaf2" stroke="#dcc9b0" stroke-width="2"/>
+            <rect x="28" y="178" width="284" height="44" fill="#fffaf2"/>
+            <rect x="18" y="177" width="20" height="46" fill="#fffaf2"/>
+            <rect x="302" y="177" width="20" height="46" fill="#fffaf2"/>
+            <line x1="28" y1="178" x2="312" y2="178" stroke="#dcc9b0" stroke-width="2"/>
+            <line x1="28" y1="222" x2="312" y2="222" stroke="#dcc9b0" stroke-width="2"/>
+            <text x="170" y="212" text-anchor="middle" font-family="Lora, Georgia, serif" font-weight="600" font-size="30" fill="#3a2e26">acts of <tspan fill="#b3533e">AI</tspan></text>
+            <ellipse cx="146" cy="176" rx="16" ry="10" fill="#fbf4ea" stroke="#e6d6c1" stroke-width="1.2"/>
+            <ellipse cx="194" cy="176" rx="16" ry="10" fill="#fbf4ea" stroke="#e6d6c1" stroke-width="1.2"/>
+            <path d="M140 178 l0 5 M146 179 l0 5 M152 178 l0 5 M188 178 l0 5 M194 179 l0 5 M200 178 l0 5" stroke="#d9c6ad" stroke-width="1.3" stroke-linecap="round"/>
           </g>
-          <path d="M99 99 l3 7 l3 -7 Z M115 98 l3 7 l3 -7 Z" fill="#ffffff" stroke="#e0d2bf" stroke-width=".8"/>
-          <path d="M84 99 C88 96 92 96 96 98 M124 97 C128 95 132 95 136 98" stroke="#3a2e26" stroke-width="2" fill="none" stroke-linecap="round"/>
         </g>
       </svg>
     </div>
@@ -537,7 +547,7 @@
             <h3>Tony Wong</h3>
             <div class="role">Co-founder &amp; CTO</div>
             <ul>
-              <li>M.Eng. Electrical Engineering, University of Pennsylvania (4.0 GPA)</li>
+              <li>M.S.E. Electrical Engineering, University of Pennsylvania (4.0 GPA)</li>
               <li>Software engineering at ByteDance and Tesla</li>
               <li>Built AI agent workflows, developer tools and computer vision models</li>
             </ul>
