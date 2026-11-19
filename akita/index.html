@@ -229,6 +229,9 @@
   .pp .cant span { color: var(--rust); }
   .pp h3 { font-size: clamp(38px, 4vw, 52px); color: var(--akita); margin-bottom: 10px; }
   .pp p { font-size: 16.5px; }
+  .bite { transform-box: view-box; transform-origin: 110px 100px; animation: tug 3.2s ease-in-out infinite; }
+  @keyframes tug { 0%, 70%, 100% { transform: rotate(0); } 76% { transform: rotate(-5deg); } 82% { transform: rotate(4deg); } 88% { transform: rotate(-3deg); } 94% { transform: rotate(1deg); } }
+  @media (prefers-reduced-motion: reduce) { .bite { animation: none; } }
   /* Policy certificate */
   .policy { background: #fffdf8; border-radius: 10px; padding: 14px; box-shadow: 0 22px 46px -20px #3a2e2666; transform: rotate(-1.5deg); background-image: repeating-linear-gradient(45deg, #e9dcc8 0 2px, transparent 2px 6px); }
   .policy .in { background: #fffdf8; border: 1.5px solid #d9c6ad; border-radius: 6px; padding: 26px 30px 22px; position: relative; }
@@ -349,11 +352,20 @@
   <section class="slide cover" id="p1">
     <div class="inner cover-grid">
       <div>
-        <h1 class="fade" style="font-size:clamp(48px,6.6vw,84px);line-height:1.05">Agent<br>Generative<br>Insurance</h1>
+        <h1 class="fade" style="font-size:clamp(48px,6.6vw,84px);line-height:1.05">Insurance against<br><span style="white-space:nowrap">acts of <span class="ai-word">AI</span></span></h1>
         <p class="sub fade">Cover for online sellers against fake refund claims.</p>
         <p class="small fade">Akita · New York · Founded 2026</p>
       </div>
-      <svg class="dog fade" viewBox="0 0 220 280" role="img" aria-label="An Akita dog sitting"><use href="#sitting"/></svg>
+      <svg class="dog fade" viewBox="0 0 220 280" role="img" aria-label="An Akita dog biting a tag that says AI"><use href="#sitting"/>
+        <g class="bite">
+          <g transform="rotate(-7 110 112)">
+            <rect x="80" y="99" width="60" height="30" rx="7" fill="#fffdf8" stroke="#a85d2c" stroke-width="2"/>
+            <text x="110" y="121" text-anchor="middle" font-family="Lora, Georgia, serif" font-weight="600" font-size="19" fill="#b3533e" letter-spacing="1">AI</text>
+          </g>
+          <path d="M99 99 l3 7 l3 -7 Z M115 98 l3 7 l3 -7 Z" fill="#ffffff" stroke="#e0d2bf" stroke-width=".8"/>
+          <path d="M84 99 C88 96 92 96 96 98 M124 97 C128 95 132 95 136 98" stroke="#3a2e26" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
     </div>
   </section>
 
