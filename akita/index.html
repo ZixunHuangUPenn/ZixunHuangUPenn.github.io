@@ -245,7 +245,7 @@
   .trows .ico svg { width: 24px; height: 24px; }
   .trows .ico[data-logo] svg { width: 28px; height: 28px; }
   .trows .ico img { width: 30px; height: 30px; object-fit: contain; }
-  .split-wide { grid-template-columns: 1.15fr 0.85fr; }
+  .split-wide { grid-template-columns: 1.25fr 0.75fr; }
   .nw { white-space: nowrap; }
   /* Policy certificate */
   .policy { background: #fffdf8; border-radius: 10px; padding: 14px; box-shadow: 0 22px 46px -20px #3a2e2666; transform: rotate(-1.5deg); background-image: repeating-linear-gradient(45deg, #e9dcc8 0 2px, transparent 2px 6px); }
@@ -434,7 +434,7 @@
     <div class="inner split split-wide">
       <div>
         <div class="label fade"><svg fill="currentColor"><use href="#paw"/></svg>Business model</div>
-        <h2 class="fade" style="font-size:clamp(28px,3.2vw,40px)"><span class="nw">Payments got a guarantee.</span><br>Refunds are next.</h2>
+        <h2 class="fade"><span class="nw">Payments got a guarantee.</span><br>Refunds are next.</h2>
         <div class="guar fade" style="margin-top:20px">
           <div class="nums">
             <div><b>$344.6M</b><span>Riskified revenue in 2025, for deciding and guaranteeing payments</span></div>
@@ -540,17 +540,19 @@
   // Scale each slide's content to fill the screen on desktop
   function fitSlides() {
     const W = window.innerWidth, H = window.innerHeight;
+    const inners = slides.map(s => s.querySelector('.inner')).filter(Boolean);
+    inners.forEach(el => { el.style.zoom = ''; });
+    if (W <= 860) return;
+    // one zoom for every slide, so titles and text stay the same size throughout
+    let z = 1.5;
     slides.forEach(s => {
-      const el = s.querySelector('.inner');
-      if (!el) return;
-      el.style.zoom = '';
-      if (W <= 860) return;
+      const el = s.querySelector('.inner'); if (!el) return;
       const cs = getComputedStyle(s);
       const availW = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const zw = availW / el.offsetWidth;
-      const zh = (H - 140) / el.offsetHeight;
-      el.style.zoom = Math.max(1, Math.min(zw, zh, 1.5)).toFixed(3);
+      z = Math.min(z, availW / el.offsetWidth, (H - 140) / el.offsetHeight);
     });
+    z = Math.max(1, z).toFixed(3);
+    inners.forEach(el => { el.style.zoom = z; });
   }
   fitSlides();
   window.addEventListener('resize', fitSlides);
