@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>哥斯达黎加 · 12.11–12.24 行程</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{
+  --bg:#f6f3ec;--card:#fff;--ink:#1f2a24;--muted:#66736b;--line:#e4ded2;
+  --green:#1f7a4d;--teal:#0e7c86;--orange:#d9692b;--sand:#efe6d3;--purple:#6b4fa8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+a{color:var(--teal)}
+header.hero{background:linear-gradient(135deg,#0f5c3a 0%,#0e7c86 60%,#d9692b 140%);color:#fff;padding:56px 20px 40px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.hero h1{margin:0 0 6px;font-size:clamp(28px,5vw,44px);letter-spacing:.5px}
+.hero p{margin:0;opacity:.92}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 12px;font-size:14px}
+nav.toc{position:sticky;top:0;z-index:1000;background:rgba(246,243,236,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:14px;padding:6px 12px;border-radius:8px}
+nav.toc a:hover{background:var(--sand)}
+section{padding:36px 0 8px}
+h2{font-size:24px;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+h2 .num{background:var(--green);color:#fff;border-radius:8px;font-size:14px;padding:2px 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+/* overview */
+.strip{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:3px;margin:6px 0 10px}
+.strip div{border-radius:6px;padding:6px 2px;text-align:center;font-size:12px;color:#fff;line-height:1.3}
+.strip b{display:block;font-size:13px}
+.c-sj{background:#7a6a55}.c-volc{background:var(--orange)}.c-surf{background:var(--teal)}.c-mv{background:var(--green)}.c-ar{background:#b23b2c}.c-fly{background:var(--purple)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:var(--c)}
+@media(max-width:640px){.strip{grid-template-columns:repeat(7,minmax(0,1fr))}}
+#map{height:420px;border-radius:14px;border:1px solid var(--line)}
+/* days */
+.day{display:grid;grid-template-columns:92px 1fr;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px;border-left:6px solid var(--c,var(--green))}
+.day .date{font-weight:700;font-size:20px;line-height:1.2}
+.day .date small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.day h3{margin:0 0 4px;font-size:18px}
+.day .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+.day ul{margin:6px 0 0;padding-left:20px}
+.day li{margin:3px 0}
+.tag{display:inline-block;font-size:12px;border-radius:6px;padding:1px 7px;margin-right:4px;background:var(--sand);color:#5c4a2a}
+.tag.warn{background:#fde8dc;color:#9a3b10}
+.tag.ok{background:#dff1e7;color:#16603b}
+.opt{margin-top:10px;background:#f7f9f8;border:1px dashed #c9d6cf;border-radius:10px;padding:10px 12px;font-size:14px}
+@media(max-width:640px){.day{grid-template-columns:1fr;gap:4px}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--sand);font-weight:600}
+.tablewrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:14px}
+.check label{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #f0ece3;cursor:pointer}
+.check label:last-child{border-bottom:0}
+.check input{margin-top:5px;transform:scale(1.15);accent-color:var(--green)}
+.check input:checked + span{color:var(--muted);text-decoration:line-through}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}}
+.card h3{margin:0 0 8px;font-size:17px}
+.card ul{margin:0;padding-left:20px}
+footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🇨🇷 哥斯达黎加 · Pura Vida</h1>
+    <p>2026.12.11（周五）– 12.24（周四） · 14 天 · 自驾 + 冲浪</p>
+    <div class="pills">
+      <span class="pill">🏙️ San José</span>
+      <span class="pill">🌋 Poás 火山</span>
+      <span class="pill">🛶 漂流</span>
+      <span class="pill">🏄 Jacó 冲浪学校</span>
+      <span class="pill">🌿 Monteverde 云雾林</span>
+      <span class="pill">♨️ Arenal 火山温泉</span>
+      <span class="pill">✈️ SJO 离境</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#overview">总览</a>
+  <a href="#map-sec">地图</a>
+  <a href="#days">每日行程</a>
+  <a href="#stay">住宿</a>
+  <a href="#todo">预订清单</a>
+  <a href="#tips">自驾 &amp; 贴士</a>
+  <a href="#pack">打包</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="overview">
+  <h2><span class="num">01</span>行程总览</h2>
+  <div class="card">
+    <div class="strip">
+      <div class="c-sj"><b>11</b>五<br>圣何塞</div>
+      <div class="c-volc"><b>12</b>六<br>火山→Jacó</div>
+      <div class="c-volc"><b>13</b>日<br>漂流</div>
+      <div class="c-surf"><b>14</b>一<br>冲浪</div>
+      <div class="c-surf"><b>15</b>二<br>冲浪</div>
+      <div class="c-surf"><b>16</b>三<br>冲浪</div>
+      <div class="c-surf"><b>17</b>四<br>冲浪</div>
+      <div class="c-surf"><b>18</b>五<br>冲浪</div>
+      <div class="c-mv"><b>19</b>六<br>→云雾林</div>
+      <div class="c-mv"><b>20</b>日<br>云雾林</div>
+      <div class="c-ar"><b>21</b>一<br>→Arenal</div>
+      <div class="c-ar"><b>22</b>二<br>Arenal</div>
+      <div class="c-fly"><b>23</b>三<br>→机场</div>
+      <div class="c-fly"><b>24</b>四<br>✈️</div>
+    </div>
+    <div class="legend">
+      <span style="--c:#7a6a55">城市</span>
+      <span style="--c:var(--orange)">火山 &amp; 漂流</span>
+      <span style="--c:var(--teal)">冲浪学校（Jacó）</span>
+      <span style="--c:var(--green)">Monteverde</span>
+      <span style="--c:#b23b2c">Arenal / La Fortuna</span>
+      <span style="--c:var(--purple)">回机场</span>
+    </div>
+    <p class="small muted" style="margin-bottom:0">
+      12.19–12.24 的思路：太平洋海岸（Jacó）已经待了一周，后半程往内陆北上看<b>云雾林</b>和<b>Arenal 火山 + 温泉</b>，最后一晚住机场旁边的 Alajuela，12.24 早上从容走。
+      整条线顺路不走回头路：Jacó → Monteverde（约 3h）→ La Fortuna（约 3h）→ SJO（约 3h）。
+    </p>
+  </div>
+</section>
+
+<section id="map-sec">
+  <h2><span class="num">02</span>路线地图</h2>
+  <div id="map"></div>
+  <p class="small muted">点击地图标记查看日期。车程为 Waze 正常路况估算，圣诞季周末会更堵，按 +30% 留余量。</p>
+</section>
+
+<section id="days">
+  <h2><span class="num">03</span>每日行程</h2>
+
+  <div class="day" style="--c:#7a6a55">
+    <div class="date">12.11<small>周五</small></div>
+    <div>
+      <h3>12:00 抵达 SJO · 下午 San José 城市漫步</h3>
+      <div class="meta">住：San José 市区（Barrio Amón / Barrio Escalante） · 今天不用取车 · 只有半天，挑重点</div>
+      <ul>
+        <li><b>12:00</b> 落地 → 入境 + 取行李，旺季按 <b>约 1h</b> 算；在机场办好电话卡 / 换点科朗。</li>
+        <li><b>~13:00</b> 机场 → 市区：Uber / 官方橙色出租车约 30–50 分钟（周五下午可能更堵）。</li>
+        <li><b>~14:00</b> 酒店放行李（早到可先寄存），去 <b>中央市场 Mercado Central</b> 吃午饭：<i>casado</i>，再来一份 Las Delicias 的 <i>churchill</i>（刨冰甜品）。</li>
+        <li><b>~15:00</b> 步行到文化广场 Plaza de la Cultura：<b>国家剧院 Teatro Nacional</b>（内部咖啡馆可坐坐）+ 广场地下的 <b>前哥伦布黄金博物馆</b>。博物馆、剧院下午较早关门，<b>出发前查当天开放时间</b>；时间紧就二选一。</li>
+        <li><b>傍晚</b>沿 Avenida Central 步行街逛逛，12 月有圣诞灯饰。</li>
+        <li><b>晚上</b>去 <b>Barrio Escalante</b> 吃饭、喝精酿，早点睡，明早 06:30 取车。</li>
+      </ul>
+      <div class="opt">🛡️ 市中心晚上别走偏僻街道，手机别拿在手里边走边看；打车用 Uber/DiDi。</div>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--orange)">
+    <div class="date">12.12<small>周六</small></div>
+    <div>
+      <h3>取车 → Poás 火山 → Jacó 入住冲浪学校</h3>
+      <div class="meta">车程：San José → Poás 约 1.5h；Poás → Jacó 约 2.5h · 住：Jacó 冲浪学校</div>
+      <ul>
+        <li><b>06:30</b> 在 San José / 机场取车（机场附近租车点最多）。</li>
+        <li><b>08:00</b> <b>Poás 火山国家公园</b>：早上云少，看火山口湖概率最高。<span class="tag warn">必须提前在 SINAC 网上买票，选时段</span></li>
+        <li>顺路 <b>Doka Estate</b> 咖啡庄园或火山脚下的草莓摊吃午饭。</li>
+        <li>沿 Ruta 27 下山去太平洋；途经 <b>Tárcoles 鳄鱼桥</b>（桥上看野生大鳄鱼，停 15 分钟）。</li>
+        <li>傍晚抵达 Jacó，入住冲浪学校，海边看日落。</li>
+      </ul>
+      <div class="opt">⚠️ Poás 近年因火山活动多次临时关闭。出发前一周查 SINAC 状态；若关闭，换 <b>Irazú 火山</b>（在 San José 东边，约 1.5h，然后去 Jacó 约 3h，比较赶）或改成上午逛 <b>La Paz 瀑布花园</b>。</div>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--orange)">
+    <div class="date">12.13<small>周日</small></div>
+    <div>
+      <h3>漂流日 · Quepos 河流 + Manuel Antonio 海滩</h3>
+      <div class="meta">车程：Jacó → Quepos 约 1h15 · 住：Jacó</div>
+      <ul>
+        <li>漂流离 Jacó 最近的是 Quepos 附近两条河：
+          <ul>
+            <li><b>Río Naranjo</b>（III–IV 级，刺激，12 月雨季刚结束水量好）</li>
+            <li><b>Río Savegre</b>（II–III 级，风景好，适合第一次）</li>
+          </ul>
+        </li>
+        <li>很多运营商可以从 Jacó 接送；自驾的话约好集合点，一般 7:00–8:00 出发，中午结束含午餐。</li>
+        <li>下午去 <b>Playa Espadilla</b>（Manuel Antonio 公园外的公共海滩）游泳、看日落，晚上开回 Jacó（注意天黑 ~17:30，尽量在天黑前回去）。</li>
+        <li>早点睡，明天开始冲浪课 🏄</li>
+      </ul>
+      <div class="opt">💡 Plan B：想看 Arenal 火山 + Balsa 河漂流，可以放在后半程 12.22（见下文），这一天留在附近更轻松。</div>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--teal)">
+    <div class="date">12.14<small>周一</small><br>–12.18<small>周五</small></div>
+    <div>
+      <h3>Jacó 冲浪学校 · 5 天</h3>
+      <div class="meta">住：Jacó 冲浪学校 · 以学校课表为准</div>
+      <ul>
+        <li>课一般安排在早上或配合潮汐，空出的下午可选：</li>
+        <li>🦜 <b>Carara 国家公园</b>（Jacó 北 20 分钟）：清晨看金刚鹦鹉 scarlet macaw，步道平坦 1–2h。</li>
+        <li>🌅 <b>Playa Hermosa</b>（Jacó 南 10 分钟）：浪更大的黑沙滩，看高手冲浪和日落。</li>
+        <li>🏝️ <b>Tortuga 岛</b>一日游船（需要整天，适合休息日）。</li>
+        <li>🌄 <b>Mirador Jacó</b>（山上观景点）看全湾夕阳。</li>
+        <li>🧘 晒伤 + 肌肉酸痛预警：备好防晒和芦荟，留一个下午纯休息。</li>
+      </ul>
+      <div class="opt">📌 12.18 晚收拾行李、把湿冲浪衣物晾干；如果学校 12.19 有退房时间，早上可以再下一次水再出发。</div>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--green)">
+    <div class="date">12.19<small>周六</small></div>
+    <div>
+      <h3>Jacó → Monteverde 云雾林</h3>
+      <div class="meta">车程约 3h（最后 ~30 分钟山路，路况已大改善，普通 SUV 可以） · 住：Santa Elena / Monteverde</div>
+      <ul>
+        <li>上午出发，中午前到。山上 15–20°C 且风大，<b>备外套</b>。</li>
+        <li>下午：<b>吊桥 Hanging Bridges</b>（Selvatura 或 Sky Adventures），在树冠层走。</li>
+        <li><b>17:30 夜游 Night Walk</b>（一定要跟向导）：树懒、树蛙、狼蛛、睡觉的鸟。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--green)">
+    <div class="date">12.20<small>周日</small></div>
+    <div>
+      <h3>Monteverde 云雾林保护区 + 滑索</h3>
+      <div class="meta">住：Santa Elena / Monteverde</div>
+      <ul>
+        <li><b>07:00</b> <b>Monteverde Cloud Forest Reserve</b> 跟向导步行 2.5h（找凤尾绿咬鹃 Quetzal，12 月有机会）。<span class="tag warn">门票/向导提前订</span></li>
+        <li>下午：<b>滑索 Zipline</b>（100% Aventura / Extremo，“超人式”长滑索 + Tarzan swing）。</li>
+        <li>或者温和一点：咖啡 / 巧克力 / 甘蔗传统农场 tour（Don Juan、El Trapiche）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day" style="--c:#b23b2c">
+    <div class="date">12.21<small>周一</small></div>
+    <div>
+      <h3>Monteverde → 环 Arenal 湖 → La Fortuna · 温泉之夜</h3>
+      <div class="meta">车程约 3–3.5h，风景路 · 住：La Fortuna（选能看到火山的酒店）</div>
+      <ul>
+        <li>沿 Arenal 湖北岸开，中途 Nuevo Arenal 吃午饭、湖边观景台停车拍照。</li>
+        <li>下午 <b>Mistico 吊桥</b>（或若 Monteverde 已经走过吊桥可跳过）。</li>
+        <li>晚上 <b>温泉</b>：Tabacón（最经典，贵）/ Paradise / Baldi；预算友好的有 Eco Termales（限流需订）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day" style="--c:#b23b2c">
+    <div class="date">12.22<small>周二</small></div>
+    <div>
+      <h3>Arenal 火山徒步 + La Fortuna 瀑布</h3>
+      <div class="meta">住：La Fortuna</div>
+      <ul>
+        <li>上午 <b>Arenal 火山国家公园</b> 或 <b>Arenal 1968</b> 步道：熔岩地貌 + 火山正面视角（早上云少）。</li>
+        <li>中午 <b>La Fortuna 瀑布</b>：下约 500 级台阶，可以在瀑布下水潭游泳。</li>
+        <li>傍晚可以再泡一次温泉，或去免费的河中温泉（当地人去的 El Chollín）。</li>
+      </ul>
+      <div class="opt">🔀 可替换：<b>Río Celeste 蓝河</b>（Tenorio 国家公园，单程约 1.5h，河水是牛奶蓝，需网上买票）；或者还想漂流的话，这里有 <b>Río Balsa</b> 漂流 / 溪降 canyoning。</div>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--purple)">
+    <div class="date">12.23<small>周三</small></div>
+    <div>
+      <h3>La Fortuna → 机场附近 Alajuela</h3>
+      <div class="meta">车程约 3h · 住：Alajuela（机场 10 分钟内的酒店，选带机场接驳的）</div>
+      <ul>
+        <li>路线 1：经 San Ramón 走 Ruta 1，顺路 <b>Sarchí</b>（彩绘牛车手工艺小镇，买纪念品）+ <b>Grecia</b> 红色铁皮教堂。</li>
+        <li>路线 2：经 Vara Blanca，下午逛 <b>La Paz 瀑布花园</b>（12.12 如果没去）。</li>
+        <li>傍晚加满油、清理车内沙子（还车可能因为太脏收清洁费）。</li>
+        <li>平安夜前夜，可以在 Alajuela 中央公园感受一下圣诞气氛，吃最后一顿 <i>casado</i> 🎄</li>
+      </ul>
+      <div class="opt">🚗 若航班很早（7–8 点），建议<b>今晚就还车</b>，然后坐酒店接驳去机场，明早省掉还车排队时间。</div>
+    </div>
+  </div>
+
+  <div class="day" style="--c:var(--purple)">
+    <div class="date">12.24<small>周四</small></div>
+    <div>
+      <h3>✈️ SJO 离境</h3>
+      <div class="meta">国际航班至少提前 3h 到机场（平安夜 + 旺季，人很多）</div>
+      <ul>
+        <li>没还车的话：给还车 + 接驳留 <b>45 分钟</b>，即 起飞时间 − 3h45 到达还车点。</li>
+        <li>离境税一般已含在机票里，无需另付。</li>
+        <li>剩下的科朗（colones）在机场花掉或换回。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="stay">
+  <h2><span class="num">04</span>住宿一览</h2>
+  <div class="tablewrap"><table>
+    <tr><th>晚上</th><th>地点</th><th>晚数</th><th>备注</th></tr>
+    <tr><td>12.11</td><td>San José（Barrio Amón / Escalante）</td><td>1</td><td>需要安全停车位的话可改住机场附近</td></tr>
+    <tr><td>12.12 – 12.18</td><td>Jacó 冲浪学校</td><td>7</td><td>✅ 已定（确认 12.12 入住、12.19 退房时间）</td></tr>
+    <tr><td>12.19 – 12.20</td><td>Santa Elena / Monteverde</td><td>2</td><td>旺季提前订；带停车位</td></tr>
+    <tr><td>12.21 – 12.22</td><td>La Fortuna</td><td>2</td><td>选火山景观房；有的酒店自带温泉</td></tr>
+    <tr><td>12.23</td><td>Alajuela（SJO 机场旁）</td><td>1</td><td>选有免费机场接驳的</td></tr>
+  </table></div>
+  <p class="small muted">共 13 晚。圣诞–新年是哥斯达黎加最旺的季节，酒店和租车越早订越好。</p>
+</section>
+
+<section id="todo">
+  <h2><span class="num">05</span>预订清单 <span class="small muted" style="font-weight:400">（打勾会保存在本机浏览器）</span></h2>
+  <div class="card check" id="checklist">
+    <label><input type="checkbox" data-k="car"><span>🚗 租车：12.12 – 12.24（SJO 取 / 还），建议 4x4 或高底盘 SUV；确认强制责任险 (SLI/TPL) 的价格，网上报价常不含</span></label>
+    <label><input type="checkbox" data-k="poas"><span>🌋 Poás 火山门票（SINAC 官网，12.12 08:00 时段）</span></label>
+    <label><input type="checkbox" data-k="raft"><span>🛶 12.13 漂流（Naranjo 或 Savegre），问清是否从 Jacó 接送</span></label>
+    <label><input type="checkbox" data-k="surf"><span>🏄 冲浪学校：确认 12.12 入住、课表、12.19 退房时间</span></label>
+    <label><input type="checkbox" data-k="mvhotel"><span>🏨 Monteverde 住宿 12.19–12.21</span></label>
+    <label><input type="checkbox" data-k="mvres"><span>🌿 Monteverde 保护区门票 + 向导（12.20 早上）</span></label>
+    <label><input type="checkbox" data-k="night"><span>🔦 Monteverde 夜游（12.19 17:30）</span></label>
+    <label><input type="checkbox" data-k="zip"><span>🪢 滑索（12.20 下午）</span></label>
+    <label><input type="checkbox" data-k="lfhotel"><span>🏨 La Fortuna 住宿 12.21–12.23</span></label>
+    <label><input type="checkbox" data-k="hot"><span>♨️ 温泉（12.21 晚）</span></label>
+    <label><input type="checkbox" data-k="alhotel"><span>🏨 Alajuela 机场酒店 12.23</span></label>
+    <label><input type="checkbox" data-k="sjhotel"><span>🏨 San José 酒店 12.11</span></label>
+    <label><input type="checkbox" data-k="entry"><span>🛂 入境要求：护照有效期 + 是否需要签证（持有效美国签证的部分国籍可免签，自行确认）、回程机票证明</span></label>
+    <label><input type="checkbox" data-k="ins"><span>🩹 旅行保险（覆盖冲浪 / 漂流 / 滑索等活动）</span></label>
+    <label><input type="checkbox" data-k="esim"><span>📶 eSIM / 流量（Waze 导航必须有网）</span></label>
+  </div>
+</section>
+
+<section id="tips">
+  <h2><span class="num">06</span>自驾 &amp; 实用贴士</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🚗 自驾</h3>
+      <ul>
+        <li>导航用 <b>Waze</b>，当地最准；离线下载 Google Maps 作为备份。</li>
+        <li><b>天黑（约 17:30）后尽量别开山路</b>：没有路灯、多雾、有行人和动物。</li>
+        <li>车里任何时候都不要留贵重物品，停车选有人看管的停车场。</li>
+        <li>加油站全是人工加油：“<i>Lleno, regular, por favor</i>”（加满，普通汽油）。</li>
+        <li>单车道桥有“Ceda el paso”标志的一方让行。</li>
+        <li>警察罚单不要现场给现金；超速摄像头存在，限速一般 60–80 km/h。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>💵 钱 &amp; 通讯</h3>
+      <ul>
+        <li>美元和科朗（CRC）都能用，大部分地方可刷卡；小摊、停车、小费备点现金。</li>
+        <li>餐厅账单通常已含 10% 服务费 + 13% 税。</li>
+        <li>紧急电话 <b>911</b>。</li>
+        <li>插座与美国相同（A/B 型，110V）。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🌦️ 12 月天气</h3>
+      <ul>
+        <li>太平洋沿岸（Jacó）进入旱季：晴热 30°C+，紫外线极强。</li>
+        <li>Monteverde：15–20°C、多风多雾，偶尔毛毛雨。</li>
+        <li>Arenal / La Fortuna：湿润，可能阵雨，火山顶常被云遮——早上看最好。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🗓️ 公园开放日注意</h3>
+      <ul>
+        <li><b>Manuel Antonio 国家公园周二闭园</b>（12.15、12.22 都是周二）。想进公园可以挑冲浪周的空闲日（距 Jacó 1h15），需网上买票。</li>
+        <li>SINAC 管辖的公园（Poás、Manuel Antonio、Río Celeste 等）基本只在网上售票，现场不卖。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="pack">
+  <h2><span class="num">07</span>打包清单</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🏄 海边 / 冲浪</h3>
+      <ul>
+        <li>珊瑚友好（reef-safe）防晒霜 SPF50+，当地很贵</li>
+        <li>冲浪防晒衣 rash guard、泳衣 ×2</li>
+        <li>芦荟胶、防水手机袋、速干毛巾</li>
+        <li>拖鞋 + 可下水的运动凉鞋（漂流、瀑布用）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🌿 山区 / 雨林</h3>
+      <ul>
+        <li>抓绒或薄羽绒 + 防风防雨外套（Monteverde 必备）</li>
+        <li>长裤、包脚徒步鞋</li>
+        <li>驱蚊液（含 DEET 或 Picaridin）</li>
+        <li>头灯（夜游）、小双筒望远镜（看鸟 / 树懒）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>Pura Vida 🌴 · 行程为计划草稿，营业时间与票务以官方最新信息为准</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var stops=[
+    {n:"SJO 机场",d:"12.11 12:00 到达 · 12.24 离开",ll:[9.9939,-84.2088],c:"#6b4fa8"},
+    {n:"San José",d:"12.11 下午城市漫步",ll:[9.9333,-84.0790],c:"#7a6a55"},
+    {n:"Poás 火山",d:"12.12 上午",ll:[10.1980,-84.2330],c:"#d9692b"},
+    {n:"Tárcoles 鳄鱼桥",d:"12.12 路过",ll:[9.7720,-84.6080],c:"#d9692b"},
+    {n:"Jacó 冲浪学校",d:"12.12 – 12.19 住",ll:[9.6150,-84.6290],c:"#0e7c86"},
+    {n:"Quepos 漂流 / Manuel Antonio",d:"12.13 漂流",ll:[9.4300,-84.1620],c:"#d9692b"},
+    {n:"Monteverde",d:"12.19 – 12.21 住",ll:[10.3100,-84.8200],c:"#1f7a4d"},
+    {n:"La Fortuna / Arenal",d:"12.21 – 12.23 住",ll:[10.4680,-84.6430],c:"#b23b2c"},
+    {n:"Alajuela",d:"12.23 住（机场旁）",ll:[10.0160,-84.2140],c:"#6b4fa8"}
+  ];
+  if(window.L){
+  var map=L.map('map',{scrollWheelZoom:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+  stops.forEach(function(s){
+    L.circleMarker(s.ll,{radius:9,color:'#fff',weight:2,fillColor:s.c,fillOpacity:1})
+      .addTo(map).bindPopup('<b>'+s.n+'</b><br>'+s.d).bindTooltip(s.n);
+  });
+  var route=[[9.9333,-84.0790],[10.1980,-84.2330],[9.7720,-84.6080],[9.6150,-84.6290],[9.4300,-84.1620],[9.6150,-84.6290],[10.3100,-84.8200],[10.4680,-84.6430],[10.0160,-84.2140],[9.9939,-84.2088]];
+  L.polyline(route,{color:'#0e7c86',weight:3,dashArray:'6 6',opacity:.8}).addTo(map);
+  map.fitBounds(L.latLngBounds(route).pad(0.08));
+  }
+
+  var KEY='cr-trip-2026-checklist', saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY))||{};}catch(e){}
+  document.querySelectorAll('#checklist input').forEach(function(cb){
+    cb.checked=!!saved[cb.dataset.k];
+    cb.addEventListener('change',function(){saved[cb.dataset.k]=cb.checked;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}});
+  });
+})();
+</script>
+</body>
+</html>
