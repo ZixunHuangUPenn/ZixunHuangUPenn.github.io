@@ -87,6 +87,39 @@ th{background:var(--sand);font-weight:600}
 .dlist .btns{display:flex;gap:6px}
 .star-icon{background:#e0a100;color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.35);font:700 12px/20px sans-serif;text-align:center}
 #map.picking,#map.picking .leaflet-interactive{cursor:crosshair!important}
+.spot-icon span{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:#fff;font:700 13px/1 sans-serif;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);box-sizing:border-box}
+.spot-icon.alt span{opacity:.85;font-size:16px}
+.spotgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.spotcard{display:flex;gap:10px;align-items:center;text-align:left;font:inherit;background:#fbfaf6;border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;color:var(--ink)}
+.spotcard:hover{border-color:var(--teal);background:#eef7f7}
+.spotcard.alt{border-style:dashed}
+.spotcard b{display:block;font-size:14px;line-height:1.3}
+.spotcard small{display:block;font-size:12px;color:var(--muted)}
+.sn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:#fff;font-weight:700;font-size:13px}
+.spotshade{position:fixed;inset:0;background:rgba(20,30,25,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:1500}
+.spotshade.open{opacity:1;pointer-events:auto}
+.spotpanel{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:#fff;z-index:1600;overflow-y:auto;padding:22px 22px 30px;box-shadow:-8px 0 30px rgba(0,0,0,.18);transform:translateX(105%);transition:transform .25s ease}
+.spotpanel.open{transform:none}
+.sp-close{position:absolute;top:12px;right:12px;border:0;background:var(--sand);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px}
+.sp-head{display:flex;gap:12px;align-items:flex-start;padding-right:36px}
+.sp-head .sn{width:34px;height:34px;font-size:15px;margin-top:2px}
+.sp-head h3{margin:0;font-size:19px;line-height:1.35}
+.sp-en{font-size:13px;color:var(--muted)}
+.sp-day{display:inline-block;margin-top:6px;font-size:13px;background:var(--sand);border-radius:6px;padding:1px 8px}
+.sp-sum{margin:14px 0 4px}
+.spotpanel h4{margin:16px 0 6px;font-size:15px}
+.spotpanel ul{margin:0;padding-left:20px}
+.spotpanel li{margin:4px 0;font-size:14.5px}
+.sp-warn li::marker{color:var(--orange)}
+.sp-info{font-size:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sp-info th{width:84px;background:#faf7f0;font-weight:600;white-space:nowrap}
+.sp-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.sp-links a,.sp-links button,.sp-nav button{font:inherit;font-size:14px;padding:6px 12px;border-radius:9px;border:1px solid var(--green);background:#fff;color:var(--green);text-decoration:none;cursor:pointer}
+.sp-note{font-size:12px;color:var(--muted);margin:12px 0 0}
+.sp-nav{display:flex;justify-content:space-between;margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.sp-nav button:disabled{opacity:.35;cursor:default}
+@media(max-width:820px){.spotpanel{top:auto;left:0;width:100%;max-height:82vh;border-radius:16px 16px 0 0;transform:translateY(105%)}}
+a[data-spot]{color:inherit;text-decoration:underline dotted var(--teal);text-underline-offset:3px}
 footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
 </style>
 </head>
@@ -157,7 +190,12 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
 <section id="map-sec">
   <h2><span class="num">02</span>路线地图</h2>
   <div id="map"></div>
-  <p class="small muted">点击地图标记查看日期。车程为 Waze 正常路况估算，圣诞季周末会更堵，按 +30% 留余量。</p>
+  <p class="small muted">数字 = 游玩顺序，点标记或下面的卡片看景点详情和攻略；灰色 + 是备选，黄色字母是你自己加的目的地。车程为 Waze 正常路况估算，圣诞季周末按 +30% 留余量。</p>
+
+  <div class="card">
+    <h3>📍 景点攻略 <span class="small muted" style="font-weight:400">点开看介绍、门票、时长和游玩建议</span></h3>
+    <div id="spotgrid" class="spotgrid"></div>
+  </div>
 
   <div class="card" id="mydest">
     <h3>⭐ 我的目的地 <span class="small muted" style="font-weight:400">搜索或在地图上点一下，就能把地点加到上面的地图</span></h3>
@@ -188,10 +226,10 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <ul>
         <li><b>12:00</b> 落地 → 入境 + 取行李，旺季按 <b>约 1h</b> 算；在机场办好电话卡 / 换点科朗。</li>
         <li><b>~13:00</b> 机场 → 市区：Uber / 官方橙色出租车约 30–50 分钟（周五下午可能更堵）。</li>
-        <li><b>~14:00</b> 酒店放行李（早到可先寄存），去 <b>中央市场 Mercado Central</b> 吃午饭：<i>casado</i>，再来一份 Las Delicias 的 <i>churchill</i>（刨冰甜品）。</li>
-        <li><b>~15:00</b> 步行到文化广场 Plaza de la Cultura：<b>国家剧院 Teatro Nacional</b>（内部咖啡馆可坐坐）+ 广场地下的 <b>前哥伦布黄金博物馆</b>。博物馆、剧院下午较早关门，<b>出发前查当天开放时间</b>；时间紧就二选一。</li>
+        <li><b>~14:00</b> 酒店放行李（早到可先寄存），去 <a href="#" data-spot="mercado"><b>中央市场 Mercado Central</b></a> 吃午饭：<i>casado</i>，再来一份 Las Delicias 的 <i>churchill</i>（刨冰甜品）。</li>
+        <li><b>~15:00</b> 步行到文化广场 Plaza de la Cultura：<a href="#" data-spot="plaza"><b>国家剧院 Teatro Nacional</b></a>（内部咖啡馆可坐坐）+ 广场地下的 <b>前哥伦布黄金博物馆</b>。博物馆、剧院下午较早关门，<b>出发前查当天开放时间</b>；时间紧就二选一。</li>
         <li><b>傍晚</b>沿 Avenida Central 步行街逛逛，12 月有圣诞灯饰。</li>
-        <li><b>晚上</b>去 <b>Barrio Escalante</b> 吃饭、喝精酿，早点睡，明早 06:30 取车。</li>
+        <li><b>晚上</b>去 <a href="#" data-spot="escalante"><b>Barrio Escalante</b></a> 吃饭、喝精酿，早点睡，明早 06:30 取车。</li>
       </ul>
       <div class="opt">🛡️ 市中心晚上别走偏僻街道，手机别拿在手里边走边看；打车用 Uber/DiDi。</div>
     </div>
@@ -204,12 +242,12 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <div class="meta">车程：San José → Poás 约 1.5h；Poás → Jacó 约 2.5h · 住：Jacó 冲浪学校</div>
       <ul>
         <li><b>06:30</b> 在 San José / 机场取车（机场附近租车点最多）。</li>
-        <li><b>08:00</b> <b>Poás 火山国家公园</b>：早上云少，看火山口湖概率最高。<span class="tag warn">必须提前在 SINAC 网上买票，选时段</span></li>
+        <li><b>08:00</b> <a href="#" data-spot="poas"><b>Poás 火山国家公园</b></a>：早上云少，看火山口湖概率最高。<span class="tag warn">必须提前在 SINAC 网上买票，选时段</span></li>
         <li>顺路 <b>Doka Estate</b> 咖啡庄园或火山脚下的草莓摊吃午饭。</li>
-        <li>沿 Ruta 27 下山去太平洋；途经 <b>Tárcoles 鳄鱼桥</b>（桥上看野生大鳄鱼，停 15 分钟）。</li>
+        <li>沿 Ruta 27 下山去太平洋；途经 <a href="#" data-spot="tarcoles"><b>Tárcoles 鳄鱼桥</b></a>（桥上看野生大鳄鱼，停 15 分钟）。</li>
         <li>傍晚抵达 Jacó，入住冲浪学校，海边看日落。</li>
       </ul>
-      <div class="opt">⚠️ Poás 近年因火山活动多次临时关闭。出发前一周查 SINAC 状态；若关闭，换 <b>Irazú 火山</b>（在 San José 东边，约 1.5h，然后去 Jacó 约 3h，比较赶）或改成上午逛 <b>La Paz 瀑布花园</b>。</div>
+      <div class="opt">⚠️ Poás 近年因火山活动多次临时关闭。出发前一周查 SINAC 状态；若关闭，换 <a href="#" data-spot="irazu"><b>Irazú 火山</b></a>（在 San José 东边，约 1.5h，然后去 Jacó 约 3h，比较赶）或改成上午逛 <a href="#" data-spot="lapaz"><b>La Paz 瀑布花园</b></a>。</div>
     </div>
   </div>
 
@@ -221,12 +259,12 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <ul>
         <li>漂流离 Jacó 最近的是 Quepos 附近两条河：
           <ul>
-            <li><b>Río Naranjo</b>（III–IV 级，刺激，12 月雨季刚结束水量好）</li>
-            <li><b>Río Savegre</b>（II–III 级，风景好，适合第一次）</li>
+            <li><a href="#" data-spot="raft"><b>Río Naranjo</b></a>（III–IV 级，刺激，12 月雨季刚结束水量好）</li>
+            <li><a href="#" data-spot="raft"><b>Río Savegre</b></a>（II–III 级，风景好，适合第一次）</li>
           </ul>
         </li>
         <li>很多运营商可以从 Jacó 接送；自驾的话约好集合点，一般 7:00–8:00 出发，中午结束含午餐。</li>
-        <li>下午去 <b>Playa Espadilla</b>（Manuel Antonio 公园外的公共海滩）游泳、看日落，晚上开回 Jacó（注意天黑 ~17:30，尽量在天黑前回去）。</li>
+        <li>下午去 <a href="#" data-spot="espadilla"><b>Playa Espadilla</b></a>（Manuel Antonio 公园外的公共海滩）游泳、看日落，晚上开回 Jacó（注意天黑 ~17:30，尽量在天黑前回去）。</li>
         <li>早点睡，明天开始冲浪课 🏄</li>
       </ul>
       <div class="opt">💡 Plan B：想看 Arenal 火山 + Balsa 河漂流，可以放在后半程 12.22（见下文），这一天留在附近更轻松。</div>
@@ -240,9 +278,9 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <div class="meta">住：Jacó 冲浪学校 · 以学校课表为准</div>
       <ul>
         <li>课一般安排在早上或配合潮汐，空出的下午可选：</li>
-        <li>🦜 <b>Carara 国家公园</b>（Jacó 北 20 分钟）：清晨看金刚鹦鹉 scarlet macaw，步道平坦 1–2h。</li>
-        <li>🌅 <b>Playa Hermosa</b>（Jacó 南 10 分钟）：浪更大的黑沙滩，看高手冲浪和日落。</li>
-        <li>🏝️ <b>Tortuga 岛</b>一日游船（需要整天，适合休息日）。</li>
+        <li>🦜 <a href="#" data-spot="carara"><b>Carara 国家公园</b></a>（Jacó 北 20 分钟）：清晨看金刚鹦鹉 scarlet macaw，步道平坦 1–2h。</li>
+        <li>🌅 <a href="#" data-spot="hermosa"><b>Playa Hermosa</b></a>（Jacó 南 10 分钟）：浪更大的黑沙滩，看高手冲浪和日落。</li>
+        <li>🏝️ <a href="#" data-spot="tortuga"><b>Tortuga 岛</b></a>一日游船（需要整天，适合休息日）。</li>
         <li>🌄 <b>Mirador Jacó</b>（山上观景点）看全湾夕阳。</li>
         <li>🧘 晒伤 + 肌肉酸痛预警：备好防晒和芦荟，留一个下午纯休息。</li>
       </ul>
@@ -257,7 +295,7 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <div class="meta">车程约 3h（最后 ~30 分钟山路，路况已大改善，普通 SUV 可以） · 住：Santa Elena / Monteverde</div>
       <ul>
         <li>上午出发，中午前到。山上 15–20°C 且风大，<b>备外套</b>。</li>
-        <li>下午：<b>吊桥 Hanging Bridges</b>（Selvatura 或 Sky Adventures），在树冠层走。</li>
+        <li>下午：<a href="#" data-spot="mvbridges"><b>吊桥 Hanging Bridges</b></a>（Selvatura 或 Sky Adventures），在树冠层走。</li>
         <li><b>17:30 夜游 Night Walk</b>（一定要跟向导）：树懒、树蛙、狼蛛、睡觉的鸟。</li>
       </ul>
     </div>
@@ -269,8 +307,8 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <h3>Monteverde 云雾林保护区 + 滑索</h3>
       <div class="meta">住：Santa Elena / Monteverde</div>
       <ul>
-        <li><b>07:00</b> <b>Monteverde Cloud Forest Reserve</b> 跟向导步行 2.5h（找凤尾绿咬鹃 Quetzal，12 月有机会）。<span class="tag warn">门票/向导提前订</span></li>
-        <li>下午：<b>滑索 Zipline</b>（100% Aventura / Extremo，“超人式”长滑索 + Tarzan swing）。</li>
+        <li><b>07:00</b> <a href="#" data-spot="mvreserve"><b>Monteverde Cloud Forest Reserve</b></a> 跟向导步行 2.5h（找凤尾绿咬鹃 Quetzal，12 月有机会）。<span class="tag warn">门票/向导提前订</span></li>
+        <li>下午：<a href="#" data-spot="zip"><b>滑索 Zipline</b></a>（100% Aventura / Extremo，“超人式”长滑索 + Tarzan swing）。</li>
         <li>或者温和一点：咖啡 / 巧克力 / 甘蔗传统农场 tour（Don Juan、El Trapiche）。</li>
       </ul>
     </div>
@@ -284,7 +322,7 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <ul>
         <li>沿 Arenal 湖北岸开，中途 Nuevo Arenal 吃午饭、湖边观景台停车拍照。</li>
         <li>下午 <b>Mistico 吊桥</b>（或若 Monteverde 已经走过吊桥可跳过）。</li>
-        <li>晚上 <b>温泉</b>：Tabacón（最经典，贵）/ Paradise / Baldi；预算友好的有 Eco Termales（限流需订）。</li>
+        <li>晚上 <a href="#" data-spot="hot"><b>温泉</b></a>：Tabacón（最经典，贵）/ Paradise / Baldi；预算友好的有 Eco Termales（限流需订）。</li>
       </ul>
     </div>
   </div>
@@ -295,11 +333,11 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <h3>Arenal 火山徒步 + La Fortuna 瀑布</h3>
       <div class="meta">住：La Fortuna</div>
       <ul>
-        <li>上午 <b>Arenal 火山国家公园</b> 或 <b>Arenal 1968</b> 步道：熔岩地貌 + 火山正面视角（早上云少）。</li>
-        <li>中午 <b>La Fortuna 瀑布</b>：下约 500 级台阶，可以在瀑布下水潭游泳。</li>
+        <li>上午 <a href="#" data-spot="arenalnp"><b>Arenal 火山国家公园</b></a> 或 <b>Arenal 1968</b> 步道：熔岩地貌 + 火山正面视角（早上云少）。</li>
+        <li>中午 <a href="#" data-spot="fortunafall"><b>La Fortuna 瀑布</b></a>：下约 500 级台阶，可以在瀑布下水潭游泳。</li>
         <li>傍晚可以再泡一次温泉，或去免费的河中温泉（当地人去的 El Chollín）。</li>
       </ul>
-      <div class="opt">🔀 可替换：<b>Río Celeste 蓝河</b>（Tenorio 国家公园，单程约 1.5h，河水是牛奶蓝，需网上买票）；或者还想漂流的话，这里有 <b>Río Balsa</b> 漂流 / 溪降 canyoning。</div>
+      <div class="opt">🔀 可替换：<a href="#" data-spot="celeste"><b>Río Celeste 蓝河</b></a>（Tenorio 国家公园，单程约 1.5h，河水是牛奶蓝，需网上买票）；或者还想漂流的话，这里有 <b>Río Balsa</b> 漂流 / 溪降 canyoning。</div>
     </div>
   </div>
 
@@ -309,7 +347,7 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
       <h3>La Fortuna → 机场附近 Alajuela</h3>
       <div class="meta">车程约 3h · 住：Alajuela（机场 10 分钟内的酒店，选带机场接驳的）</div>
       <ul>
-        <li>路线 1：经 San Ramón 走 Ruta 1，顺路 <b>Sarchí</b>（彩绘牛车手工艺小镇，买纪念品）+ <b>Grecia</b> 红色铁皮教堂。</li>
+        <li>路线 1：经 San Ramón 走 Ruta 1，顺路 <a href="#" data-spot="sarchi"><b>Sarchí</b></a>（彩绘牛车手工艺小镇，买纪念品）+ <b>Grecia</b> 红色铁皮教堂。</li>
         <li>路线 2：经 Vara Blanca，下午逛 <b>La Paz 瀑布花园</b>（12.12 如果没去）。</li>
         <li>傍晚加满油、清理车内沙子（还车可能因为太脏收清洁费）。</li>
         <li>平安夜前夜，可以在 Alajuela 中央公园感受一下圣诞气氛，吃最后一顿 <i>casado</i> 🎄</li>
@@ -433,32 +471,167 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
 
 </main>
 
+<div id="spotshade" class="spotshade"></div>
+<aside id="spotpanel" class="spotpanel" aria-label="景点详情">
+  <button type="button" id="spotclose" class="sp-close" aria-label="关闭">✕</button>
+  <div id="spotbody"></div>
+</aside>
+
 <footer>Pura Vida 🌴 · 行程为计划草稿，营业时间与票务以官方最新信息为准</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function(){
-  var stops=[
-    {n:"SJO 机场",d:"12.11 12:00 到达 · 12.24 离开",ll:[9.9939,-84.2088],c:"#6b4fa8"},
-    {n:"San José",d:"12.11 下午城市漫步",ll:[9.9333,-84.0790],c:"#7a6a55"},
-    {n:"Poás 火山",d:"12.12 上午",ll:[10.1980,-84.2330],c:"#d9692b"},
-    {n:"Tárcoles 鳄鱼桥",d:"12.12 路过",ll:[9.7720,-84.6080],c:"#d9692b"},
-    {n:"Jacó 冲浪学校",d:"12.12 – 12.19 住",ll:[9.6150,-84.6290],c:"#0e7c86"},
-    {n:"Quepos 漂流 / Manuel Antonio",d:"12.13 漂流",ll:[9.4300,-84.1620],c:"#d9692b"},
-    {n:"Monteverde",d:"12.19 – 12.21 住",ll:[10.3100,-84.8200],c:"#1f7a4d"},
-    {n:"La Fortuna / Arenal",d:"12.21 – 12.23 住",ll:[10.4680,-84.6430],c:"#b23b2c"},
-    {n:"Alajuela",d:"12.23 住（机场旁）",ll:[10.0160,-84.2140],c:"#6b4fa8"}
+  /* 景点数据：main=true 的按游玩顺序编号；main=false 为备选 */
+  var SPOTS=[
+    {id:'sjo',main:true,n:'SJO 胡安·圣玛丽亚国际机场',en:'Juan Santamaría Intl. Airport',day:'12.11 12:00 到达 · 12.24 离境',c:'#6b4fa8',ll:[9.9939,-84.2088],
+     sum:'哥斯达黎加的主要国际机场，在 Alajuela，离 San José 市中心约 20 km。整趟旅行的起点和终点。',
+     info:[['到达','12.11 12:00，入境 + 取行李约 1h'],['离境','12.24 早上，至少提前 3h 到'],['到市区','Uber / 橙色官方出租车 30–50 分钟']],
+     guide:['出关后先买当地电话卡或开好 eSIM，Waze 导航要用。','机场里换汇比例差，少换一点应急即可，大部分地方可刷卡、收美元。','打车认准橙色官方出租车（Taxi Aeropuerto）或用 Uber，不要跟拉客的走。','离境：还车点在机场外，还车 + 接驳留 45 分钟。'],
+     warn:['平安夜前后机场人多，安检排队可能很久。']},
+    {id:'mercado',main:true,n:'中央市场',en:'Mercado Central',day:'12.11 下午',c:'#7a6a55',ll:[9.9351,-84.0806],
+     sum:'1880 年开业的老市场，迷宫一样的小巷里挤满了小吃摊、咖啡豆、香料和手工艺品，是最接地气的 San José。',
+     info:[['建议时长','1h'],['门票','免费'],['吃什么','casado（米饭+黑豆+肉+沙拉的国民套餐）、churchill 刨冰']],
+     guide:['找一家 soda（当地小饭馆）坐下点 casado，便宜量大。','Las Delicias 的 churchill（刨冰 + 炼乳 + 冰淇淋）是招牌。','可以在这里买咖啡豆当伴手礼，比机场便宜很多。'],
+     warn:['人多拥挤，背包背在前面，手机收好。','傍晚前后陆续收摊，别去太晚。']},
+    {id:'plaza',main:true,n:'文化广场：国家剧院 + 黄金博物馆',en:'Teatro Nacional · Museo del Oro Precolombino',day:'12.11 下午',c:'#7a6a55',ll:[9.9334,-84.0770],
+     sum:'国家剧院是 19 世纪末用咖啡出口税建的新古典主义剧院，内部金碧辉煌；广场地下的黄金博物馆收藏了大量前哥伦布时期的金器。',
+     info:[['建议时长','1.5–2h（两处合计）'],['门票','剧院、博物馆各自收费，以官网为准'],['开放','下午较早关门，出发前查当天时间']],
+     guide:['剧院内的咖啡馆（Alma de Café）可以坐下来喝杯咖啡，顺便看大厅穹顶。','黄金博物馆入口在广场地下，同一馆内还有钱币博物馆。','时间不够就二选一：喜欢建筑选剧院，喜欢文物选博物馆。'],
+     warn:['到达当天时间紧，别把这里排得太满。']},
+    {id:'escalante',main:true,n:'Barrio Escalante 美食区',en:'Barrio Escalante',day:'12.11 晚上',c:'#7a6a55',ll:[9.9350,-84.0600],
+     sum:'San José 东边的老街区，现在是城里餐厅、精酿酒吧和咖啡馆最集中的地方，晚上氛围好、相对安全。',
+     info:[['建议时长','晚餐 2h'],['怎么去','从市中心打车 10 分钟'],['适合','晚餐、精酿、甜品']],
+     guide:['沿 Calle 33 一带走，餐厅一家挨一家，随走随挑。','试试当地精酿啤酒和 ceviche（柠檬汁腌生鱼）。'],
+     warn:['早点回去休息，第二天 06:30 取车上火山。']},
+    {id:'poas',main:true,n:'Poás 火山国家公园',en:'Parque Nacional Volcán Poás',day:'12.12 上午 08:00',c:'#d9692b',ll:[10.1980,-84.2330],
+     sum:'世界上最大的活火山口之一，火山口里有一个冒着硫磺烟的酸性湖，颜色从青绿到灰白会变化。',
+     info:[['建议时长','1–1.5h'],['门票','约 US$15，只能在 SINAC 官网提前买，选时段'],['最佳时间','第一个时段，8–10 点云最少'],['车程','San José 约 1.5h；之后到 Jacó 约 2.5h']],
+     guide:['买最早的时段：中午以后火山口常被云完全遮住。','停车场走到观景台约 10 分钟铺装路，不难走。','火山上冷，带件外套。','下山路上有很多草莓摊和咖啡庄园（如 Doka Estate），可以顺路吃午饭。'],
+     warn:['近年因火山活动多次临时关闭，出发前一周和前一天都查 SINAC 状态。','观景台停留时间有限制，按工作人员指示走。','关闭的备选：Irazú 火山或 La Paz 瀑布花园。']},
+    {id:'tarcoles',main:true,n:'Tárcoles 鳄鱼桥',en:'Puente del Río Tárcoles',day:'12.12 路过',c:'#d9692b',ll:[9.7720,-84.6080],
+     sum:'27 号公路通往太平洋的路上，桥下河滩常年趴着几十条美洲鳄，有的长达 4–5 米。',
+     info:[['建议时长','15–20 分钟'],['门票','免费'],['位置','Jacó 以北约 25 分钟']],
+     guide:['桥两头有路边停车场和小摊，在停车场停好车再步行上桥。','桥上人行道窄，往下拍照即可。'],
+     warn:['这里车停在路边容易被盯上：车里别留任何东西，或者一人留守。']},
+    {id:'jaco',main:true,n:'Jacó 冲浪学校',en:'Jacó Beach',day:'12.12–12.19 住 · 12.14–12.18 上课',c:'#0e7c86',ll:[9.6150,-84.6290],
+     sum:'离 San José 最近的冲浪海滩，沙滩平缓、浪较温和，非常适合初学者；镇上餐厅、酒吧多，日落很美。',
+     info:[['课程','12.14–12.18，以学校课表为准'],['水温','约 28°C，不需要湿衣'],['日落','约 17:30']],
+     guide:['初学者在白浪区练起身，别逞强去外面的大浪。','课后肩膀和手臂会很酸，第一两天别安排太多活动。','涂 reef-safe 防晒，穿 rash guard，海上晒伤比你想的快。','冲浪板的板舵（fin）别对着人，摔倒时护住头。','傍晚到沙滩看日落，镇上的 soda 吃晚饭。'],
+     warn:['注意离岸流（rip current）：被拉出去就平行于海岸游，不要逆流硬游。','沙滩上别留无人看管的物品。']},
+    {id:'raft',main:true,n:'Quepos 漂流：Naranjo / Savegre 河',en:'Río Naranjo · Río Savegre',day:'12.13 上午',c:'#d9692b',ll:[9.4310,-84.1620],
+     sum:'Quepos 附近的两条河：Naranjo 是 III–IV 级急流，刺激；Savegre 是 II–III 级，两岸雨林风景好，适合第一次漂流。',
+     info:[['建议时长','半天（7:00–13:00 左右，含午餐）'],['价格','约 US$80–120/人，以运营商为准'],['车程','Jacó → Quepos 约 1h15'],['预订','提前订，问清是否从 Jacó 接送']],
+     guide:['第一次漂流或怕太刺激选 Savegre；想要肾上腺素选 Naranjo。','穿速干衣 + 能绑紧的运动凉鞋，带一套干衣服放车上。','手机放防水袋或干脆不带，很多团提供照片。','结束后顺路去 Manuel Antonio 的 Playa Espadilla 海滩。'],
+     warn:['确认旅行保险覆盖漂流。','听向导指令，落水时脚朝前、仰浮。']},
+    {id:'espadilla',main:true,n:'Playa Espadilla · Manuel Antonio',en:'Playa Espadilla',day:'12.13 下午',c:'#d9692b',ll:[9.3910,-84.1440],
+     sum:'Manuel Antonio 国家公园外面的公共海滩，免费，沙白水清，背后是雨林，常能看到猴子。',
+     info:[['建议时长','2–3h'],['门票','免费（公园外的海滩）'],['停车','路边有收费停车，找有人看管的']],
+     guide:['适合漂流后放松游泳、看日落。','沙滩上可以租躺椅和遮阳伞。'],
+     warn:['日落约 17:30，回 Jacó 尽量别开夜路太久。','猴子和浣熊会抢吃的，零食别乱放。']},
+    {id:'carara',main:true,n:'Carara 国家公园',en:'Parque Nacional Carara',day:'冲浪周空闲时（12.14–12.18）',c:'#0e7c86',ll:[9.7800,-84.6050],
+     sum:'太平洋干林和湿林交界处，是看野生金刚鹦鹉（scarlet macaw）最好的地方之一，步道平坦。',
+     info:[['建议时长','1.5–2h'],['门票','约 US$10–15，以 SINAC 为准'],['最佳时间','清晨开门时'],['车程','Jacó 约 20 分钟']],
+     guide:['清晨去，鸟最活跃，天也不热。','找个鸟类向导效率高很多，入口处常有。','傍晚在 Tárcoles 河口附近也能看到金刚鹦鹉成群飞回栖息地。'],
+     warn:['驱蚊液必备。']},
+    {id:'hermosa',main:true,n:'Playa Hermosa',en:'Playa Hermosa (Garabito)',day:'冲浪周空闲时 · 傍晚',c:'#0e7c86',ll:[9.5590,-84.5800],
+     sum:'Jacó 南边 10 分钟的黑沙滩，浪更大更稳定，是职业冲浪比赛的场地，看高手冲浪 + 日落的好地方。',
+     info:[['建议时长','1–2h'],['门票','免费'],['适合','看冲浪、日落、海边餐厅']],
+     guide:['傍晚来，海边的餐厅/酒吧点一杯看日落。','初学者不建议在这里下水，浪比 Jacó 大很多。'],
+     warn:['离岸流强，不熟悉不要下水。']},
+    {id:'mvbridges',main:true,n:'Monteverde 吊桥 + 夜游',en:'Hanging Bridges · Night Walk',day:'12.19 下午 + 17:30 夜游',c:'#1f7a4d',ll:[10.3300,-84.8000],
+     sum:'在云雾林树冠层架设的一连串吊桥（Selvatura / Sky Adventures 等），从鸟的高度看雨林；夜游跟向导找夜行动物。',
+     info:[['建议时长','吊桥 2h · 夜游 2h'],['价格','各约 US$30–45，以官网为准'],['车程','Jacó → Monteverde 约 3h']],
+     guide:['吊桥选一家即可，Selvatura 和 Sky Adventures 都在保护区北边。','夜游一定跟向导：他们会用手电找树懒、树蛙、狼蛛、睡觉的鸟。','山上 15–20°C 还刮风，带外套。'],
+     warn:['最后一段山路弯多，白天到达更安全。']},
+    {id:'mvreserve',main:true,n:'Monteverde 云雾林保护区',en:'Reserva Biológica Bosque Nuboso Monteverde',day:'12.20 07:00',c:'#1f7a4d',ll:[10.3013,-84.7948],
+     sum:'中美洲最有名的云雾林，树上长满苔藓和凤梨科植物，常年云雾缭绕，有机会看到凤尾绿咬鹃（Resplendent Quetzal）。',
+     info:[['建议时长','2.5–3h'],['门票','约 US$25，另加向导费，提前订'],['最佳时间','开门 7:00，动物最活跃']],
+     guide:['强烈建议请向导：他们带单筒望远镜，能找到你自己看不到的鸟和树懒。','主环线（Sendero Bosque Nuboso → Camino → 吊桥）2–3 小时，坡度不大。','出口的咖啡馆附近有蜂鸟喂食点，近距离看几十只蜂鸟。'],
+     warn:['步道湿滑泥泞，穿防滑鞋。','有可能下毛毛雨，带雨衣。']},
+    {id:'zip',main:true,n:'Monteverde 滑索',en:'Zipline (100% Aventura / Extremo)',day:'12.20 下午',c:'#1f7a4d',ll:[10.3200,-84.8180],
+     sum:'Monteverde 是哥斯达黎加滑索的发源地，有横跨山谷 1 km+ 的“超人式”长滑索和 Tarzan swing 荡绳。',
+     info:[['建议时长','2–3h'],['价格','约 US$60–80，以官网为准'],['预订','旺季提前订']],
+     guide:['100% Aventura 和 Extremo 都有超人式长滑索，选一家即可。','手机可以绑在胸前拍，不过多数团提供照片/视频购买。','不想滑索可以换咖啡/巧克力农场 tour。'],
+     warn:['风太大时会暂停，安排时留弹性。']},
+    {id:'lake',main:true,n:'Arenal 湖畔公路',en:'Lago Arenal · Nuevo Arenal',day:'12.21 路上',c:'#b23b2c',ll:[10.5330,-84.8920],
+     sum:'Monteverde 到 La Fortuna 绕 Arenal 湖北岸开，是全国最美的自驾路线之一，一路湖光山色，远处就是火山。',
+     info:[['车程','约 3–3.5h（含停留）'],['午餐','Nuevo Arenal 小镇'],['路况','铺装路，弯多']],
+     guide:['中途在湖边观景台停车拍照，晴天能看到火山倒影。','Nuevo Arenal 有不错的德式面包店和小餐厅，适合午饭。','靠近大坝一段路边常有长鼻浣熊（coati）讨食，别喂。'],
+     warn:['路窄弯多，注意对向大车。']},
+    {id:'hot',main:true,n:'Arenal 温泉',en:'Tabacón · Paradise · Baldi · Eco Termales',day:'12.21 晚上',c:'#b23b2c',ll:[10.4920,-84.7230],
+     sum:'Arenal 火山地热加热的天然温泉，热带雨林里的温泉河、瀑布池，晚上泡是这趟旅行最放松的时刻。',
+     info:[['建议时长','3h'],['价格','经典的 Tabacón 约 US$90+；Paradise / Eco Termales 便宜些，以官网为准'],['预订','Eco Termales 限流必须预约']],
+     guide:['预算充足选 Tabacón：温泉河 + 瀑布，最经典。','想人少安静选 Eco Termales 或 Paradise。','很多套票含晚餐自助，算下来不贵。','免费选择：当地人去的河中温泉（El Chollín 附近），条件简陋但很有意思。'],
+     warn:['泡完多喝水；带拖鞋和换洗衣服。','免费河中温泉晚上别留贵重物品在车里。']},
+    {id:'arenalnp',main:true,n:'Arenal 火山国家公园 / Arenal 1968',en:'Parque Nacional Volcán Arenal',day:'12.22 上午',c:'#b23b2c',ll:[10.4450,-84.7350],
+     sum:'完美圆锥形的 Arenal 火山，1968 年大喷发留下的熔岩流现在已长满植被，步道可以走到老熔岩上近距离看火山。',
+     info:[['建议时长','2–3h'],['门票','国家公园约 US$15（SINAC）；Arenal 1968 是私人保护区，另收费'],['最佳时间','早上，云少']],
+     guide:['国家公园的熔岩步道（Sendero Colada 1968）+ 观景点，能看到火山正面和湖。','Arenal 1968 步道更开阔，看火山角度好，也不难走。','中午后火山顶经常被云包住，早上去。'],
+     warn:['不能爬到火山顶，只能在山脚步道。']},
+    {id:'fortunafall',main:true,n:'La Fortuna 瀑布',en:'Catarata Río Fortuna',day:'12.22 中午',c:'#b23b2c',ll:[10.4447,-84.6763],
+     sum:'约 70 米高的瀑布从雨林中直落进一个碧绿的水潭，可以在下面游泳。',
+     info:[['建议时长','1.5–2h'],['门票','约 US$18，以官网为准'],['步行','下约 500 级台阶，回来要爬上去']],
+     guide:['穿泳衣来，瀑布正下方水流太猛不能靠近，旁边的小河段游泳更舒服。','上午 10 点前或下午人少。','回程爬台阶比较累，慢慢走。'],
+     warn:['台阶湿滑，穿防滑凉鞋。']},
+    {id:'sarchi',main:true,n:'Sarchí 彩绘牛车小镇',en:'Sarchí',day:'12.23 路上',c:'#6b4fa8',ll:[10.0890,-84.3460],
+     sum:'哥斯达黎加传统彩绘牛车（联合国非遗）的故乡，中央公园里有世界最大的彩绘牛车，工坊里能看手工彩绘。',
+     info:[['建议时长','1h'],['门票','免费（工坊、商店）'],['顺路','附近 Grecia 有红色铁皮教堂']],
+     guide:['参观 Fábrica de Carretas Joaquín Chaverri 等工坊，看匠人现场画。','买小号彩绘牛车、木制品当纪念品。','顺路去 Grecia 看红色金属教堂，停 15 分钟。'],
+     warn:[]},
+    {id:'alajuela',main:true,n:'Alajuela 机场酒店',en:'Alajuela',day:'12.23 住',c:'#6b4fa8',ll:[10.0160,-84.2140],
+     sum:'离 SJO 机场 10 分钟的城市，最后一晚住这里，第二天早上不用赶路。',
+     info:[['建议','选带免费机场接驳的酒店'],['还车','航班早的话 12.23 晚上就还车'],['晚上','中央公园看圣诞布置']],
+     guide:['加满油、清理车内沙子再还车，避免清洁费。','最后一顿 casado，把剩下的科朗花掉。','打包时把湿衣服、泳衣单独装袋。'],
+     warn:['航班前一晚定好闹钟和接驳时间。']},
+
+    /* 备选 */
+    {id:'manuelantonio',main:false,n:'Manuel Antonio 国家公园',en:'Parque Nacional Manuel Antonio',day:'备选 · 冲浪周空闲日',c:'#888',ll:[9.3800,-84.1400],
+     sum:'哥斯达黎加最受欢迎的国家公园：雨林直接连着白沙海湾，树懒、白脸卷尾猴、松鼠猴非常多。',
+     info:[['建议时长','半天'],['门票','约 US$18，只能在 SINAC 官网买'],['闭园','每周二（12.15、12.22）'],['车程','Jacó 约 1h15']],
+     guide:['开门就进，人少动物多。','请向导，能找到藏在树上的树懒。','园内海滩可以游泳。'],
+     warn:['禁止带食物（有检查），可以带水。','周二闭园！']},
+    {id:'tortuga',main:false,n:'Tortuga 岛',en:'Isla Tortuga',day:'备选 · 冲浪周休息日',c:'#888',ll:[9.7690,-84.8930],
+     sum:'Nicoya 湾里的白沙小岛，从 Jacó 附近坐船出海，浮潜、沙滩午餐，常能顺路看到海豚。',
+     info:[['建议时长','整天'],['价格','约 US$100+/人含船和午餐，以运营商为准']],
+     guide:['很多团从 Jacó 接送，适合冲浪累了的休息日。'],warn:['晕船的提前吃药。']},
+    {id:'celeste',main:false,n:'Río Celeste 蓝河',en:'Parque Nacional Volcán Tenorio',day:'备选 · 可替换 12.22',c:'#888',ll:[10.6930,-85.0100],
+     sum:'Tenorio 火山公园里的河流，因火山矿物质反射呈现牛奶蓝，还有一个蓝色瀑布。',
+     info:[['建议时长','3h 徒步 + 来回车程 3h'],['门票','约 US$12，SINAC 网上买'],['车程','La Fortuna 单程约 1.5h']],
+     guide:['早点出发，下雨后河水会变浑、不蓝。','瀑布下去有一段陡台阶。'],warn:['不能下水游泳。','步道泥泞，穿防滑鞋。']},
+    {id:'lapaz',main:false,n:'La Paz 瀑布花园',en:'La Paz Waterfall Gardens',day:'备选 · 12.12 或 12.23',c:'#888',ll:[10.2050,-84.1600],
+     sum:'私人自然公园，步道串起 5 个瀑布，还有蝴蝶园、蜂鸟园和野生动物救助区。',
+     info:[['建议时长','2.5–3h'],['价格','约 US$50+，以官网为准']],
+     guide:['适合 Poás 关闭时的替代，或 12.23 回机场的路上。'],warn:[]},
+    {id:'irazu',main:false,n:'Irazú 火山',en:'Parque Nacional Volcán Irazú',day:'备选 · Poás 关闭时',c:'#888',ll:[9.9790,-83.8520],
+     sum:'哥斯达黎加最高的活火山（3,432 m），火山口里有时有绿色的湖，天晴时能同时看到太平洋和加勒比海。',
+     info:[['门票','SINAC 网上买'],['车程','San José 东边约 1.5h']],
+     guide:['早上去，海拔高很冷。'],warn:['从这里去 Jacó 约 3h，当天比较赶。']}
   ];
+
+  var mainSpots=SPOTS.filter(function(x){return x.main;});
+  var spotMarkers={};
   if(window.L){
   var map=L.map('map',{scrollWheelZoom:false});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
-  stops.forEach(function(s){
-    L.circleMarker(s.ll,{radius:9,color:'#fff',weight:2,fillColor:s.c,fillOpacity:1})
-      .addTo(map).bindPopup('<b>'+s.n+'</b><br>'+s.d).bindTooltip(s.n);
+  // 路线：按编号顺序；漂流/海滩后回 Jacó，最后回机场
+  var route=[];
+  mainSpots.forEach(function(x){
+    if(x.id==='carara') route.push(SPOTS.filter(function(y){return y.id==='jaco';})[0].ll);
+    if(x.id==='mvbridges') route.push(SPOTS.filter(function(y){return y.id==='jaco';})[0].ll);
+    route.push(x.ll);
   });
-  var route=[[9.9333,-84.0790],[10.1980,-84.2330],[9.7720,-84.6080],[9.6150,-84.6290],[9.4300,-84.1620],[9.6150,-84.6290],[10.3100,-84.8200],[10.4680,-84.6430],[10.0160,-84.2140],[9.9939,-84.2088]];
-  L.polyline(route,{color:'#0e7c86',weight:3,dashArray:'6 6',opacity:.8}).addTo(map);
-  map.fitBounds(L.latLngBounds(route).pad(0.08));
+  route.push(mainSpots[0].ll);
+  L.polyline(route,{color:'#0e7c86',weight:3,dashArray:'6 6',opacity:.75}).addTo(map);
+  SPOTS.forEach(function(x){
+    var num=x.main?String(mainSpots.indexOf(x)+1):'+';
+    var icon=L.divIcon({className:'spot-icon'+(x.main?'':' alt'),html:'<span style="background:'+x.c+'">'+num+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
+    var mk=L.marker(x.ll,{icon:icon,title:x.n,zIndexOffset:x.main?100:0}).addTo(map)
+      .bindTooltip((x.main?num+'. ':'备选 · ')+x.n,{direction:'top',offset:[0,-12]});
+    mk.on('click',function(){openSpot(x.id);});
+    spotMarkers[x.id]=mk;
+  });
+  map.fitBounds(L.latLngBounds(mainSpots.map(function(x){return x.ll;})).pad(0.08));
   initMyDest(map);
   } else {
     document.getElementById('dstatus').textContent='地图没有加载出来（网络问题），刷新页面再试。';
@@ -470,6 +643,44 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
     cb.checked=!!saved[cb.dataset.k];
     cb.addEventListener('change',function(){saved[cb.dataset.k]=cb.checked;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}});
   });
+
+
+  /* ---------- 景点卡片 + 详情面板 ---------- */
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+  var grid=document.getElementById('spotgrid');
+  SPOTS.forEach(function(x){
+    var num=x.main?String(mainSpots.indexOf(x)+1):'+';
+    var b=document.createElement('button');b.type='button';b.className='spotcard'+(x.main?'':' alt');
+    b.innerHTML='<span class="sn" style="background:'+x.c+'">'+num+'</span><span><b>'+esc(x.n)+'</b><small>'+esc(x.day)+'</small></span>';
+    b.addEventListener('click',function(){openSpot(x.id);});
+    grid.appendChild(b);
+  });
+  var panel=document.getElementById('spotpanel'), shade=document.getElementById('spotshade'), cur=null;
+  function openSpot(id){
+    var x=SPOTS.filter(function(y){return y.id===id;})[0]; if(!x) return; cur=x;
+    var num=x.main?String(mainSpots.indexOf(x)+1):'备选';
+    var h='<div class="sp-head" style="--c:'+x.c+'"><span class="sn" style="background:'+x.c+'">'+num+'</span><div><h3>'+esc(x.n)+'</h3><div class="sp-en">'+esc(x.en)+'</div><div class="sp-day">📅 '+esc(x.day)+'</div></div></div>';
+    h+='<p class="sp-sum">'+esc(x.sum)+'</p>';
+    if(x.info.length){h+='<h4>基本信息</h4><table class="sp-info">';x.info.forEach(function(r){h+='<tr><th>'+esc(r[0])+'</th><td>'+esc(r[1])+'</td></tr>';});h+='</table>';}
+    if(x.guide.length){h+='<h4>🧭 游玩攻略</h4><ul>';x.guide.forEach(function(g){h+='<li>'+esc(g)+'</li>';});h+='</ul>';}
+    if(x.warn.length){h+='<h4>⚠️ 注意</h4><ul class="sp-warn">';x.warn.forEach(function(g){h+='<li>'+esc(g)+'</li>';});h+='</ul>';}
+    var ll=x.ll[0]+','+x.ll[1];
+    h+='<div class="sp-links"><a target="_blank" rel="noopener" href="https://www.waze.com/ul?ll='+ll+'&navigate=yes">Waze 导航</a><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x.en+' Costa Rica')+'">Google 地图</a><button type="button" id="sp-onmap">在地图上看</button></div>';
+    h+='<p class="sp-note">价格和开放时间是估计值，以官网 / 运营商最新信息为准。</p>';
+    var idx=SPOTS.indexOf(x);
+    h+='<div class="sp-nav"><button type="button" id="sp-prev"'+(idx===0?' disabled':'')+'>← 上一个</button><button type="button" id="sp-next"'+(idx===SPOTS.length-1?' disabled':'')+'>下一个 →</button></div>';
+    document.getElementById('spotbody').innerHTML=h;
+    document.getElementById('sp-prev').onclick=function(){openSpot(SPOTS[idx-1].id);};
+    document.getElementById('sp-next').onclick=function(){openSpot(SPOTS[idx+1].id);};
+    document.getElementById('sp-onmap').onclick=function(){closeSpot();if(window.L&&spotMarkers[x.id]){map.setView(x.ll,13);}document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});};
+    panel.classList.add('open');shade.classList.add('open');panel.scrollTop=0;
+    if(window.L&&spotMarkers[x.id]&&window.innerWidth>820){map.panTo(x.ll);}
+  }
+  function closeSpot(){panel.classList.remove('open');shade.classList.remove('open');cur=null;}
+  document.getElementById('spotclose').addEventListener('click',closeSpot);
+  shade.addEventListener('click',closeSpot);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&cur)closeSpot();});
+  document.querySelectorAll('[data-spot]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openSpot(a.getAttribute('data-spot'));});});
 
   /* ---------- 我的目的地 ---------- */
   function initMyDest(map){
@@ -504,6 +715,7 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
 
     function valid(s){return s&&typeof s.name==='string'&&isFinite(s.lat)&&isFinite(s.lng);}
     function norm(s){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:String(s.name).slice(0,80),lat:+s.lat,lng:+s.lng,day:DAYS.indexOf(s.day)>0?s.day:'',note:String(s.note||'').slice(0,200)};}
+    function letter(i){var t='';i++;while(i>0){var r=(i-1)%26;t=String.fromCharCode(65+r)+t;i=Math.floor((i-1)/26);}return t;}
     function save(){try{localStorage.setItem(DKEY,JSON.stringify(items));}catch(e){}}
     function km(a,b){
       var R=6371,r=Math.PI/180,dLat=(b[0]-a[0])*r,dLng=(b[1]-a[1])*r;
@@ -518,7 +730,7 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
     function el(tag,attrs,text){var e=document.createElement(tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
     function popup(it,i){
       var w=el('div');
-      w.appendChild(el('b',{},(i+1)+'. '+it.name));
+      w.appendChild(el('b',{},letter(i)+'. '+it.name));
       if(it.day) w.appendChild(el('div',{},'📅 '+it.day));
       if(it.note) w.appendChild(el('div',{},'📝 '+it.note));
       var n=nearest(it);
@@ -533,13 +745,13 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
         return;
       }
       items.forEach(function(it,i){
-        var icon=L.divIcon({className:'star-icon',html:String(i+1),iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
+        var icon=L.divIcon({className:'star-icon',html:letter(i),iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
         var mk=L.marker([it.lat,it.lng],{icon:icon,draggable:true,title:it.name}).addTo(layer).bindPopup(popup(it,i));
         mk.on('dragend',function(){var p=mk.getLatLng();it.lat=+p.lat.toFixed(5);it.lng=+p.lng.toFixed(5);save();render();});
         markers[it.id]=mk;
 
         var li=el('li');
-        li.appendChild(el('div',{class:'pin'},String(i+1)));
+        li.appendChild(el('div',{class:'pin'},letter(i)));
         var mid=el('div');
         mid.appendChild(el('div',{class:'nm'},it.name));
         var n=nearest(it);
