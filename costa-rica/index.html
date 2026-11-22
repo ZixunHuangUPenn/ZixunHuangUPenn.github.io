@@ -64,6 +64,29 @@ th{background:var(--sand);font-weight:600}
 @media(max-width:720px){.grid2{grid-template-columns:1fr}}
 .card h3{margin:0 0 8px;font-size:17px}
 .card ul{margin:0;padding-left:20px}
+#mydest{margin-top:14px}
+.drow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.drow input{flex:1;min-width:200px;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fffdf8}
+#mydest button{font:inherit;font-size:14px;padding:7px 12px;border-radius:10px;border:1px solid var(--green);background:var(--green);color:#fff;cursor:pointer}
+#mydest button.ghost{background:#fff;color:var(--green)}
+#mydest button.ghost.on{background:#fde8dc;border-color:var(--orange);color:#9a3b10}
+#mydest button.danger{border-color:#c9a9a0;color:#9a3b10}
+#mydest button.mini{padding:2px 8px;font-size:13px}
+#dstatus{min-height:1.4em;margin:6px 0 0}
+.dres,.dlist{list-style:none;margin:6px 0 0;padding:0}
+.dres li{padding:7px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;cursor:pointer;font-size:14px;background:#fbfaf6}
+.dres li:hover{border-color:var(--teal);background:#eef7f7}
+.dres li small{display:block;color:var(--muted);font-size:12px}
+.dlist li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:10px 0;border-top:1px solid #f0ece3}
+.dlist .pin{width:24px;height:24px;border-radius:50%;background:#e0a100;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 0 0 1px #e0a100}
+.dlist .nm{font-weight:600}
+.dlist .near{font-size:12px;color:var(--muted)}
+.dlist .ctl{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.dlist select,.dlist input{font:inherit;font-size:13px;padding:3px 6px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.dlist input{flex:1;min-width:140px}
+.dlist .btns{display:flex;gap:6px}
+.star-icon{background:#e0a100;color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.35);font:700 12px/20px sans-serif;text-align:center}
+#map.picking,#map.picking .leaflet-interactive{cursor:crosshair!important}
 footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
 </style>
 </head>
@@ -135,6 +158,23 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
   <h2><span class="num">02</span>路线地图</h2>
   <div id="map"></div>
   <p class="small muted">点击地图标记查看日期。车程为 Waze 正常路况估算，圣诞季周末会更堵，按 +30% 留余量。</p>
+
+  <div class="card" id="mydest">
+    <h3>⭐ 我的目的地 <span class="small muted" style="font-weight:400">搜索或在地图上点一下，就能把地点加到上面的地图</span></h3>
+    <form id="dsearch" class="drow">
+      <input id="dq" type="search" placeholder="搜索地点，如 Playa Hermosa、Río Celeste、Café Britt" autocomplete="off">
+      <button type="submit">🔍 搜索</button>
+      <button type="button" id="dpick" class="ghost">📍 在地图上点选</button>
+    </form>
+    <div id="dstatus" class="small muted"></div>
+    <ul id="dresults" class="dres"></ul>
+    <ul id="dlist" class="dlist"></ul>
+    <div class="drow small" style="margin-top:8px">
+      <button type="button" id="dshare" class="ghost">🔗 复制分享链接</button>
+      <button type="button" id="dclear" class="ghost danger">清空</button>
+      <span class="muted">只保存在这台设备的浏览器里；要发给别人或换设备，用分享链接。</span>
+    </div>
+  </div>
 </section>
 
 <section id="days">
@@ -419,6 +459,9 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
   var route=[[9.9333,-84.0790],[10.1980,-84.2330],[9.7720,-84.6080],[9.6150,-84.6290],[9.4300,-84.1620],[9.6150,-84.6290],[10.3100,-84.8200],[10.4680,-84.6430],[10.0160,-84.2140],[9.9939,-84.2088]];
   L.polyline(route,{color:'#0e7c86',weight:3,dashArray:'6 6',opacity:.8}).addTo(map);
   map.fitBounds(L.latLngBounds(route).pad(0.08));
+  initMyDest(map);
+  } else {
+    document.getElementById('dstatus').textContent='地图没有加载出来（网络问题），刷新页面再试。';
   }
 
   var KEY='cr-trip-2026-checklist', saved={};
@@ -427,6 +470,168 @@ footer{padding:30px 0 50px;text-align:center;font-size:13px;color:var(--muted)}
     cb.checked=!!saved[cb.dataset.k];
     cb.addEventListener('change',function(){saved[cb.dataset.k]=cb.checked;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}});
   });
+
+  /* ---------- 我的目的地 ---------- */
+  function initMyDest(map){
+    var DKEY='cr-trip-2026-dest';
+    var DAYS=['','12.11','12.12','12.13','12.14','12.15','12.16','12.17','12.18','12.19','12.20','12.21','12.22','12.23','12.24'];
+    var BASES=[
+      {n:'San José',ll:[9.9333,-84.0790],d:'12.11'},
+      {n:'Jacó',ll:[9.6150,-84.6290],d:'12.12–12.19'},
+      {n:'Monteverde',ll:[10.3100,-84.8200],d:'12.19–12.21'},
+      {n:'La Fortuna',ll:[10.4680,-84.6430],d:'12.21–12.23'},
+      {n:'Alajuela / SJO',ll:[10.0160,-84.2140],d:'12.23'}
+    ];
+    var $=function(id){return document.getElementById(id);};
+    var status=$('dstatus'), results=$('dresults'), list=$('dlist');
+    var layer=L.layerGroup().addTo(map), markers={};
+    var items=[];
+    try{items=JSON.parse(localStorage.getItem(DKEY))||[];}catch(e){items=[];}
+    if(!Array.isArray(items)) items=[];
+
+    // 分享链接导入：#d=<base64 json>
+    var m=location.hash.match(/^#d=(.+)$/);
+    if(m){
+      try{
+        var shared=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+        if(Array.isArray(shared)&&shared.length&&confirm('分享链接里有 '+shared.length+' 个目的地，要加到你的列表吗？')){
+          shared.forEach(function(s){ if(valid(s)) items.push(norm(s)); });
+          save();
+        }
+      }catch(e){}
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+
+    function valid(s){return s&&typeof s.name==='string'&&isFinite(s.lat)&&isFinite(s.lng);}
+    function norm(s){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:String(s.name).slice(0,80),lat:+s.lat,lng:+s.lng,day:DAYS.indexOf(s.day)>0?s.day:'',note:String(s.note||'').slice(0,200)};}
+    function save(){try{localStorage.setItem(DKEY,JSON.stringify(items));}catch(e){}}
+    function km(a,b){
+      var R=6371,r=Math.PI/180,dLat=(b[0]-a[0])*r,dLng=(b[1]-a[1])*r;
+      var h=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dLng/2)*Math.sin(dLng/2);
+      return 2*R*Math.asin(Math.sqrt(h));
+    }
+    function nearest(it){
+      var best=null;
+      BASES.forEach(function(b){var d=km([it.lat,it.lng],b.ll);if(!best||d<best.d)best={b:b,d:d};});
+      return best;
+    }
+    function el(tag,attrs,text){var e=document.createElement(tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
+    function popup(it,i){
+      var w=el('div');
+      w.appendChild(el('b',{},(i+1)+'. '+it.name));
+      if(it.day) w.appendChild(el('div',{},'📅 '+it.day));
+      if(it.note) w.appendChild(el('div',{},'📝 '+it.note));
+      var n=nearest(it);
+      w.appendChild(el('div',{style:'color:#66736b;font-size:12px'},'离 '+n.b.n+' 直线约 '+Math.round(n.d)+' km（可拖动标记微调位置）'));
+      return w;
+    }
+
+    function render(){
+      layer.clearLayers(); markers={}; list.innerHTML='';
+      if(!items.length){
+        list.appendChild(el('li',{style:'display:block;color:#66736b;font-size:14px'},'还没有添加目的地。'));
+        return;
+      }
+      items.forEach(function(it,i){
+        var icon=L.divIcon({className:'star-icon',html:String(i+1),iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
+        var mk=L.marker([it.lat,it.lng],{icon:icon,draggable:true,title:it.name}).addTo(layer).bindPopup(popup(it,i));
+        mk.on('dragend',function(){var p=mk.getLatLng();it.lat=+p.lat.toFixed(5);it.lng=+p.lng.toFixed(5);save();render();});
+        markers[it.id]=mk;
+
+        var li=el('li');
+        li.appendChild(el('div',{class:'pin'},String(i+1)));
+        var mid=el('div');
+        mid.appendChild(el('div',{class:'nm'},it.name));
+        var n=nearest(it);
+        mid.appendChild(el('div',{class:'near'},'最近的住处：'+n.b.n+'（'+n.b.d+'），直线约 '+Math.round(n.d)+' km，开车粗估约 '+Math.max(10,Math.round(n.d*1.9))+' 分钟'));
+        var ctl=el('div',{class:'ctl'});
+        var sel=el('select',{'aria-label':'安排在哪天'});
+        DAYS.forEach(function(d){var o=el('option',{value:d},d||'日期待定');if(d===it.day)o.selected=true;sel.appendChild(o);});
+        sel.addEventListener('change',function(){it.day=sel.value;save();mk.setPopupContent(popup(it,i));});
+        var note=el('input',{type:'text',placeholder:'备注（营业时间、门票…）',maxlength:'200'});
+        note.value=it.note||'';
+        note.addEventListener('change',function(){it.note=note.value;save();mk.setPopupContent(popup(it,i));});
+        ctl.appendChild(sel);ctl.appendChild(note);
+        mid.appendChild(ctl);
+        li.appendChild(mid);
+        var btns=el('div',{class:'btns'});
+        var go=el('button',{type:'button',class:'ghost mini',title:'在地图上查看'},'定位');
+        go.addEventListener('click',function(){map.setView([it.lat,it.lng],12);mk.openPopup();$('map').scrollIntoView({behavior:'smooth',block:'center'});});
+        var gm=el('a',{class:'small',href:'https://www.waze.com/ul?ll='+it.lat+','+it.lng+'&navigate=yes',target:'_blank',rel:'noopener',style:'align-self:center'},'Waze');
+        var del=el('button',{type:'button',class:'ghost mini danger',title:'删除'},'✕');
+        del.addEventListener('click',function(){items.splice(i,1);save();render();});
+        btns.appendChild(go);btns.appendChild(gm);btns.appendChild(del);
+        li.appendChild(btns);
+        list.appendChild(li);
+      });
+    }
+
+    function add(name,lat,lng){
+      var it=norm({name:name,lat:lat,lng:lng});
+      items.push(it);save();render();
+      map.setView([it.lat,it.lng],Math.max(map.getZoom(),10));
+      markers[it.id].openPopup();
+      status.textContent='已添加：'+it.name+'。可以在下方列表里选日期、写备注。';
+    }
+
+    // 搜索（OpenStreetMap Nominatim，限哥斯达黎加）
+    var lastSearch=0;
+    $('dsearch').addEventListener('submit',function(e){
+      e.preventDefault();
+      var q=$('dq').value.trim(); if(!q) return;
+      if(Date.now()-lastSearch<1100){status.textContent='搜索太快了，稍等一秒再试。';return;}
+      lastSearch=Date.now();
+      status.textContent='搜索中…'; results.innerHTML='';
+      fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&countrycodes=cr&accept-language=zh-CN,es,en&q='+encodeURIComponent(q))
+        .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+        .then(function(arr){
+          if(!arr.length){status.textContent='没找到。换个写法（西语/英文名），或者用「在地图上点选」。';return;}
+          status.textContent='点一个结果添加到地图：';
+          arr.forEach(function(r){
+            var parts=String(r.display_name).split(',');
+            var li=el('li',{},parts[0]);
+            li.appendChild(el('small',{},parts.slice(1).join(',').trim()));
+            li.addEventListener('click',function(){results.innerHTML='';$('dq').value='';add(parts[0].trim(),+r.lat,+r.lon);});
+            results.appendChild(li);
+          });
+        })
+        .catch(function(){status.textContent='搜索服务暂时连不上，可以用「在地图上点选」添加。';});
+    });
+
+    // 在地图上点选
+    var picking=false, pickBtn=$('dpick');
+    function setPick(on){picking=on;pickBtn.classList.toggle('on',on);$('map').classList.toggle('picking',on);
+      pickBtn.textContent=on?'✋ 取消点选':'📍 在地图上点选';
+      status.textContent=on?'在地图上点一下要添加的位置。':'';
+      if(on) $('map').scrollIntoView({behavior:'smooth',block:'center'});}
+    pickBtn.addEventListener('click',function(){setPick(!picking);});
+    map.on('click',function(e){
+      if(!picking) return;
+      var name=prompt('给这个地点起个名字：','');
+      setPick(false);
+      if(name===null) return;
+      add(name.trim()||('地点 '+(items.length+1)),+e.latlng.lat.toFixed(5),+e.latlng.lng.toFixed(5));
+    });
+
+    $('dshare').addEventListener('click',function(){
+      if(!items.length){status.textContent='列表是空的，先添加一些目的地。';return;}
+      var data=items.map(function(it){return {name:it.name,lat:it.lat,lng:it.lng,day:it.day,note:it.note};});
+      var url=location.origin+location.pathname+'#d='+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+      function done(){status.textContent='分享链接已复制。对方打开后可以选择导入。';}
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(url).then(done,function(){prompt('复制这个链接：',url);});}
+      else prompt('复制这个链接：',url);
+    });
+    $('dclear').addEventListener('click',function(){
+      if(items.length&&confirm('确定清空全部 '+items.length+' 个目的地？')){items=[];save();render();status.textContent='';}
+    });
+
+    render();
+    if(items.length){
+      var b=map.getBounds();
+      items.forEach(function(it){b.extend([it.lat,it.lng]);});
+      map.fitBounds(b);
+    }
+  }
 })();
 </script>
 </body>
